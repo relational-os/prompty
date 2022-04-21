@@ -3,18 +3,18 @@ schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum
-    name: Prompty 
-    network: matic
+    name: Prompty
+    network: rinkeby
     source:
       abi: Prompty 
-      address: "0x481Dce0824595bea20CE009B7ABA2a71b139892C"
-      startBlock: 10539489
+      address: "0x7cFc9c436bE1bd47116C43573bF2Ddb0bD0b4460"
+      startBlock: 10544356
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
       language: wasm/assemblyscript
       entities:
-        - NFT
+        - Transfer
       abis:
         - name: Prompty 
           file: ./abis/Prompty.json

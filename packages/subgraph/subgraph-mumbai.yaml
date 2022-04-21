@@ -3,12 +3,12 @@ schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum
-    name: ExampleNFT
+    name: Prompty
     network: mumabi
     source:
-      abi: ExampleNFT
-      address: "0x457cdbE2a4018e4482352d70C7CF5fE42C88B326"
-      startBlock: 23894082
+      abi: Prompty 
+      address: "0x481Dce0824595bea20CE009B7ABA2a71b139892C"
+      startBlock: 10539489
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -16,9 +16,11 @@ dataSources:
       entities:
         - Transfer
       abis:
-        - name: ExampleNFT
-          file: ./abis/ExampleNFT.json
+        - name: Prompty 
+          file: ./abis/Prompty.json
       eventHandlers:
-        - event: Transfer(indexed address,indexed address,indexed uint256)
-          handler: handleTransfer
+        - event:  PromptCreated(uint256,address,string,uint256,uint256,uint128,uint128)
+          handler: handlePromptCreated
+        - event:  PromptResponse(uint256,address,string)
+          handler: handlePromptResponse
       file: ./src/mapping.ts

@@ -11,5 +11,12 @@
     "typescriptreact",
   ],
   // improve monorepo handling
-  "eslint.workingDirectories": [{"mode":"auto"}]
+  "eslint.workingDirectories": [
+    {
+      "mode": "auto"
+    }
+  ],
+  "[solidity]": {
+    "editor.defaultFormatter": "JuanBlanco.solidity"
+  }
 }

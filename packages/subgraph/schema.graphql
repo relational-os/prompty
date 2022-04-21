@@ -1,5 +1,24 @@
-type NFT @entity {
+type Prompt @entity {
   id: ID!
-  owner: Bytes!
-  tokenURI: String!
+  who: Wallet!
+  text: String!
+  startTime: BigInt!
+  endTime: BigInt!
+  minChars: Int!
+  maxChars: Int!
+  responses: [Response!]! @derivedFrom(field: "prompt")
+}
+
+type Response @entity {
+  id: ID!
+  who: Wallet!
+  text: String!
+  prompt: Prompt!
+  created: BigInt!
+}
+
+type Wallet @entity {
+  id: ID!
+  prompts: [Prompt!]! @derivedFrom(field: "who")
+  responses: [Response!]! @derivedFrom(field: "who")
 }

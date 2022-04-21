@@ -1,1 +1,8 @@
-{}
+{
+  "rinkeby": {
+    "Prompty": {
+      "address": "0x7cFc9c436bE1bd47116C43573bF2Ddb0bD0b4460",
+      "blockNumber": 10544356
+    }
+  }
+}

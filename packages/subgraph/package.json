@@ -1,14 +1,15 @@
 {
-  "name": "@web3-scaffold/subgraph",
-  "private":true,
+  "name": "@prompty/subgraph",
+  "private": true,
   "engines": {
     "node": ">=14 <16"
   },
   "scripts": {
     "codegen": "graph codegen subgraph*.yaml",
     "build": "graph build subgraph*.yaml",
-    "deploy:matic": "graph deploy --node https://api.thegraph.com/deploy/ holic/example-nft subgraph-matic.yaml",
-    "deploy:mumbai": "graph deploy --node https://api.thegraph.com/deploy/ holic/example-nft-testnet subgraph-mumbai.yaml"
+    "deploy:matic": "graph deploy --node https://api.thegraph.com/deploy/ relational-os/prompty subgraph-matic.yaml",
+    "deploy:mumbai": "graph deploy --node https://api.thegraph.com/deploy/ relational-os/prompty subgraph-mumbai.yaml",
+    "deploy:rinkeby": "graph deploy --node https://api.thegraph.com/deploy/ relational-os/prompty subgraph-rinkeby.yaml"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.25.1",

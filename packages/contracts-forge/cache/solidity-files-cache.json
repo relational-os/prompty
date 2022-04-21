@@ -1,0 +1,161 @@
+{
+  "_format": "ethers-rs-sol-cache-3",
+  "paths": {
+    "artifacts": "out",
+    "sources": "src",
+    "tests": "test",
+    "libraries": [
+      "lib"
+    ]
+  },
+  "files": {
+    "/Users/cj/code/relational/prompty/packages/contracts-forge/lib/ds-test/src/test.sol": {
+      "lastModificationDate": 1650564667361,
+      "contentHash": "82a8604fe648c30a9bd56444368704f0",
+      "sourceName": "lib/ds-test/src/test.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london"
+        }
+      },
+      "imports": [],
+      "versionRequirement": ">=0.5.0",
+      "artifacts": {
+        "DSTest": {
+          "0.8.13+commit.abaa5c0e.Darwin.appleclang": "test.sol/DSTest.json"
+        }
+      }
+    },
+    "/Users/cj/code/relational/prompty/packages/contracts-forge/src/Prompty.sol": {
+      "lastModificationDate": 1650565404788,
+      "contentHash": "177a8d316bca4d7bf5d49c1869b0dcae",
+      "sourceName": "src/Prompty.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london"
+        }
+      },
+      "imports": [],
+      "versionRequirement": "^0.8.9",
+      "artifacts": {
+        "Prompty": {
+          "0.8.13+commit.abaa5c0e.Darwin.appleclang": "Prompty.sol/Prompty.json"
+        }
+      }
+    },
+    "/Users/cj/code/relational/prompty/packages/contracts-forge/test/Cheats.sol": {
+      "lastModificationDate": 1650565441973,
+      "contentHash": "a1574417a8db7264bfced6c2e098c4aa",
+      "sourceName": "test/Cheats.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london"
+        }
+      },
+      "imports": [],
+      "versionRequirement": ">=0.8.0",
+      "artifacts": {}
+    },
+    "/Users/cj/code/relational/prompty/packages/contracts-forge/test/Prompty.t.sol": {
+      "lastModificationDate": 1650565645304,
+      "contentHash": "512b8bacd92ff455b61eccff50878031",
+      "sourceName": "test/Prompty.t.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london"
+        }
+      },
+      "imports": [
+        "lib/ds-test/src/test.sol",
+        "src/Prompty.sol",
+        "test/Cheats.sol"
+      ],
+      "versionRequirement": "^0.8.13",
+      "artifacts": {
+        "PromptyTest": {
+          "0.8.13+commit.abaa5c0e.Darwin.appleclang": "Prompty.t.sol/PromptyTest.json"
+        }
+      }
+    }
+  }
+}

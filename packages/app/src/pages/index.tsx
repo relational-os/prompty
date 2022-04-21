@@ -5,10 +5,10 @@ const HomePage: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Example NFT</title>
+        <title>Prompty</title>
       </Head>
 
-      <div>Example NFT</div>
+      <div>Prompty</div>
     </>
   );
 };

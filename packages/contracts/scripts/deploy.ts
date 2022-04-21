@@ -1,8 +1,9 @@
 import { ContractFactory } from "ethers";
+import { parseUnits } from "ethers/lib/utils";
 import fs from "fs/promises";
 import hre, { ethers, network } from "hardhat";
 
-import { ExampleNFT, ExampleNFT__factory } from "../typechain-types";
+import { Prompty, Prompty__factory } from "../typechain-types";
 
 const exists = (path: string) =>
   fs
@@ -89,10 +90,9 @@ const start = async () => {
   console.log(`Starting deploy on ${network.name} from ${deployer.address}`);
 
   // TODO: figure out how to get TS to infer contract type so we don't have to cast
-  const exampleNFT = (await deployContract(
-    new ExampleNFT__factory(deployer),
-    []
-  )) as ExampleNFT;
+  const prompty = (await deployContract(new Prompty__factory(deployer), [
+    { gasPrice: parseUnits("10", "gwei") },
+  ])) as Prompty;
 
   console.log("Done!");
 };
