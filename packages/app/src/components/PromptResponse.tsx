@@ -1,13 +1,16 @@
 import React from "react";
 import { ENSName } from "react-ens-name";
+import ReactMarkdown from "react-markdown";
 
 const PromptResponse = ({ response }: { response: PromptResponse }) => {
   return (
     <div className="promptresponse">
-      Response Text: {response.text}
+      Response Text:
+      <ReactMarkdown>{response.text}</ReactMarkdown>
       <br />
       <a href={`/prompt/${response.prompt?.id}`}>
-        Prompt Text: {response.prompt?.text}
+        Prompt Text:
+        <ReactMarkdown>{response.prompt?.text}</ReactMarkdown>
       </a>
       <br />
       Who Prompted:{" "}

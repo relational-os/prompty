@@ -3,6 +3,7 @@ import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { ENSName } from "react-ens-name";
+import ReactMarkdown from "react-markdown";
 import { gql } from "urql";
 import { usePromptIdQuery } from "../../../codegen/subgraph";
 import Prompt from "../../../components/Prompt";
@@ -103,7 +104,8 @@ const Index = () => {
                 <ENSName address={r.who?.id} />
               </a>
               <br />
-              Reponse Text: {r.text}
+              Reponse Text:
+              <ReactMarkdown>{r.text}</ReactMarkdown>
             </div>
           ))}
         </div>
