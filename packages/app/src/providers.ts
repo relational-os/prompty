@@ -7,3 +7,7 @@ export const ethereumProvider = new StaticJsonRpcProvider(
 export const polygonProvider = new StaticJsonRpcProvider(
   process.env.NEXT_PUBLIC_POLYGON_RPC_ENDPOINT
 );
+
+export const rinkebyProvider = new StaticJsonRpcProvider(
+  process.env.NEXT_PUBLIC_RINKEBY_RPC_ENDPOINT
+);

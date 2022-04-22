@@ -34,5 +34,6 @@ export function handlePromptResponse(event: PromptResponse): void {
   response.prompt = event.params.promptId.toString();
   response.created = event.block.timestamp;
 
+  wallet.save();
   response.save();
 }

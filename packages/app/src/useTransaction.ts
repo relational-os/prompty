@@ -1,11 +1,11 @@
 import type { ContractTransaction } from "@ethersproject/contracts";
 import { Web3Provider } from "@ethersproject/providers";
+import { useWallet } from "@gimmixorg/use-wallet";
 import createDebug from "debug";
 import { useCallback } from "react";
 import createStore from "zustand";
 
 import { chainConfig } from "./chainConfig";
-import { useWallet } from "./useWallet";
 
 const debug = createDebug("app:useTransaction");
 

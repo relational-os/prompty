@@ -463,30 +463,48 @@ export type AuthorQueryVariables = Exact<{
 
 export type AuthorQuery = {
   readonly __typename?: "Query";
-  readonly wallet?:
-    | {
-        readonly __typename?: "Wallet";
+  readonly wallet?: {
+    readonly __typename?: "Wallet";
+    readonly id: string;
+    readonly prompts: ReadonlyArray<{
+      readonly __typename?: "Prompt";
+      readonly id: string;
+      readonly text: string;
+      readonly startTime: any;
+      readonly endTime: any;
+      readonly minChars: number;
+      readonly maxChars: number;
+      readonly who: { readonly __typename?: "Wallet"; readonly id: string };
+    }>;
+    readonly responses: ReadonlyArray<{
+      readonly __typename?: "Response";
+      readonly id: string;
+      readonly text: string;
+      readonly created: any;
+      readonly prompt: {
+        readonly __typename?: "Prompt";
         readonly id: string;
-        readonly prompts: ReadonlyArray<{
-          readonly __typename?: "Prompt";
-          readonly id: string;
-          readonly text: string;
-          readonly startTime: any;
-          readonly endTime: any;
-        }>;
-        readonly responses: ReadonlyArray<{
-          readonly __typename?: "Response";
-          readonly id: string;
-          readonly text: string;
-          readonly prompt: {
-            readonly __typename?: "Prompt";
-            readonly id: string;
-            readonly text: string;
-          };
-        }>;
-      }
-    | null
-    | undefined;
+        readonly text: string;
+        readonly who: { readonly __typename?: "Wallet"; readonly id: string };
+      };
+    }>;
+  } | null;
+};
+
+export type LatestPromptsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type LatestPromptsQuery = {
+  readonly __typename?: "Query";
+  readonly prompts: ReadonlyArray<{
+    readonly __typename?: "Prompt";
+    readonly id: string;
+    readonly text: string;
+    readonly startTime: any;
+    readonly endTime: any;
+    readonly minChars: number;
+    readonly maxChars: number;
+    readonly who: { readonly __typename?: "Wallet"; readonly id: string };
+  }>;
 };
 
 export type PromptIdQueryVariables = Exact<{
@@ -495,23 +513,22 @@ export type PromptIdQueryVariables = Exact<{
 
 export type PromptIdQuery = {
   readonly __typename?: "Query";
-  readonly prompt?:
-    | {
-        readonly __typename?: "Prompt";
-        readonly id: string;
-        readonly text: string;
-        readonly startTime: any;
-        readonly endTime: any;
-        readonly who: { readonly __typename?: "Wallet"; readonly id: string };
-        readonly responses: ReadonlyArray<{
-          readonly __typename?: "Response";
-          readonly id: string;
-          readonly text: string;
-          readonly who: { readonly __typename?: "Wallet"; readonly id: string };
-        }>;
-      }
-    | null
-    | undefined;
+  readonly prompt?: {
+    readonly __typename?: "Prompt";
+    readonly id: string;
+    readonly text: string;
+    readonly startTime: any;
+    readonly endTime: any;
+    readonly minChars: number;
+    readonly maxChars: number;
+    readonly who: { readonly __typename?: "Wallet"; readonly id: string };
+    readonly responses: ReadonlyArray<{
+      readonly __typename?: "Response";
+      readonly id: string;
+      readonly text: string;
+      readonly who: { readonly __typename?: "Wallet"; readonly id: string };
+    }>;
+  } | null;
 };
 
 export const AuthorDocument = gql`
@@ -523,13 +540,22 @@ export const AuthorDocument = gql`
         text
         startTime
         endTime
+        minChars
+        maxChars
+        who {
+          id
+        }
       }
       responses {
         id
         text
+        created
         prompt {
           id
           text
+          who {
+            id
+          }
         }
       }
     }
@@ -537,9 +563,33 @@ export const AuthorDocument = gql`
 `;
 
 export function useAuthorQuery(
-  options: Omit<Urql.UseQueryArgs<AuthorQueryVariables>, "query"> = {}
+  options: Omit<Urql.UseQueryArgs<AuthorQueryVariables>, "query">
 ) {
   return Urql.useQuery<AuthorQuery>({ query: AuthorDocument, ...options });
+}
+export const LatestPromptsDocument = gql`
+  query LatestPrompts {
+    prompts(first: 10, orderBy: startTime, orderDirection: desc) {
+      id
+      text
+      startTime
+      endTime
+      minChars
+      maxChars
+      who {
+        id
+      }
+    }
+  }
+`;
+
+export function useLatestPromptsQuery(
+  options?: Omit<Urql.UseQueryArgs<LatestPromptsQueryVariables>, "query">
+) {
+  return Urql.useQuery<LatestPromptsQuery>({
+    query: LatestPromptsDocument,
+    ...options,
+  });
 }
 export const PromptIdDocument = gql`
   query PromptID($id: ID!) {
@@ -551,6 +601,8 @@ export const PromptIdDocument = gql`
       text
       startTime
       endTime
+      minChars
+      maxChars
       responses {
         id
         who {
@@ -563,7 +615,7 @@ export const PromptIdDocument = gql`
 `;
 
 export function usePromptIdQuery(
-  options: Omit<Urql.UseQueryArgs<PromptIdQueryVariables>, "query"> = {}
+  options: Omit<Urql.UseQueryArgs<PromptIdQueryVariables>, "query">
 ) {
   return Urql.useQuery<PromptIdQuery>({ query: PromptIdDocument, ...options });
 }

@@ -1,11 +1,12 @@
-import deploys from "@web3-scaffold/contracts/deploys.json";
-import { ExampleNFT__factory } from "@web3-scaffold/contracts/typechain-types";
+import deploys from "@prompty/contracts/deploys.json";
+import { Prompty__factory } from "@prompty/contracts/typechain-types";
 
-import { polygonProvider } from "./providers";
+import { rinkebyProvider } from "./providers";
 
-const network = process.env.NODE_ENV === "production" ? "matic" : "mumbai";
+// const network = process.env.NODE_ENV === "production" ? "matic" : "mumbai";
+const network = "rinkeby";
 
-export const exampleNFTContract = ExampleNFT__factory.connect(
-  deploys[network].ExampleNFT.address,
-  polygonProvider
+export const promptyContract = Prompty__factory.connect(
+  deploys[network].Prompty.address,
+  rinkebyProvider
 );
