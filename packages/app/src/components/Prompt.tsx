@@ -7,7 +7,7 @@ const Prompt = ({ prompt }: { prompt: Prompt }) => {
 
   return (
     <a href={`/prompt/${prompt.id}`}>
-      <div className="bg-white mb-6 p-6 pt-5 rounded-xl">
+      <div className="bg-white mb-10 p-6 pt-5 rounded-xl">
         <div className="flex justify-between mb-4 items-center">
           <a
             className="text-orange-700 text-sm font-bold opacity-70"
