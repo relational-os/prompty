@@ -10,7 +10,7 @@ const Prompt = ({ prompt }: { prompt: Prompt }) => {
       <div className="bg-white mb-10 p-6 pt-5 rounded-xl">
         <div className="flex justify-between mb-4 items-center">
           <a
-            className="text-orange-700 text-sm font-bold opacity-70"
+            className="text-orange-500 text-sm font-bold border-b-2 border-transparent hover:border-orange-300"
             href={`/author/${prompt.who?.id}`}
           >
             <ENSName address={prompt.who?.id} />

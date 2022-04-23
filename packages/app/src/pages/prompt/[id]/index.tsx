@@ -71,7 +71,7 @@ const Index = () => {
         )}
         {query.data?.prompt?.endTime &&
         dayjs().isBefore(dayjs.unix(query.data?.prompt?.endTime)) ? (
-          <div className="relative ">
+          <div className="relative mb-10">
             <TextareaAutosize
               className="w-full h-24 p-3 border-2 border-gray-200 rounded-lg pb-12 placeholder:text-gray-400"
               minRows={6}
@@ -98,19 +98,25 @@ const Index = () => {
             </button>
           </div>
         ) : (
-          <div>Prompt has ended</div>
+          <div style={{ display: 'none' }}>Prompt has ended</div>
         )}
-        <b>
-          <h2>Prompt Responses</h2>
-        </b>
+
+        {query.data?.prompt?.responses?.length > 0 && (
+          <h2 className="font-bold ml-5 mb-5">Responses</h2>
+        )}
+
         {query.data?.prompt?.responses?.map((r) => (
-          <div key={r.id}>
-            <a href={`/author/${r.who?.id}`}>
+          <div key={r.id} className="p-6 bg-white rounded-xl mb-5">
+            <div className="mb-5">
+              <ReactMarkdown>{r.text}</ReactMarkdown>
+            </div>
+            &mdash;{' '}
+            <a
+              href={`/author/${r.who?.id}`}
+              className="text-gray-600 text-sm font-bold opacity-7 border-b-2 border-transparent hover:border-orange-300"
+            >
               <ENSName address={r.who?.id} />
             </a>
-            <br />
-            Reponse Text:
-            <ReactMarkdown>{r.text}</ReactMarkdown>
           </div>
         ))}
       </div>

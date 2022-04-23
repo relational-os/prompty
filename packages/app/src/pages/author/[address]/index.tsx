@@ -1,10 +1,11 @@
-import { useRouter } from "next/router";
-import React from "react";
-import { gql } from "urql";
-import { useAuthorQuery } from "../../../codegen/subgraph";
-import Prompt from "../../../components/Prompt";
-import PromptResponse from "../../../components/PromptResponse";
-import MainLayout from "../../../layouts/MainLayout";
+import { useRouter } from 'next/router';
+import React from 'react';
+import { gql } from 'urql';
+import { useAuthorQuery } from '../../../codegen/subgraph';
+import Prompt from '../../../components/Prompt';
+import PromptResponse from '../../../components/PromptResponse';
+import MainLayout from '../../../layouts/MainLayout';
+import { ENSName } from 'react-ens-name';
 
 gql`
   query Author($id: ID!) {
@@ -43,7 +44,7 @@ const Index = () => {
   const addressStr = address as string;
 
   const [query, refetch] = useAuthorQuery(
-    typeof window === "undefined" || !addressStr || address == undefined
+    typeof window === 'undefined' || !addressStr || address == undefined
       ? { pause: true }
       : { variables: { id: addressStr } }
   );
@@ -51,18 +52,20 @@ const Index = () => {
   return (
     <MainLayout>
       <div className="index">
-        <h1>Author {address}</h1>
-        <b>
-          <h2>Prompts</h2>
-        </b>
+        <h1 className="text-4xl font-bold ml-5 mb-12 text-center">
+          <ENSName address={address} />
+        </h1>
+
+        <h2 className="font-bold ml-5 mb-5">Prompts</h2>
+
         {query.data?.wallet?.prompts?.map((p: Prompt) => (
           <div key={p.id}>
             <Prompt prompt={p} />
           </div>
         ))}
-        <b>
-          <h2>Responses</h2>
-        </b>
+
+        <h2 className="font-bold ml-5 mb-5">Responses</h2>
+
         {query.data?.wallet?.responses?.map((r) => (
           <div key={r.id}>
             <PromptResponse response={r} />
