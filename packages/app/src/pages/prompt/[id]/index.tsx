@@ -91,7 +91,7 @@ const Index = () => {
               onClick={() => {
                 !account ? connect() : submitResponse();
               }}
-              className="absolute bottom-5 right-3 rounded-full px-5 py-2 bg-orange-400 text-white text-sm font-bold"
+              className="absolute bottom-5 right-3 rounded-full px-5 py-2 bg-orange-500 text-white text-sm font-bold"
               type="submit"
             >
               {!account ? 'Connect Wallet' : 'Respond'}

@@ -13,11 +13,19 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
           </h1>
         </a>
         {!account ? (
-          <button onClick={() => connect()}>Connect Wallet</button>
+          <button
+            onClick={() => connect()}
+            className="bg-black text-white px-4 py-2 rounded-full text-sm font-bold"
+          >
+            Connect Wallet
+          </button>
         ) : (
-          <div className="flex">
-            <a href="/prompt/create" className="mr-4 ">
-              Create a Prompt
+          <div className="flex items-center">
+            <a
+              href="/prompt/create"
+              className="bg-orange-500 text-white px-4 py-2 rounded-full text-sm font-bold mr-4"
+            >
+              + New prompt
             </a>
             <ENSName address={account} />
           </div>
