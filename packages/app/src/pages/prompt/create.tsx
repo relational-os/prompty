@@ -1,33 +1,33 @@
-import React, { ChangeEvent } from 'react';
-import { promptyContract } from '../../contracts';
-import dayjs from 'dayjs';
-import MainLayout from '../../layouts/MainLayout';
-import { useWallet } from '@gimmixorg/use-wallet';
-import TextareaAutosize from 'react-textarea-autosize';
-import { ENSName } from 'react-ens-name';
+import React, { ChangeEvent } from "react";
+import { promptyContract } from "../../contracts";
+import dayjs from "dayjs";
+import MainLayout from "../../layouts/MainLayout";
+import { useWallet } from "@gimmixorg/use-wallet";
+import TextareaAutosize from "react-textarea-autosize";
+import { ENSName } from "react-ens-name";
 
 const Create = () => {
   const { account, provider, connect } = useWallet();
-  const [text, setText] = React.useState('');
-  const [minChars, setMinChars] = React.useState('1');
-  const [maxChars, setMaxChars] = React.useState('500');
-  const [days, setDays] = React.useState<'1' | '3' | '7'>('1');
+  const [text, setText] = React.useState("");
+  const [minChars, setMinChars] = React.useState("1");
+  const [maxChars, setMaxChars] = React.useState("500");
+  const [days, setDays] = React.useState<"1" | "3" | "7">("1");
 
   const submitPrompt = async () => {
     if (provider) {
-      console.log('provider');
+      console.log("provider");
       const signer = await promptyContract.connect(provider.getSigner());
 
       const tx = await signer.create(
         text,
-        dayjs().add(parseInt(days), 'minute').unix(),
+        dayjs().add(parseInt(days), "days").unix(),
         minChars,
         maxChars
       );
-      console.log('tx', tx.hash);
+      console.log("tx", tx.hash);
       await tx.wait(2);
     } else {
-      console.log('no provider');
+      console.log("no provider");
     }
   };
 
@@ -61,7 +61,7 @@ const Create = () => {
               className="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
               type="radio"
               id="flexRadioDefault1"
-              checked={days === '1'}
+              checked={days === "1"}
               value="1"
             />
             <label
@@ -76,7 +76,7 @@ const Create = () => {
               className="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
               type="radio"
               id="flexRadioDefault3"
-              checked={days === '3'}
+              checked={days === "3"}
               value="3"
             />
             <label
@@ -91,7 +91,7 @@ const Create = () => {
               className="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
               type="radio"
               id="flexRadioDefault7"
-              checked={days === '7'}
+              checked={days === "7"}
               value="7"
             />
             <label
@@ -129,7 +129,7 @@ const Create = () => {
         className="rounded-full px-5 py-2 bg-orange-500 text-white text-sm font-bold"
         type="submit"
       >
-        {!account ? 'Connect Wallet' : 'Post your Prompt'}
+        {!account ? "Connect Wallet" : "Post your Prompt"}
       </button>
       {/* </form> */}
 
