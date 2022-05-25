@@ -1,6 +1,6 @@
-type Prompt = {
+export type PromptType = {
   id: string;
-  who?: Author;
+  who?: AuthorType;
   text: string;
   startTime: number;
   endTime: number;
@@ -9,16 +9,16 @@ type Prompt = {
   responses?: Response[];
 };
 
-type PromptResponse = {
+export type PromptResponseType = {
   id: string;
-  who?: Author;
+  who?: AuthorType;
   text: string;
   created: number;
-  prompt: Prompt;
+  prompt: PromptType;
 };
 
-type Author = {
+export type AuthorType = {
   id: string;
-  prompts?: Prompt[];
+  prompts?: PromptType[];
   responses?: Response[];
 };

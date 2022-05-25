@@ -1,31 +1,74 @@
-import React, { ChangeEvent } from "react";
-import { promptyContract } from "../../contracts";
+import React from "react";
+import { ABI, PROMPTY_ADDRESS } from "../../contracts";
 import dayjs from "dayjs";
 import MainLayout from "../../layouts/MainLayout";
-import { useWallet } from "@gimmixorg/use-wallet";
 import TextareaAutosize from "react-textarea-autosize";
 import { ENSName } from "react-ens-name";
+import {
+  useAccount,
+  useContractWrite,
+  useProvider,
+  useWaitForTransaction,
+} from "wagmi";
+import { useRouter } from "next/router";
+import { defaultAbiCoder } from "ethers/lib/utils";
 
 const Create = () => {
-  const { account, provider, connect } = useWallet();
+  const router = useRouter();
   const [text, setText] = React.useState("");
   const [minChars, setMinChars] = React.useState("1");
   const [maxChars, setMaxChars] = React.useState("500");
   const [days, setDays] = React.useState<"1" | "3" | "7">("1");
-
-  const submitPrompt = async () => {
-    if (provider) {
-      console.log("provider");
-      const signer = await promptyContract.connect(provider.getSigner());
-
-      const tx = await signer.create(
+  const provider = useProvider();
+  const { data: account } = useAccount();
+  const { data, write } = useContractWrite(
+    {
+      addressOrName: PROMPTY_ADDRESS,
+      contractInterface: ABI,
+    },
+    "create",
+    {
+      args: [
         text,
         dayjs().add(parseInt(days), "days").unix(),
         minChars,
-        maxChars
+        maxChars,
+      ],
+    }
+  );
+  const hash = data?.hash;
+  useWaitForTransaction({
+    confirmations: 4,
+    hash,
+    onError(err) {
+      console.error("error waiting for tx", err);
+    },
+    onSuccess(data) {
+      // here: redirect to the page
+      console.log("success", data);
+
+      const event = defaultAbiCoder.decode(
+        [
+          "uint256",
+          "address",
+          "string",
+          "uint256",
+          "uint256",
+          "uint128",
+          "uint128",
+        ],
+        data.logs[0].data
       );
-      console.log("tx", tx.hash);
-      await tx.wait(2);
+
+      router.push(`/prompt/${event[0].toString()}`);
+    },
+  });
+
+  console.log("hash", hash);
+
+  const submitPrompt = async () => {
+    if (provider) {
+      write();
     } else {
       console.log("no provider");
     }
@@ -42,15 +85,22 @@ const Create = () => {
           placeholder="Write your prompt..."
           onChange={(e) => setText(e.target.value)}
           value={text}
-          disabled={!account}
+          // disabled={!account?.address}
         />
         {account && (
           <div className="absolute bottom-4 left-4 py-2 text-sm font-bold text-gray-400">
-            <ENSName address={account} />
+            <ENSName address={account.address} />
           </div>
         )}
       </div>
 
+      {hash && (
+        <div className="animate-spin text-6xl bg-gradient-to-r from-cyan-500 to-blue-500 p-10 rounded-full">
+          tx submitted bub...
+        </div>
+      )}
+
+      {/* @ts-ignore */}
       <form onChange={(e) => setDays(e.target.value)}>
         <h4 className="font-bold mb-3 text-sm ml-2 opacity-70">
           How long should the prompt run?
@@ -124,12 +174,12 @@ const Create = () => {
 
       <button
         onClick={() => {
-          !account ? connect() : submitPrompt();
+          submitPrompt();
         }}
         className="rounded-full px-5 py-2 bg-orange-500 text-white text-sm font-bold"
         type="submit"
       >
-        {!account ? "Connect Wallet" : "Post your Prompt"}
+        {"Post your Prompt"}
       </button>
       {/* </form> */}
 

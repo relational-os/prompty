@@ -1,9 +1,10 @@
-import type { NextPage } from 'next';
-import Head from 'next/head';
-import { gql } from 'urql';
-import { useLatestPromptsQuery } from '../codegen/subgraph';
-import Prompt from '../components/Prompt';
-import MainLayout from '../layouts/MainLayout';
+import type { NextPage } from "next";
+import Head from "next/head";
+import { gql } from "urql";
+import { useLatestPromptsQuery } from "../codegen/subgraph";
+import Prompt from "../components/Prompt";
+import MainLayout from "../layouts/MainLayout";
+import { PromptType } from "../types";
 
 gql`
   query LatestPrompts {
@@ -22,8 +23,8 @@ gql`
 `;
 
 const HomePage: NextPage = () => {
-  const [query, refetch] = useLatestPromptsQuery(
-    typeof window === 'undefined' ? { pause: true } : {}
+  const [query] = useLatestPromptsQuery(
+    typeof window === "undefined" ? { pause: true } : {}
   );
 
   return (
@@ -33,7 +34,7 @@ const HomePage: NextPage = () => {
       </Head>
 
       <MainLayout>
-        {query.data?.prompts?.map((p: Prompt) => (
+        {query.data?.prompts?.map((p: PromptType) => (
           <div key={p.id}>
             <Prompt prompt={p} />
           </div>

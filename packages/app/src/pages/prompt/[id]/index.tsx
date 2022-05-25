@@ -1,15 +1,15 @@
-import { useWallet } from '@gimmixorg/use-wallet';
-import dayjs from 'dayjs';
-import { useRouter } from 'next/router';
-import React, { useState } from 'react';
-import { ENSName } from 'react-ens-name';
-import ReactMarkdown from 'react-markdown';
-import { gql } from 'urql';
-import { usePromptIdQuery } from '../../../codegen/subgraph';
-import Prompt from '../../../components/Prompt';
-import { promptyContract } from '../../../contracts';
-import MainLayout from '../../../layouts/MainLayout';
-import TextareaAutosize from 'react-textarea-autosize';
+import dayjs from "dayjs";
+import { useRouter } from "next/router";
+import React, { useState } from "react";
+import { ENSName } from "react-ens-name";
+import ReactMarkdown from "react-markdown";
+import { gql } from "urql";
+import { usePromptIdQuery } from "../../../codegen/subgraph";
+import Prompt from "../../../components/Prompt";
+import { ABI, PROMPTY_ADDRESS } from "../../../contracts";
+import MainLayout from "../../../layouts/MainLayout";
+import TextareaAutosize from "react-textarea-autosize";
+import { useAccount, useContractWrite, useProvider } from "wagmi";
 
 gql`
   query PromptID($id: ID!) {
@@ -38,12 +38,22 @@ const Index = () => {
   const router = useRouter();
   const { id } = router.query;
   const idStr = id as string;
-  const [text, setText] = useState('');
+  const [text, setText] = useState("");
+  const provider = useProvider();
+  const { data: account } = useAccount();
+  const { write } = useContractWrite(
+    {
+      addressOrName: PROMPTY_ADDRESS,
+      contractInterface: ABI,
+    },
+    "respond",
+    {
+      args: [idStr, text],
+    }
+  );
 
-  const { account, connect, provider } = useWallet();
-
-  const [query, refetch] = usePromptIdQuery(
-    typeof window === 'undefined' || id == undefined
+  const [query] = usePromptIdQuery(
+    typeof window === "undefined" || id == undefined
       ? { pause: true }
       : { variables: { id: idStr } }
   );
@@ -52,14 +62,15 @@ const Index = () => {
 
   const submitResponse = async () => {
     if (provider) {
-      console.log('provider');
-      const signer = await promptyContract.connect(provider.getSigner());
+      write();
 
-      const tx = await signer.respond(idStr, text);
-      console.log('tx', tx.hash);
-      await tx.wait(2);
+      // const signer = await promptyContract.connect(provider.getSigner());
+
+      // const tx = await signer.respond(idStr, text);
+      // console.log("tx", tx.hash);
+      // await tx.wait(2);
     } else {
-      console.log('no provider');
+      console.log("no provider");
     }
   };
 
@@ -67,6 +78,7 @@ const Index = () => {
     <MainLayout>
       <div>
         {query.data?.prompt != undefined && (
+          // @ts-ignore
           <Prompt prompt={query.data.prompt} />
         )}
         {query.data?.prompt?.endTime &&
@@ -81,36 +93,38 @@ const Index = () => {
               value={text}
               disabled={!account}
             />
-            {account && (
+            {account && account?.address && (
               <div className="absolute bottom-4 left-4 py-2 text-sm font-bold text-gray-400">
-                <ENSName address={account} />
+                <ENSName address={account.address} />
               </div>
             )}
-
             <button
               onClick={() => {
-                !account ? connect() : submitResponse();
+                submitResponse();
               }}
               className="absolute bottom-5 right-3 rounded-full px-5 py-2 bg-orange-500 text-white text-sm font-bold"
               type="submit"
+              disabled={!account}
             >
-              {!account ? 'Connect Wallet' : 'Respond'}
+              {"Respond"}
             </button>
           </div>
         ) : (
-          <div style={{ display: 'none' }}>Prompt has ended</div>
+          <div style={{ display: "none" }}>Prompt has ended</div>
         )}
 
-        {query.data?.prompt?.responses?.length > 0 && (
+        {/* @ts-ignore */}
+        {query?.data?.prompt?.responses?.length > 0 && (
           <h2 className="font-bold ml-5 mb-5">Responses</h2>
         )}
 
         {query.data?.prompt?.responses?.map((r) => (
           <div key={r.id} className="p-6 bg-white rounded-xl mb-5">
+            {" "}
             <div className="mb-5">
               <ReactMarkdown>{r.text}</ReactMarkdown>
             </div>
-            &mdash;{' '}
+            &mdash;{" "}
             <a
               href={`/author/${r.who?.id}`}
               className="text-gray-600 text-sm font-bold opacity-7 border-b-2 border-transparent hover:border-orange-300"

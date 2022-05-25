@@ -1,8 +1,9 @@
-import dayjs from 'dayjs';
-import React from 'react';
-import { ENSName } from 'react-ens-name';
+import dayjs from "dayjs";
+import React from "react";
+import { ENSName } from "react-ens-name";
+import { PromptType } from "../types";
 
-const Prompt = ({ prompt }: { prompt: Prompt }) => {
+const Prompt = ({ prompt }: { prompt: PromptType }) => {
   const promptExpired = dayjs().isAfter(dayjs.unix(prompt.endTime));
 
   return (
@@ -22,8 +23,8 @@ const Prompt = ({ prompt }: { prompt: Prompt }) => {
               <>
                 {dayjs
                   .unix(prompt.endTime)
-                  .diff(dayjs.unix(prompt.startTime), 'hour')}
-                {' hours left'}
+                  .diff(dayjs.unix(prompt.startTime), "hour")}
+                {" hours left"}
               </>
             )}
           </small>
