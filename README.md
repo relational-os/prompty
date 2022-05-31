@@ -6,7 +6,7 @@ This scaffold is set up as a monorepo using the incredibly fast [pnpm](https://p
 
 ## Getting up and running
 
-1. `git clone` repo, `cd prompty`
+1. `git clone git@github.com:relational-os/prompty.git` repo, `cd prompty`
 2. `pnpm install`
 3. `pnpm run dev`
 
