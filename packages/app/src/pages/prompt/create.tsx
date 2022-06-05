@@ -15,12 +15,17 @@ import {
 import { useRouter } from "next/router";
 import { defaultAbiCoder } from "ethers/lib/utils";
 
+const PENDING_TRANSACTION_LOADING_MESSAGE = "TX Loading...";
+const PENDING_WRITE_LOADING_MESSAGE = "Submitting...";
+
+type DaysSelection = "1" | "3" | "7";
+
 const Create = () => {
   const router = useRouter();
   const [text, setText] = useState("");
   const [minChars, setMinChars] = useState("1");
   const [maxChars, setMaxChars] = useState("500");
-  const [days, setDays] = useState("1");
+  const [days, setDays] = useState<DaysSelection>("1");
   const provider = useProvider();
   const { data: account } = useAccount();
 
@@ -82,7 +87,7 @@ const Create = () => {
   };
 
   const handleDayChange = (_: any, value: string) => {
-    setDays(value);
+    setDays(value as DaysSelection);
   };
 
   const isLoading = isLoadingWrite || isTransactionLoading;
@@ -169,8 +174,8 @@ const Create = () => {
         {isLoading ? (
           <div className="flex">
             <Spinner />
-            {isLoadingWrite ? "Submitting..." : ""}
-            {isTransactionLoading ? "TX Loading..." : ""}
+            {isLoadingWrite ? PENDING_WRITE_LOADING_MESSAGE : ""}
+            {isTransactionLoading ? PENDING_TRANSACTION_LOADING_MESSAGE : ""}
           </div>
         ) : (
           "Post your Prompt"
