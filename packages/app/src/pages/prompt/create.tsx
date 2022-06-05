@@ -5,6 +5,7 @@ import dayjs from "dayjs";
 import MainLayout from "src/layouts/MainLayout";
 import RadioButton from "src/components/RadioButton";
 import TextareaAutosize from "react-textarea-autosize";
+import { useElapsedTime } from "use-elapsed-time";
 import { ENSName } from "react-ens-name";
 import {
   useAccount,
@@ -48,7 +49,6 @@ const Create = () => {
       ],
     }
   );
-
   const { isLoading: isTransactionLoading } = useWaitForTransaction({
     enabled: Boolean(data?.hash),
     confirmations: 4,
@@ -78,6 +78,9 @@ const Create = () => {
     },
   });
 
+  const isLoading = isLoadingWrite || isTransactionLoading;
+  const { elapsedTime } = useElapsedTime({ isPlaying: isTransactionLoading });
+
   const submitPrompt = async () => {
     if (provider) {
       write();
@@ -89,8 +92,6 @@ const Create = () => {
   const handleDayChange = (_: any, value: string) => {
     setDays(value as DaysSelection);
   };
-
-  const isLoading = isLoadingWrite || isTransactionLoading;
 
   return (
     <MainLayout>
@@ -175,7 +176,11 @@ const Create = () => {
           <div className="flex">
             <Spinner />
             {isLoadingWrite ? PENDING_WRITE_LOADING_MESSAGE : ""}
-            {isTransactionLoading ? PENDING_TRANSACTION_LOADING_MESSAGE : ""}
+            {isTransactionLoading
+              ? `${PENDING_TRANSACTION_LOADING_MESSAGE} ${Math.round(
+                  elapsedTime
+                )}s`
+              : ""}
           </div>
         ) : (
           "Post your Prompt"
