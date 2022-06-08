@@ -43,7 +43,11 @@ const Responses = ({ responses }: ResponsesProps) => {
   return (
     <div>
       {/* @ts-ignore */}
-      {responses?.length && <h2 className="font-bold ml-5 mb-5">Responses</h2>}
+      {responses?.length ? (
+        <h2 className="font-bold ml-5 mb-5">Responses</h2>
+      ) : (
+        <div />
+      )}
 
       {responses.map((r) => (
         <div key={r.id} className="p-6 bg-white rounded-xl mb-5">
@@ -92,7 +96,9 @@ const Index = () => {
   // @ts-ignore
   const promptResponses: PromptResponseType[] =
     query?.data?.prompt?.responses || [];
-
+  const isPromptActive = query.data?.prompt?.endTime
+    ? dayjs().isBefore(dayjs.unix(query.data?.prompt?.endTime))
+    : false;
   const hasUserResponse = useMemo(
     () =>
       Boolean(
@@ -121,12 +127,13 @@ const Index = () => {
   return (
     <MainLayout>
       <div>
-        {query.data?.prompt != undefined && (
+        {query.data?.prompt != undefined ? (
           // @ts-ignore
           <Prompt prompt={query.data.prompt} />
+        ) : (
+          <div />
         )}
-        {query.data?.prompt?.endTime &&
-        dayjs().isBefore(dayjs.unix(query.data?.prompt?.endTime)) ? (
+        {isPromptActive ? (
           <div className="relative mb-10">
             <TextareaAutosize
               className="w-full h-24 p-3 border-2 border-gray-200 rounded-lg pb-12 placeholder:text-gray-400"
@@ -143,9 +150,7 @@ const Index = () => {
               </div>
             )}
             <button
-              onClick={() => {
-                submitResponse();
-              }}
+              onClick={submitResponse}
               className="absolute bottom-5 right-3 rounded-full px-5 py-2 bg-orange-500 text-white text-sm font-bold"
               type="submit"
               disabled={!account}
@@ -157,7 +162,11 @@ const Index = () => {
           <div style={{ display: "none" }}>Prompt has ended</div>
         )}
 
-        {hasUserResponse && <Responses responses={promptResponses} />}
+        {!hasUserResponse && isPromptActive ? (
+          <div />
+        ) : (
+          <Responses responses={promptResponses} />
+        )}
       </div>
 
       <style jsx>{``}</style>
