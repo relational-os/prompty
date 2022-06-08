@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { ENSName } from "react-ens-name";
 import ReactMarkdown from "react-markdown";
 import { gql } from "urql";
@@ -10,6 +10,7 @@ import { ABI, PROMPTY_ADDRESS } from "../../../contracts";
 import MainLayout from "../../../layouts/MainLayout";
 import TextareaAutosize from "react-textarea-autosize";
 import { useAccount, useContractWrite, useProvider } from "wagmi";
+import { PromptResponseType } from "src/types";
 
 gql`
   query PromptID($id: ID!) {
@@ -34,6 +35,35 @@ gql`
   }
 `;
 
+interface ResponsesProps {
+  responses: PromptResponseType[];
+}
+
+const Responses = ({ responses }: ResponsesProps) => {
+  return (
+    <div>
+      {/* @ts-ignore */}
+      {responses?.length && <h2 className="font-bold ml-5 mb-5">Responses</h2>}
+
+      {responses.map((r) => (
+        <div key={r.id} className="p-6 bg-white rounded-xl mb-5">
+          {" "}
+          <div className="mb-5">
+            <ReactMarkdown>{r.text}</ReactMarkdown>
+          </div>
+          &mdash;{" "}
+          <a
+            href={`/author/${r.who?.id}`}
+            className="text-gray-600 text-sm font-bold opacity-7 border-b-2 border-transparent hover:border-orange-300"
+          >
+            <ENSName address={r.who?.id} />
+          </a>
+        </div>
+      ))}
+    </div>
+  );
+};
+
 const Index = () => {
   const router = useRouter();
   const { id } = router.query;
@@ -41,6 +71,7 @@ const Index = () => {
   const [text, setText] = useState("");
   const provider = useProvider();
   const { data: account } = useAccount();
+
   const { write } = useContractWrite(
     {
       addressOrName: PROMPTY_ADDRESS,
@@ -58,7 +89,20 @@ const Index = () => {
       : { variables: { id: idStr } }
   );
 
-  console.log(idStr, query?.data?.prompt);
+  // @ts-ignore
+  const promptResponses: PromptResponseType[] =
+    query?.data?.prompt?.responses || [];
+
+  const hasUserResponse = useMemo(
+    () =>
+      Boolean(
+        query.data?.prompt?.responses?.find(
+          (resp) =>
+            resp.who.id?.toLowerCase() === account?.address?.toLowerCase()
+        )
+      ),
+    [promptResponses, account?.address]
+  );
 
   const submitResponse = async () => {
     if (provider) {
@@ -113,26 +157,7 @@ const Index = () => {
           <div style={{ display: "none" }}>Prompt has ended</div>
         )}
 
-        {/* @ts-ignore */}
-        {query?.data?.prompt?.responses?.length > 0 && (
-          <h2 className="font-bold ml-5 mb-5">Responses</h2>
-        )}
-
-        {query.data?.prompt?.responses?.map((r) => (
-          <div key={r.id} className="p-6 bg-white rounded-xl mb-5">
-            {" "}
-            <div className="mb-5">
-              <ReactMarkdown>{r.text}</ReactMarkdown>
-            </div>
-            &mdash;{" "}
-            <a
-              href={`/author/${r.who?.id}`}
-              className="text-gray-600 text-sm font-bold opacity-7 border-b-2 border-transparent hover:border-orange-300"
-            >
-              <ENSName address={r.who?.id} />
-            </a>
-          </div>
-        ))}
+        {hasUserResponse && <Responses responses={promptResponses} />}
       </div>
 
       <style jsx>{``}</style>
