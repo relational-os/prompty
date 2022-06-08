@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { ENSName } from "react-ens-name";
 import ReactMarkdown from "react-markdown";
 import { gql } from "urql";
@@ -10,6 +10,7 @@ import { ABI, PROMPTY_ADDRESS } from "../../../contracts";
 import MainLayout from "../../../layouts/MainLayout";
 import TextareaAutosize from "react-textarea-autosize";
 import { useAccount, useContractWrite, useProvider } from "wagmi";
+import { PromptResponseType } from "src/types";
 
 gql`
   query PromptID($id: ID!) {
@@ -34,6 +35,39 @@ gql`
   }
 `;
 
+interface ResponsesProps {
+  responses: PromptResponseType[];
+}
+
+const Responses = ({ responses }: ResponsesProps) => {
+  return (
+    <div>
+      {/* @ts-ignore */}
+      {responses?.length ? (
+        <h2 className="font-bold ml-5 mb-5">Responses</h2>
+      ) : (
+        <div />
+      )}
+
+      {responses.map((r) => (
+        <div key={r.id} className="p-6 bg-white rounded-xl mb-5">
+          {" "}
+          <div className="mb-5">
+            <ReactMarkdown>{r.text}</ReactMarkdown>
+          </div>
+          &mdash;{" "}
+          <a
+            href={`/author/${r.who?.id}`}
+            className="text-gray-600 text-sm font-bold opacity-7 border-b-2 border-transparent hover:border-orange-300"
+          >
+            <ENSName address={r.who?.id} />
+          </a>
+        </div>
+      ))}
+    </div>
+  );
+};
+
 const Index = () => {
   const router = useRouter();
   const { id } = router.query;
@@ -41,6 +75,7 @@ const Index = () => {
   const [text, setText] = useState("");
   const provider = useProvider();
   const { data: account } = useAccount();
+
   const { write } = useContractWrite(
     {
       addressOrName: PROMPTY_ADDRESS,
@@ -58,7 +93,32 @@ const Index = () => {
       : { variables: { id: idStr } }
   );
 
-  console.log(idStr, query?.data?.prompt);
+  const isLoading = query.fetching && !query.data?.prompt;
+  // @ts-ignore
+  const promptResponses: PromptResponseType[] =
+    query?.data?.prompt?.responses || [];
+  const isPromptExpired = dayjs().isAfter(
+    dayjs.unix(query.data?.prompt?.endTime)
+  );
+  const hasUserResponse = useMemo(
+    () =>
+      Boolean(
+        query.data?.prompt?.responses?.find(
+          (resp) =>
+            resp.who.id?.toLowerCase() === account?.address?.toLowerCase()
+        )
+      ),
+    [promptResponses, account?.address]
+  );
+
+  // Doesn't actually need to be memoized, just allows for easy containment of logic.
+  const showRespnoses = useMemo(() => {
+    if (!isPromptExpired) return true;
+    if (hasUserResponse) return true;
+    if (!account?.address) return false;
+
+    return false;
+  }, [isPromptExpired, account?.address, hasUserResponse]);
 
   const submitResponse = async () => {
     if (provider) {
@@ -77,12 +137,13 @@ const Index = () => {
   return (
     <MainLayout>
       <div>
-        {query.data?.prompt != undefined && (
+        {query.data?.prompt != undefined ? (
           // @ts-ignore
           <Prompt prompt={query.data.prompt} />
+        ) : (
+          <div />
         )}
-        {query.data?.prompt?.endTime &&
-        dayjs().isBefore(dayjs.unix(query.data?.prompt?.endTime)) ? (
+        {!isPromptExpired && query.data?.prompt != undefined ? (
           <div className="relative mb-10">
             <TextareaAutosize
               className="w-full h-24 p-3 border-2 border-gray-200 rounded-lg pb-12 placeholder:text-gray-400"
@@ -91,7 +152,6 @@ const Index = () => {
               placeholder="your response..."
               onChange={(e) => setText(e.target.value)}
               value={text}
-              disabled={!account}
             />
             {account && account?.address && (
               <div className="absolute bottom-4 left-4 py-2 text-sm font-bold text-gray-400">
@@ -99,9 +159,7 @@ const Index = () => {
               </div>
             )}
             <button
-              onClick={() => {
-                submitResponse();
-              }}
+              onClick={submitResponse}
               className="absolute bottom-5 right-3 rounded-full px-5 py-2 bg-orange-500 text-white text-sm font-bold"
               type="submit"
               disabled={!account}
@@ -113,26 +171,7 @@ const Index = () => {
           <div style={{ display: "none" }}>Prompt has ended</div>
         )}
 
-        {/* @ts-ignore */}
-        {query?.data?.prompt?.responses?.length > 0 && (
-          <h2 className="font-bold ml-5 mb-5">Responses</h2>
-        )}
-
-        {query.data?.prompt?.responses?.map((r) => (
-          <div key={r.id} className="p-6 bg-white rounded-xl mb-5">
-            {" "}
-            <div className="mb-5">
-              <ReactMarkdown>{r.text}</ReactMarkdown>
-            </div>
-            &mdash;{" "}
-            <a
-              href={`/author/${r.who?.id}`}
-              className="text-gray-600 text-sm font-bold opacity-7 border-b-2 border-transparent hover:border-orange-300"
-            >
-              <ENSName address={r.who?.id} />
-            </a>
-          </div>
-        ))}
+        {showRespnoses && <Responses responses={promptResponses} />}
       </div>
 
       <style jsx>{``}</style>
