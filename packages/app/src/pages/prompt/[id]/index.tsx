@@ -93,12 +93,13 @@ const Index = () => {
       : { variables: { id: idStr } }
   );
 
+  const isLoading = query.fetching && !query.data?.prompt;
   // @ts-ignore
   const promptResponses: PromptResponseType[] =
     query?.data?.prompt?.responses || [];
-  const isPromptActive = query.data?.prompt?.endTime
-    ? dayjs().isBefore(dayjs.unix(query.data?.prompt?.endTime))
-    : false;
+  const isPromptExpired = dayjs().isAfter(
+    dayjs.unix(query.data?.prompt?.endTime)
+  );
   const hasUserResponse = useMemo(
     () =>
       Boolean(
@@ -109,6 +110,15 @@ const Index = () => {
       ),
     [promptResponses, account?.address]
   );
+
+  // Doesn't actually need to be memoized, just allows for easy containment of logic.
+  const showRespnoses = useMemo(() => {
+    if (!isPromptExpired) return true;
+    if (hasUserResponse) return true;
+    if (!account?.address) return false;
+
+    return false;
+  }, [isPromptExpired, account?.address, hasUserResponse]);
 
   const submitResponse = async () => {
     if (provider) {
@@ -133,7 +143,7 @@ const Index = () => {
         ) : (
           <div />
         )}
-        {isPromptActive ? (
+        {!isPromptExpired && query.data?.prompt != undefined ? (
           <div className="relative mb-10">
             <TextareaAutosize
               className="w-full h-24 p-3 border-2 border-gray-200 rounded-lg pb-12 placeholder:text-gray-400"
@@ -142,7 +152,6 @@ const Index = () => {
               placeholder="your response..."
               onChange={(e) => setText(e.target.value)}
               value={text}
-              disabled={!account}
             />
             {account && account?.address && (
               <div className="absolute bottom-4 left-4 py-2 text-sm font-bold text-gray-400">
@@ -162,11 +171,7 @@ const Index = () => {
           <div style={{ display: "none" }}>Prompt has ended</div>
         )}
 
-        {!hasUserResponse && isPromptActive ? (
-          <div />
-        ) : (
-          <Responses responses={promptResponses} />
-        )}
+        {showRespnoses && <Responses responses={promptResponses} />}
       </div>
 
       <style jsx>{``}</style>
