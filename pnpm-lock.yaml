@@ -51,6 +51,7 @@ importers:
       next: 12.1.0
       postcss: ^8.4.5
       react: 17.0.2
+      react-compound-slider: ^3.4.0
       react-dom: 17.0.2
       react-ens-name: ^0.2.5
       react-markdown: ^8.0.3
@@ -58,6 +59,7 @@ importers:
       tailwindcss: ^3.0.5
       typescript: 4.5.5
       urql: ^2.0.6
+      use-elapsed-time: ^3.0.4
       wagmi: ^0.4.2
       web3modal: ^1.9.5
       zustand: ^3.6.7
@@ -74,11 +76,13 @@ importers:
       graphql: 16.3.0
       next: 12.1.0_react-dom@17.0.2+react@17.0.2
       react: 17.0.2
+      react-compound-slider: 3.4.0_react@17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-ens-name: 0.2.5_react@17.0.2
       react-markdown: 8.0.3_cfedea9b3ed0faf0dded75c187406c5e
       react-textarea-autosize: 8.3.3_cfedea9b3ed0faf0dded75c187406c5e
       urql: 2.2.0_graphql@16.3.0+react@17.0.2
+      use-elapsed-time: 3.0.4_react@17.0.2
       wagmi: 0.4.2_69aa7dcc1cd98ec9fd52d4234919c840
       web3modal: 1.9.7
       zustand: 3.7.2_react@17.0.2
@@ -4132,6 +4136,12 @@ packages:
   /csstype/3.0.11:
     resolution: {integrity: sha512-sa6P2wJ+CAbgyy4KFssIb/JNMLxFvKF1pCYCSXS8ZMuqZnMsrxqI2E5sPyoTpxoPU/gVZMzr2zjOfg8GIZOMsw==}
 
+  /d3-array/2.12.1:
+    resolution: {integrity: sha512-B0ErZK/66mHtEsR1TkPEEkwdy+WDesimkM5gpZr5Dsg54BiTA5RXtYW5qTLIAcekaS9xfZrzBLF/OAkB3Qn1YQ==}
+    dependencies:
+      internmap: 1.0.1
+    dev: false
+
   /dashdash/1.14.1:
     resolution: {integrity: sha1-hTz6D3y+L+1d4gMmuN1YEDX24vA=}
     engines: {node: '>=0.10'}
@@ -6028,6 +6038,10 @@ packages:
       has: 1.0.3
       side-channel: 1.0.4
     dev: true
+
+  /internmap/1.0.1:
+    resolution: {integrity: sha512-lDB5YccMydFBtasVtxnZ3MRBHuaoE8GKsppq+EchKL2U4nK/DmEpPHNH8MZe5HkMtpSiTSOZwfN0tzYjO/lJEw==}
+    dev: false
 
   /invariant/2.2.4:
     resolution: {integrity: sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==}
@@ -8650,6 +8664,17 @@ packages:
       strip-json-comments: 2.0.1
     dev: true
 
+  /react-compound-slider/3.4.0_react@17.0.2:
+    resolution: {integrity: sha512-KSje/rB0xSvvcb7YV0+82hkiXTV5ljSS7axKrNiXLf9AEO+rrr1Xq4MJWA+6v030YNNo/RoSoEB6D6fnoy+8ng==}
+    peerDependencies:
+      react: '>=16.9'
+    dependencies:
+      '@babel/runtime': 7.17.9
+      d3-array: 2.12.1
+      react: 17.0.2
+      warning: 4.0.3
+    dev: false
+
   /react-dom/16.14.0_react@16.14.0:
     resolution: {integrity: sha512-1gCeQXDLoIqMgqD3IO2Ah9bnf0w9kzhwN5q4FGnHZ67hBm9yePzB5JJAIQCc8x3pFnNlwFq4RidZggNAAkzWWw==}
     peerDependencies:
@@ -10306,6 +10331,14 @@ packages:
       react: 17.0.2
     dev: false
 
+  /use-elapsed-time/3.0.4_react@17.0.2:
+    resolution: {integrity: sha512-q9b9j0K1SfsX2B9vzfRYkNyn2kBV5YBh9oJ/+XnIPKFjLbjvnF2PnJ/08HWPfCKKBWGz8d1qAfmXiYxWAseklw==}
+    peerDependencies:
+      react: '>=16.8.0'
+    dependencies:
+      react: 17.0.2
+    dev: false
+
   /use-isomorphic-layout-effect/1.1.2_cfedea9b3ed0faf0dded75c187406c5e:
     resolution: {integrity: sha512-49L8yCO3iGT/ZF9QttjwLF/ZD9Iwto5LnH5LmEdk/6cFmXddqi2ulF0edxTwjj+7mqvpVVGQWvbXZdn32wRSHA==}
     peerDependencies:
@@ -10462,6 +10495,12 @@ packages:
       - react-native
       - supports-color
       - utf-8-validate
+    dev: false
+
+  /warning/4.0.3:
+    resolution: {integrity: sha512-rpJyN222KWIvHJ/F53XSZv0Zl/accqHR8et1kpaMTD/fLCRxtV8iX8czMzY7sVZupTI3zcUTg8eycS2kNF9l6w==}
+    dependencies:
+      loose-envify: 1.4.0
     dev: false
 
   /wcwidth/1.0.1:

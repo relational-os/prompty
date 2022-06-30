@@ -15,6 +15,7 @@ import {
 } from "wagmi";
 import { useRouter } from "next/router";
 import { defaultAbiCoder } from "ethers/lib/utils";
+import { DoubleSlider } from "src/components/DoubleSlider";
 
 const PENDING_TRANSACTION_LOADING_MESSAGE = "TX Loading...";
 const PENDING_WRITE_LOADING_MESSAGE = "Submitting...";
@@ -149,21 +150,14 @@ const Create = () => {
       <h4 className="font-bold mb-3 text-sm ml-2 opacity-70">
         What should the length of responses be?
       </h4>
-      <div className="flex mb-8 items-center">
-        <label className="block text-gray-700 text-sm">Min Chars</label>
-        <input
-          className="border border-gray-300 p-2 mx-2 w-16"
-          value={minChars}
-          onChange={(e) => setMinChars(e.target.value)}
-          disabled={isLoading}
-        />
-        <label className="block text-gray-700 text-sm">Max Chars</label>
-        <input
-          className="border border-gray-300 p-2 mx-2 w-16"
-          value={maxChars}
-          onChange={(e) => setMaxChars(e.target.value)}
-          disabled={isLoading}
-        />
+
+      <div style={{}}>
+        <DoubleSlider
+          onChange={([minValue, maxValue]: ReadonlyArray<number>) => {
+            setMinChars(minValue.toString());
+            setMaxChars(maxValue.toString());
+          }}
+        ></DoubleSlider>
       </div>
 
       <button
