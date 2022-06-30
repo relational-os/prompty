@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ENSName } from "react-ens-name";
 import ReactMarkdown from "react-markdown";
 import { gql } from "urql";
@@ -41,6 +41,8 @@ const Index = () => {
   const [text, setText] = useState("");
   const provider = useProvider();
   const { data: account } = useAccount();
+
+  const [selfHasReplied, setSelfHasReplied] = useState(false);
   const { write } = useContractWrite(
     {
       addressOrName: PROMPTY_ADDRESS,
@@ -58,7 +60,22 @@ const Index = () => {
       : { variables: { id: idStr } }
   );
 
-  console.log(idStr, query?.data?.prompt);
+  // console.log(idStr, query?.data?.prompt);
+
+  // determine if we are part of the responses
+
+  useEffect(() => {
+    if (query.data && query.data.prompt && query.data != undefined) {
+      const selfRseponses = query.data.prompt.responses.filter(
+        (response: any) => {
+          return response.who.id == account?.address?.toLowerCase();
+        }
+      );
+      if (selfRseponses.length) {
+        setSelfHasReplied(true);
+      }
+    }
+  }, [query]);
 
   const submitResponse = async () => {
     if (provider) {
@@ -81,7 +98,8 @@ const Index = () => {
           // @ts-ignore
           <Prompt prompt={query.data.prompt} />
         )}
-        {query.data?.prompt?.endTime &&
+        {!selfHasReplied &&
+        query.data?.prompt?.endTime &&
         dayjs().isBefore(dayjs.unix(query.data?.prompt?.endTime)) ? (
           <div className="relative mb-10">
             <TextareaAutosize
