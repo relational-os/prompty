@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { ENSName } from "react-ens-name";
 import ReactMarkdown from "react-markdown";
 import { gql } from "urql";
@@ -95,6 +95,7 @@ const Index = () => {
   );
 
   // console.log(idStr, query?.data?.prompt);
+  // @ts-ignore
   const promptResponses: PromptResponseType[] =
     query?.data?.prompt?.responses || [];
 

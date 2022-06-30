@@ -259,6 +259,7 @@ export const Track: React.FC<TrackProps> = ({
 interface TickProps {
   tick: SliderItem;
   count: number;
+  // eslint-disable-next-line
   format?: (val: number) => string;
   disabled?: boolean;
 }

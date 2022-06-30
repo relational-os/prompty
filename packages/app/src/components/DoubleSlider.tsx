@@ -9,8 +9,11 @@ const sliderStyle = {
 
 const defaultValues = [100, 500];
 
+// eslint-disable-next-line
+type DoubleSliderChangeHandler = (values: ReadonlyArray<number>) => void;
+
 interface DoubleSlideProps {
-  onChange: (values: ReadonlyArray<number>) => void;
+  onChange: DoubleSliderChangeHandler;
   disabled?: boolean;
 }
 
@@ -48,7 +51,7 @@ export class DoubleSlider extends Component<DoubleSlideProps, SliderState> {
 
   render() {
     const {
-      state: { domain, values, update, reversed },
+      state: { domain, values, reversed },
     } = this;
 
     return (
