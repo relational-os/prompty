@@ -11,6 +11,7 @@ const defaultValues = [100, 500];
 
 interface DoubleSlideProps {
   onChange: (values: ReadonlyArray<number>) => void;
+  disabled?: boolean;
 }
 
 interface SliderState {
@@ -81,6 +82,7 @@ export class DoubleSlider extends Component<DoubleSlideProps, SliderState> {
           onUpdate={this.onUpdate}
           onChange={this.onChange}
           values={values}
+          disabled={this.props.disabled}
         >
           <Rail>
             {({ getRailProps }) => <SliderRail getRailProps={getRailProps} />}
@@ -94,6 +96,7 @@ export class DoubleSlider extends Component<DoubleSlideProps, SliderState> {
                     handle={handle}
                     domain={domain}
                     getHandleProps={getHandleProps}
+                    disabled={this.props.disabled}
                   />
                 ))}
               </div>
@@ -108,6 +111,7 @@ export class DoubleSlider extends Component<DoubleSlideProps, SliderState> {
                     source={source}
                     target={target}
                     getTrackProps={getTrackProps}
+                    disabled={this.props.disabled}
                   />
                 ))}
               </div>
@@ -117,7 +121,12 @@ export class DoubleSlider extends Component<DoubleSlideProps, SliderState> {
             {({ ticks }) => (
               <div className="slider-ticks">
                 {ticks.map((tick) => (
-                  <Tick key={tick.id} tick={tick} count={ticks.length} />
+                  <Tick
+                    key={tick.id}
+                    tick={tick}
+                    count={ticks.length}
+                    disabled={this.props.disabled}
+                  />
                 ))}
               </div>
             )}

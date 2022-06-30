@@ -52,7 +52,7 @@ const Create = () => {
   );
   const { isLoading: isTransactionLoading } = useWaitForTransaction({
     enabled: Boolean(data?.hash),
-    confirmations: 4,
+    confirmations: 2,
     hash: data?.hash,
     wait: data?.wait,
     onError(err) {
@@ -153,6 +153,7 @@ const Create = () => {
 
       <div style={{}}>
         <DoubleSlider
+          disabled={isLoading}
           onChange={([minValue, maxValue]: ReadonlyArray<number>) => {
             setMinChars(minValue.toString());
             setMaxChars(maxValue.toString());

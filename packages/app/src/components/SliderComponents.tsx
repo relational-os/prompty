@@ -132,7 +132,7 @@ export const SliderRail: React.FC<SliderRailProps> = ({ getRailProps }) => (
 // HANDLE COMPONENT
 // *******************************************************
 interface HandleProps {
-  isActive: boolean;
+  isActive?: boolean;
   domain: number[];
   handle: SliderItem;
   getHandleProps: GetHandleProps;
@@ -260,6 +260,7 @@ interface TickProps {
   tick: SliderItem;
   count: number;
   format?: (val: number) => string;
+  disabled?: boolean;
 }
 
 export const Tick: React.FC<TickProps> = ({

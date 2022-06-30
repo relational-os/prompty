@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { ENSName } from "react-ens-name";
 import ReactMarkdown from "react-markdown";
 import { gql } from "urql";
@@ -10,6 +10,7 @@ import { ABI, PROMPTY_ADDRESS } from "../../../contracts";
 import MainLayout from "../../../layouts/MainLayout";
 import TextareaAutosize from "react-textarea-autosize";
 import { useAccount, useContractWrite, useProvider } from "wagmi";
+import { PromptResponseType } from "src/types";
 
 gql`
   query PromptID($id: ID!) {
@@ -34,6 +35,39 @@ gql`
   }
 `;
 
+interface ResponsesProps {
+  responses: PromptResponseType[];
+}
+
+const Responses = ({ responses }: ResponsesProps) => {
+  return (
+    <div>
+      {/* @ts-ignore */}
+      {responses?.length ? (
+        <h2 className="font-bold ml-5 mb-5">Responses</h2>
+      ) : (
+        <div />
+      )}
+
+      {responses.map((r) => (
+        <div key={r.id} className="p-6 bg-white rounded-xl mb-5">
+          {" "}
+          <div className="mb-5">
+            <ReactMarkdown>{r.text}</ReactMarkdown>
+          </div>
+          &mdash;{" "}
+          <a
+            href={`/author/${r.who?.id}`}
+            className="text-gray-600 text-sm font-bold opacity-7 border-b-2 border-transparent hover:border-orange-300"
+          >
+            <ENSName address={r.who?.id} />
+          </a>
+        </div>
+      ))}
+    </div>
+  );
+};
+
 const Index = () => {
   const router = useRouter();
   const { id } = router.query;
@@ -42,7 +76,7 @@ const Index = () => {
   const provider = useProvider();
   const { data: account } = useAccount();
 
-  const [selfHasReplied, setSelfHasReplied] = useState(false);
+  // const [selfHasReplied, setSelfHasReplied] = useState(false);
   const { write } = useContractWrite(
     {
       addressOrName: PROMPTY_ADDRESS,
@@ -61,21 +95,31 @@ const Index = () => {
   );
 
   // console.log(idStr, query?.data?.prompt);
+  const promptResponses: PromptResponseType[] =
+    query?.data?.prompt?.responses || [];
 
-  // determine if we are part of the responses
-
-  useEffect(() => {
+  const hasSelfReplied = useMemo(() => {
     if (query.data && query.data.prompt && query.data != undefined) {
       const selfRseponses = query.data.prompt.responses.filter(
         (response: any) => {
           return response.who.id == account?.address?.toLowerCase();
         }
       );
-      if (selfRseponses.length) {
-        setSelfHasReplied(true);
-      }
+      return Boolean(selfRseponses.length);
     }
   }, [query]);
+
+  const isPromptExpired = dayjs().isAfter(
+    dayjs.unix(query.data?.prompt?.endTime)
+  );
+
+  const showAllResponses = useMemo(() => {
+    // if logged in, and selfHasReplied before, view responses
+    if (isPromptExpired) return true;
+    if (account?.address && hasSelfReplied) return true;
+
+    return false;
+  }, [isPromptExpired, account?.address, hasSelfReplied]);
 
   const submitResponse = async () => {
     if (provider) {
@@ -98,7 +142,7 @@ const Index = () => {
           // @ts-ignore
           <Prompt prompt={query.data.prompt} />
         )}
-        {!selfHasReplied &&
+        {!hasSelfReplied &&
         query.data?.prompt?.endTime &&
         dayjs().isBefore(dayjs.unix(query.data?.prompt?.endTime)) ? (
           <div className="relative mb-10">
@@ -117,9 +161,7 @@ const Index = () => {
               </div>
             )}
             <button
-              onClick={() => {
-                submitResponse();
-              }}
+              onClick={submitResponse}
               className="absolute bottom-5 right-3 rounded-full px-5 py-2 bg-orange-500 text-white text-sm font-bold"
               type="submit"
               disabled={!account}
@@ -131,26 +173,7 @@ const Index = () => {
           <div style={{ display: "none" }}>Prompt has ended</div>
         )}
 
-        {/* @ts-ignore */}
-        {query?.data?.prompt?.responses?.length > 0 && (
-          <h2 className="font-bold ml-5 mb-5">Responses</h2>
-        )}
-
-        {query.data?.prompt?.responses?.map((r) => (
-          <div key={r.id} className="p-6 bg-white rounded-xl mb-5">
-            {" "}
-            <div className="mb-5">
-              <ReactMarkdown>{r.text}</ReactMarkdown>
-            </div>
-            &mdash;{" "}
-            <a
-              href={`/author/${r.who?.id}`}
-              className="text-gray-600 text-sm font-bold opacity-7 border-b-2 border-transparent hover:border-orange-300"
-            >
-              <ENSName address={r.who?.id} />
-            </a>
-          </div>
-        ))}
+        {showAllResponses && <Responses responses={promptResponses} />}
       </div>
 
       <style jsx>{``}</style>
