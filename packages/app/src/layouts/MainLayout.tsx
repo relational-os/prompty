@@ -1,6 +1,6 @@
-import React, { ReactNode } from "react";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { useConnect } from "wagmi";
+import React, { ReactNode } from 'react';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { useConnect } from 'wagmi';
 
 const MainLayout = ({ children }: { children: ReactNode }) => {
   const { isConnected } = useConnect();
@@ -35,9 +35,9 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
         ) : (
         )} */}
       </header>
-      <main className="md:w-1/2 mx-auto mt-5 pb-16 px-5">{children}</main>
+      <main className="md:w-1/2 mx-auto mt-10 pb-16 px-5">{children}</main>
       <style jsx global>{`
-        @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;600&display=swap");
+        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;600&display=swap');
 
         body {
           background-color: #fdf4eb;

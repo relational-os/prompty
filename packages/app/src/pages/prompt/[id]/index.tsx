@@ -1,16 +1,16 @@
-import dayjs from "dayjs";
-import { useRouter } from "next/router";
-import React, { useMemo, useState } from "react";
-import { ENSName } from "react-ens-name";
-import ReactMarkdown from "react-markdown";
-import { gql } from "urql";
-import { usePromptIdQuery } from "../../../codegen/subgraph";
-import Prompt from "../../../components/Prompt";
-import { ABI, PROMPTY_ADDRESS } from "../../../contracts";
-import MainLayout from "../../../layouts/MainLayout";
-import TextareaAutosize from "react-textarea-autosize";
-import { useAccount, useContractWrite, useProvider } from "wagmi";
-import { PromptResponseType } from "src/types";
+import dayjs from 'dayjs';
+import { useRouter } from 'next/router';
+import React, { useMemo, useState } from 'react';
+import { ENSName } from 'react-ens-name';
+import ReactMarkdown from 'react-markdown';
+import { gql } from 'urql';
+import { usePromptIdQuery } from '../../../codegen/subgraph';
+import Prompt from '../../../components/Prompt';
+import { ABI, PROMPTY_ADDRESS } from '../../../contracts';
+import MainLayout from '../../../layouts/MainLayout';
+import TextareaAutosize from 'react-textarea-autosize';
+import { useAccount, useContractWrite, useProvider } from 'wagmi';
+import { PromptResponseType } from 'src/types';
 
 gql`
   query PromptID($id: ID!) {
@@ -44,18 +44,18 @@ const Responses = ({ responses }: ResponsesProps) => {
     <div>
       {/* @ts-ignore */}
       {responses?.length ? (
-        <h2 className="font-bold ml-5 mb-5">Responses</h2>
+        <h2 className="font-bold ml-5 mb-5">{responses.length} responses</h2>
       ) : (
         <div />
       )}
 
       {responses.map((r) => (
         <div key={r.id} className="p-6 bg-white rounded-xl mb-5">
-          {" "}
+          {' '}
           <div className="mb-5">
             <ReactMarkdown>{r.text}</ReactMarkdown>
           </div>
-          &mdash;{" "}
+          &mdash;{' '}
           <a
             href={`/author/${r.who?.id}`}
             className="text-gray-600 text-sm font-bold opacity-7 border-b-2 border-transparent hover:border-orange-300"
@@ -72,7 +72,7 @@ const Index = () => {
   const router = useRouter();
   const { id } = router.query;
   const idStr = id as string;
-  const [text, setText] = useState("");
+  const [text, setText] = useState('');
   const provider = useProvider();
   const { data: account } = useAccount();
 
@@ -82,14 +82,14 @@ const Index = () => {
       addressOrName: PROMPTY_ADDRESS,
       contractInterface: ABI,
     },
-    "respond",
+    'respond',
     {
       args: [idStr, text],
     }
   );
 
   const [query] = usePromptIdQuery(
-    typeof window === "undefined" || id == undefined
+    typeof window === 'undefined' || id == undefined
       ? { pause: true }
       : { variables: { id: idStr } }
   );
@@ -132,7 +132,7 @@ const Index = () => {
       // console.log("tx", tx.hash);
       // await tx.wait(2);
     } else {
-      console.log("no provider");
+      console.log('no provider');
     }
   };
 
@@ -167,14 +167,22 @@ const Index = () => {
               type="submit"
               disabled={!account}
             >
-              {"Respond"}
+              {'Respond'}
             </button>
           </div>
         ) : (
-          <div style={{ display: "none" }}>Prompt has ended</div>
+          <div style={{ display: 'none' }}>Prompt has ended</div>
         )}
 
-        {showAllResponses && <Responses responses={promptResponses} />}
+        {showAllResponses ? (
+          <Responses responses={promptResponses} />
+        ) : (
+          <div className="delay-fade text-center">
+            There are 12 hidden responses to this prompt.
+            <br />
+            Respond to reveal.
+          </div>
+        )}
       </div>
 
       <style jsx>{``}</style>

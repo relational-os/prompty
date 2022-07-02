@@ -17,8 +17,8 @@ import { useRouter } from 'next/router';
 import { defaultAbiCoder } from 'ethers/lib/utils';
 import { DoubleSlider } from 'src/components/DoubleSlider';
 
-const PENDING_TRANSACTION_LOADING_MESSAGE = 'TX Loading...';
-const PENDING_WRITE_LOADING_MESSAGE = 'Submitting...';
+const PENDING_TRANSACTION_LOADING_MESSAGE = 'tx processing...';
+const PENDING_WRITE_LOADING_MESSAGE = 'Sign the message...';
 
 type DaysSelection = '1' | '3' | '7';
 
