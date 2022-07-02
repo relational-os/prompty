@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 type ClickHandler = (
   // eslint-disable-next-line no-unused-vars
@@ -44,7 +44,7 @@ const RadioButton = ({
         px-4
         py-3
         mr-4
-        ${disabled ? "focus:outline-none bg-white/50" : `bg-white`}
+        ${disabled ? 'focus:outline-none bg-white/50' : `bg-white`}
       `}
       disabled={disabled}
     >
@@ -69,7 +69,7 @@ const RadioButton = ({
           bg-contain
           float-left
           mr-2
-          ${disabled ? "cursor-default disabled:opacity-75" : "cursor-pointer"}
+          ${disabled ? 'cursor-default disabled:opacity-75' : 'cursor-pointer'}
         `}
         type="radio"
         id={id}
@@ -85,7 +85,7 @@ const RadioButton = ({
           inline-block
           text-gray-800
           select-none
-          ${disabled ? "cursor-default" : "cursor-pointer"}
+          ${disabled ? 'cursor-default opacity-50' : 'cursor-pointer'}
         `}
         htmlFor={id}
       >

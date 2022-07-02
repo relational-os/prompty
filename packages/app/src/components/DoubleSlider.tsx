@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import { Slider, Rail, Handles, Tracks, Ticks } from "react-compound-slider";
-import { SliderRail, Handle, Track, Tick } from "./SliderComponents";
+import React, { Component } from 'react';
+import { Slider, Rail, Handles, Tracks, Ticks } from 'react-compound-slider';
+import { SliderRail, Handle, Track, Tick } from './SliderComponents';
 
 const sliderStyle = {
-  position: "relative" as "relative",
-  width: "100%",
+  position: 'relative' as 'relative',
+  width: '100%',
 };
 
 const defaultValues = [100, 500];
@@ -55,7 +55,7 @@ export class DoubleSlider extends Component<DoubleSlideProps, SliderState> {
     } = this;
 
     return (
-      <div style={{ height: 150, width: "100%" }}>
+      <div className="relative h-12 ">
         {/* <button
           onClick={() => {
             this.onChange([200, 300]);
@@ -120,20 +120,6 @@ export class DoubleSlider extends Component<DoubleSlideProps, SliderState> {
               </div>
             )}
           </Tracks>
-          <Ticks values={[1, 500]}>
-            {({ ticks }) => (
-              <div className="slider-ticks">
-                {ticks.map((tick) => (
-                  <Tick
-                    key={tick.id}
-                    tick={tick}
-                    count={ticks.length}
-                    disabled={this.props.disabled}
-                  />
-                ))}
-              </div>
-            )}
-          </Ticks>
         </Slider>
       </div>
     );

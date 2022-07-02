@@ -1,33 +1,33 @@
-import React, { useState } from "react";
-import { ABI, PROMPTY_ADDRESS } from "../../contracts";
-import Spinner from "src/components/Spinner";
-import dayjs from "dayjs";
-import MainLayout from "src/layouts/MainLayout";
-import RadioButton from "src/components/RadioButton";
-import TextareaAutosize from "react-textarea-autosize";
-import { useElapsedTime } from "use-elapsed-time";
-import { ENSName } from "react-ens-name";
+import React, { useState } from 'react';
+import { ABI, PROMPTY_ADDRESS } from '../../contracts';
+import Spinner from 'src/components/Spinner';
+import dayjs from 'dayjs';
+import MainLayout from 'src/layouts/MainLayout';
+import RadioButton from 'src/components/RadioButton';
+import TextareaAutosize from 'react-textarea-autosize';
+import { useElapsedTime } from 'use-elapsed-time';
+import { ENSName } from 'react-ens-name';
 import {
   useAccount,
   useContractWrite,
   useProvider,
   useWaitForTransaction,
-} from "wagmi";
-import { useRouter } from "next/router";
-import { defaultAbiCoder } from "ethers/lib/utils";
-import { DoubleSlider } from "src/components/DoubleSlider";
+} from 'wagmi';
+import { useRouter } from 'next/router';
+import { defaultAbiCoder } from 'ethers/lib/utils';
+import { DoubleSlider } from 'src/components/DoubleSlider';
 
-const PENDING_TRANSACTION_LOADING_MESSAGE = "TX Loading...";
-const PENDING_WRITE_LOADING_MESSAGE = "Submitting...";
+const PENDING_TRANSACTION_LOADING_MESSAGE = 'TX Loading...';
+const PENDING_WRITE_LOADING_MESSAGE = 'Submitting...';
 
-type DaysSelection = "1" | "3" | "7";
+type DaysSelection = '1' | '3' | '7';
 
 const Create = () => {
   const router = useRouter();
-  const [text, setText] = useState("");
-  const [minChars, setMinChars] = useState("1");
-  const [maxChars, setMaxChars] = useState("500");
-  const [days, setDays] = useState<DaysSelection>("1");
+  const [text, setText] = useState('');
+  const [minChars, setMinChars] = useState('1');
+  const [maxChars, setMaxChars] = useState('500');
+  const [days, setDays] = useState<DaysSelection>('1');
   const provider = useProvider();
   const { data: account } = useAccount();
 
@@ -40,11 +40,11 @@ const Create = () => {
       addressOrName: PROMPTY_ADDRESS,
       contractInterface: ABI,
     },
-    "create",
+    'create',
     {
       args: [
         text,
-        dayjs().add(parseInt(days), "days").unix(),
+        dayjs().add(parseInt(days), 'days').unix(),
         minChars,
         maxChars,
       ],
@@ -56,21 +56,21 @@ const Create = () => {
     hash: data?.hash,
     wait: data?.wait,
     onError(err) {
-      console.error("error waiting for tx", err);
+      console.error('error waiting for tx', err);
     },
     onSuccess(data) {
       // here: redirect to the page
-      console.log("success", data);
+      console.log('success', data);
 
       const event = defaultAbiCoder.decode(
         [
-          "uint256",
-          "address",
-          "string",
-          "uint256",
-          "uint256",
-          "uint128",
-          "uint128",
+          'uint256',
+          'address',
+          'string',
+          'uint256',
+          'uint256',
+          'uint128',
+          'uint128',
         ],
         data.logs[0].data
       );
@@ -86,7 +86,7 @@ const Create = () => {
     if (provider) {
       write();
     } else {
-      console.log("no provider");
+      console.log('no provider');
     }
   };
 
@@ -117,68 +117,70 @@ const Create = () => {
       {/* @ts-ignore */}
       <form>
         <h4 className="font-bold mb-3 text-sm ml-2 opacity-70">
-          How long should the prompt run?
+          Prompt duration
         </h4>
         <div className="flex mb-8">
           <RadioButton
             disabled={isLoading}
             id="flexRadioDefault1"
-            label="24 Hours"
+            label="24 hours"
             value="1"
-            checked={days === "1"}
+            checked={days === '1'}
             onClick={handleDayChange}
           />
           <RadioButton
             disabled={isLoading}
             id="flexRadioDefault3"
-            label="3 Days"
+            label="3 days"
             value="3"
-            checked={days === "3"}
+            checked={days === '3'}
             onClick={handleDayChange}
           />
           <RadioButton
             disabled={isLoading}
             id="flexRadioDefault7"
-            label="7 Days"
+            label="7 days"
             value="7"
-            checked={days === "7"}
+            checked={days === '7'}
             onClick={handleDayChange}
           />
         </div>
       </form>
 
-      <h4 className="font-bold mb-3 text-sm ml-2 opacity-70">
-        What should the length of responses be?
+      <h4 className="font-bold mb-6 text-sm ml-2 opacity-70">
+        Response length (in characters)
       </h4>
 
-      <div style={{}}>
-        <DoubleSlider
-          disabled={isLoading}
-          onChange={([minValue, maxValue]: ReadonlyArray<number>) => {
-            setMinChars(minValue.toString());
-            setMaxChars(maxValue.toString());
-          }}
-        ></DoubleSlider>
+      <div className="flex px-4">
+        <div className="flex-1">
+          <DoubleSlider
+            disabled={isLoading}
+            onChange={([minValue, maxValue]: ReadonlyArray<number>) => {
+              setMinChars(minValue.toString());
+              setMaxChars(maxValue.toString());
+            }}
+          ></DoubleSlider>
+        </div>
       </div>
 
       <button
         disabled={isLoading}
         onClick={submitPrompt}
-        className="rounded-full px-5 py-2 bg-orange-500 text-white text-sm font-bold disabled:opacity-50"
+        className="rounded-full px-5 py-2 mt-8 bg-orange-500 text-white text-sm font-bold disabled:opacity-50"
         type="submit"
       >
         {isLoading ? (
           <div className="flex">
             <Spinner />
-            {isLoadingWrite ? PENDING_WRITE_LOADING_MESSAGE : ""}
+            {isLoadingWrite ? PENDING_WRITE_LOADING_MESSAGE : ''}
             {isTransactionLoading
               ? `${PENDING_TRANSACTION_LOADING_MESSAGE} ${Math.round(
                   elapsedTime
                 )}s`
-              : ""}
+              : ''}
           </div>
         ) : (
-          "Post your Prompt"
+          'Post your Prompt'
         )}
       </button>
       {/* </form> */}
