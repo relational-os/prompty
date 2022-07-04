@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import { Slider, Rail, Handles, Tracks, Ticks } from 'react-compound-slider';
-import { SliderRail, Handle, Track, Tick } from './SliderComponents';
+import React, { Component } from "react";
+import { Slider, Rail, Handles, Tracks } from "react-compound-slider";
+import { SliderRail, Handle, Track } from "./SliderComponents";
 
 const sliderStyle = {
   position: 'relative' as 'relative',
