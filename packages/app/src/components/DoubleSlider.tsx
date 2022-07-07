@@ -3,11 +3,9 @@ import { Slider, Rail, Handles, Tracks } from "react-compound-slider";
 import { SliderRail, Handle, Track } from "./SliderComponents";
 
 const sliderStyle = {
-  position: 'relative' as 'relative',
-  width: '100%',
+  position: "relative" as "relative",
+  width: "100%",
 };
-
-const defaultValues = [100, 500];
 
 // eslint-disable-next-line
 type DoubleSliderChangeHandler = (values: ReadonlyArray<number>) => void;
@@ -15,21 +13,34 @@ type DoubleSliderChangeHandler = (values: ReadonlyArray<number>) => void;
 interface DoubleSlideProps {
   onChange: DoubleSliderChangeHandler;
   disabled?: boolean;
+  min?: number;
+  max?: number;
 }
 
 interface SliderState {
-  domain: ReadonlyArray<number>;
+  domain: Array<number>;
   values: ReadonlyArray<number>;
   update: ReadonlyArray<number>;
   reversed: boolean;
 }
 
 export class DoubleSlider extends Component<DoubleSlideProps, SliderState> {
-  state = {
-    domain: [100, 500],
-    values: defaultValues.slice(),
-    update: defaultValues.slice(),
-    reversed: false,
+  constructor(props: DoubleSlideProps) {
+    super(props);
+
+    const defaultValues = [props.min, props.max] as Array<number>;
+
+    this.state = {
+      domain: defaultValues,
+      values: defaultValues.slice(),
+      update: defaultValues.slice(),
+      reversed: false,
+    };
+  }
+
+  defaultProps = {
+    min: 100,
+    max: 1000,
   };
 
   onUpdate = (update: ReadonlyArray<number>) => {
@@ -93,13 +104,14 @@ export class DoubleSlider extends Component<DoubleSlideProps, SliderState> {
           <Handles>
             {({ handles, getHandleProps }) => (
               <div className="slider-handles">
-                {handles.map((handle) => (
+                {handles.map((handle, index) => (
                   <Handle
                     key={handle.id}
                     handle={handle}
                     domain={domain}
                     getHandleProps={getHandleProps}
                     disabled={this.props.disabled}
+                    label={index === 0 ? "min" : "max"}
                   />
                 ))}
               </div>

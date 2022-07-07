@@ -11,6 +11,7 @@ import MainLayout from '../../../layouts/MainLayout';
 import TextareaAutosize from 'react-textarea-autosize';
 import { useAccount, useContractWrite, useProvider } from 'wagmi';
 import { PromptResponseType } from 'src/types';
+// @ts-ignore
 
 gql`
   query PromptID($id: ID!) {
@@ -38,6 +39,34 @@ gql`
 interface ResponsesProps {
   responses: PromptResponseType[];
 }
+
+interface CharacterLabelProps {
+  text: string;
+  minChars?: number;
+  maxChars?: number;
+}
+
+const CharacterLabel = ({ text, minChars, maxChars }: CharacterLabelProps) => {
+  if (!minChars || !maxChars) return <span></span>;
+
+  if (text.length < minChars) {
+    return <span>{minChars - text.length}</span>;
+  }
+
+  if (minChars <= text.length && text.length < maxChars) {
+    return (
+      <span>
+        {text.length}/{maxChars}
+      </span>
+    );
+  }
+
+  if (text.length >= maxChars) {
+    return <span className="text-red-400">{maxChars - text.length}</span>;
+  }
+
+  return <span></span>;
+};
 
 const Responses = ({ responses }: ResponsesProps) => {
   return (
@@ -76,7 +105,8 @@ const Index = () => {
   const provider = useProvider();
   const { data: account } = useAccount();
 
-  // const [selfHasReplied, setSelfHasReplied] = useState(false);
+  // todo: some error states to figure out here
+  // const { write, error, isError, data } = useContractWrite(
   const { write } = useContractWrite(
     {
       addressOrName: PROMPTY_ADDRESS,
@@ -93,6 +123,14 @@ const Index = () => {
       ? { pause: true }
       : { variables: { id: idStr } }
   );
+
+  const minChars = query.data?.prompt?.minChars;
+  const maxChars = query.data?.prompt?.maxChars;
+
+  const responseIsValid =
+    minChars && maxChars
+      ? minChars <= text.length && text.length <= maxChars
+      : false;
 
   // console.log(idStr, query?.data?.prompt);
   // @ts-ignore
@@ -122,10 +160,20 @@ const Index = () => {
     return false;
   }, [isPromptExpired, account?.address, hasSelfReplied]);
 
+  // const renderCharactersLabel = useCallback(() => , [minChars, maxChars, text.length]);
+
   const submitResponse = async () => {
     if (provider) {
       write();
+      // console.log({ data });
+      // console.log({ isError });
+      // console.log({ error });
 
+      // if (error) {
+      //   // @ts-ignore
+      //   const decodedLogs = abiDecoder.decodeMethod(error.transaction.data);
+      //   console.log({ decodedLogs });
+      // }
       // const signer = await promptyContract.connect(provider.getSigner());
 
       // const tx = await signer.respond(idStr, text);
@@ -161,11 +209,18 @@ const Index = () => {
                 <ENSName address={account.address} />
               </div>
             )}
+            <span className="absolute bottom-4 right-36 py-2 font-bold text-sm text-gray-400">
+              <CharacterLabel
+                text={text}
+                minChars={minChars}
+                maxChars={maxChars}
+              ></CharacterLabel>
+            </span>
             <button
               onClick={submitResponse}
-              className="absolute bottom-5 right-3 rounded-full px-5 py-2 bg-orange-500 text-white text-sm font-bold"
+              className="absolute bottom-5 right-3 rounded-full px-5 py-2 bg-orange-500 text-white text-sm font-bold disabled:opacity-50"
               type="submit"
-              disabled={!account}
+              disabled={!account || !responseIsValid}
             >
               {'Respond'}
             </button>
@@ -178,7 +233,11 @@ const Index = () => {
           <Responses responses={promptResponses} />
         ) : (
           <div className="delay-fade text-center">
-            There are 12 hidden responses to this prompt.
+            There
+            {promptResponses.length == 1
+              ? " is 1 hidden response "
+              : ` are ${promptResponses.length} hidden responses `}
+            to this prompt.
             <br />
             Respond to reveal.
           </div>

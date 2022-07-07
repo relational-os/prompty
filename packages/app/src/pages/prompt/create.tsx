@@ -1,33 +1,33 @@
-import React, { useState } from 'react';
-import { ABI, PROMPTY_ADDRESS } from '../../contracts';
-import Spinner from 'src/components/Spinner';
-import dayjs from 'dayjs';
-import MainLayout from 'src/layouts/MainLayout';
-import RadioButton from 'src/components/RadioButton';
-import TextareaAutosize from 'react-textarea-autosize';
-import { useElapsedTime } from 'use-elapsed-time';
-import { ENSName } from 'react-ens-name';
+import React, { useState } from "react";
+import { ABI, PROMPTY_ADDRESS } from "../../contracts";
+import Spinner from "src/components/Spinner";
+import dayjs from "dayjs";
+import MainLayout from "src/layouts/MainLayout";
+import RadioButton from "src/components/RadioButton";
+import TextareaAutosize from "react-textarea-autosize";
+import { useElapsedTime } from "use-elapsed-time";
+import { ENSName } from "react-ens-name";
 import {
   useAccount,
   useContractWrite,
   useProvider,
   useWaitForTransaction,
-} from 'wagmi';
-import { useRouter } from 'next/router';
-import { defaultAbiCoder } from 'ethers/lib/utils';
-import { DoubleSlider } from 'src/components/DoubleSlider';
+} from "wagmi";
+import { useRouter } from "next/router";
+import { defaultAbiCoder } from "ethers/lib/utils";
+import { DoubleSlider } from "src/components/DoubleSlider";
 
-const PENDING_TRANSACTION_LOADING_MESSAGE = 'tx processing...';
-const PENDING_WRITE_LOADING_MESSAGE = 'Sign the message...';
+const PENDING_TRANSACTION_LOADING_MESSAGE = "tx processing...";
+const PENDING_WRITE_LOADING_MESSAGE = "Sign the message...";
 
-type DaysSelection = '1' | '3' | '7';
+type DaysSelection = "1" | "3" | "7";
 
 const Create = () => {
   const router = useRouter();
-  const [text, setText] = useState('');
-  const [minChars, setMinChars] = useState('1');
-  const [maxChars, setMaxChars] = useState('500');
-  const [days, setDays] = useState<DaysSelection>('1');
+  const [text, setText] = useState("");
+  const [minChars, setMinChars] = useState<number>(100);
+  const [maxChars, setMaxChars] = useState<number>(1000);
+  const [days, setDays] = useState<DaysSelection>("1");
   const provider = useProvider();
   const { data: account } = useAccount();
 
@@ -40,37 +40,37 @@ const Create = () => {
       addressOrName: PROMPTY_ADDRESS,
       contractInterface: ABI,
     },
-    'create',
+    "create",
     {
       args: [
         text,
-        dayjs().add(parseInt(days), 'days').unix(),
-        minChars,
-        maxChars,
+        dayjs().add(parseInt(days), "days").unix(),
+        minChars.toString(),
+        maxChars.toString(),
       ],
     }
   );
   const { isLoading: isTransactionLoading } = useWaitForTransaction({
     enabled: Boolean(data?.hash),
-    confirmations: 2,
+    confirmations: 1,
     hash: data?.hash,
     wait: data?.wait,
     onError(err) {
-      console.error('error waiting for tx', err);
+      console.error("error waiting for tx", err);
     },
     onSuccess(data) {
       // here: redirect to the page
-      console.log('success', data);
+      console.log("success", data);
 
       const event = defaultAbiCoder.decode(
         [
-          'uint256',
-          'address',
-          'string',
-          'uint256',
-          'uint256',
-          'uint128',
-          'uint128',
+          "uint256",
+          "address",
+          "string",
+          "uint256",
+          "uint256",
+          "uint128",
+          "uint128",
         ],
         data.logs[0].data
       );
@@ -86,7 +86,7 @@ const Create = () => {
     if (provider) {
       write();
     } else {
-      console.log('no provider');
+      console.log("no provider");
     }
   };
 
@@ -125,7 +125,7 @@ const Create = () => {
             id="flexRadioDefault1"
             label="24 hours"
             value="1"
-            checked={days === '1'}
+            checked={days === "1"}
             onClick={handleDayChange}
           />
           <RadioButton
@@ -133,7 +133,7 @@ const Create = () => {
             id="flexRadioDefault3"
             label="3 days"
             value="3"
-            checked={days === '3'}
+            checked={days === "3"}
             onClick={handleDayChange}
           />
           <RadioButton
@@ -141,7 +141,7 @@ const Create = () => {
             id="flexRadioDefault7"
             label="7 days"
             value="7"
-            checked={days === '7'}
+            checked={days === "7"}
             onClick={handleDayChange}
           />
         </div>
@@ -155,9 +155,11 @@ const Create = () => {
         <div className="flex-1">
           <DoubleSlider
             disabled={isLoading}
+            min={Number(minChars)}
+            max={Number(maxChars)}
             onChange={([minValue, maxValue]: ReadonlyArray<number>) => {
-              setMinChars(minValue.toString());
-              setMaxChars(maxValue.toString());
+              setMinChars(minValue);
+              setMaxChars(maxValue);
             }}
           ></DoubleSlider>
         </div>
@@ -172,15 +174,15 @@ const Create = () => {
         {isLoading ? (
           <div className="flex">
             <Spinner />
-            {isLoadingWrite ? PENDING_WRITE_LOADING_MESSAGE : ''}
+            {isLoadingWrite ? PENDING_WRITE_LOADING_MESSAGE : ""}
             {isTransactionLoading
               ? `${PENDING_TRANSACTION_LOADING_MESSAGE} ${Math.round(
                   elapsedTime
                 )}s`
-              : ''}
+              : ""}
           </div>
         ) : (
-          'Post your Prompt'
+          "Post your Prompt"
         )}
       </button>
       {/* </form> */}

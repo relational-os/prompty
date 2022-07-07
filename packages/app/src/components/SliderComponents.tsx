@@ -1,34 +1,34 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component, Fragment } from "react";
 import {
   SliderItem,
   GetEventData,
   GetRailProps,
   GetTrackProps,
   GetHandleProps,
-} from 'react-compound-slider';
+} from "react-compound-slider";
 // import "./tooltip.css";
 
 // *******************************************************
 // TOOLTIP RAIL
 // *******************************************************
 const railStyle = {
-  position: 'absolute' as 'absolute',
-  width: '100%',
-  transform: 'translate(0%, -50%)',
+  position: "absolute" as "absolute",
+  width: "100%",
+  transform: "translate(0%, -50%)",
   height: 40,
-  cursor: 'pointer',
+  cursor: "pointer",
   zIndex: 300,
 };
 
 const railCenterStyle = {
-  position: 'absolute' as 'absolute',
-  width: '100%',
-  transform: 'translate(0%, -50%)',
+  position: "absolute" as "absolute",
+  width: "100%",
+  transform: "translate(0%, -50%)",
   height: 14,
   borderRadius: 7,
-  cursor: 'pointer',
-  pointerEvents: 'none' as 'none',
-  backgroundColor: '#ffffff',
+  cursor: "pointer",
+  pointerEvents: "none" as "none",
+  backgroundColor: "#ffffff",
 };
 
 interface TooltipRailProps {
@@ -44,12 +44,12 @@ export class TooltipRail extends Component<TooltipRailProps> {
   };
 
   onMouseEnter = () => {
-    document.addEventListener('mousemove', this.onMouseMove);
+    document.addEventListener("mousemove", this.onMouseMove);
   };
 
   onMouseLeave = () => {
     this.setState({ value: null, percent: null });
-    document.removeEventListener('mousemove', this.onMouseMove);
+    document.removeEventListener("mousemove", this.onMouseMove);
   };
 
   onMouseMove = (e: MouseEvent) => {
@@ -72,9 +72,9 @@ export class TooltipRail extends Component<TooltipRailProps> {
           <div
             style={{
               left: `${percent}%`,
-              position: 'absolute',
-              marginLeft: '-11px',
-              marginTop: '-35px',
+              position: "absolute",
+              marginLeft: "-11px",
+              marginTop: "-35px",
             }}
           >
             <div className="tooltip">
@@ -99,22 +99,22 @@ export class TooltipRail extends Component<TooltipRailProps> {
 // SLIDER RAIL (no tooltips)
 // *******************************************************
 const railOuterStyle = {
-  position: 'absolute' as 'absolute',
-  transform: 'translate(0%, -50%)',
-  width: '100%',
+  position: "absolute" as "absolute",
+  transform: "translate(0%, -50%)",
+  width: "100%",
   height: 42,
   borderRadius: 7,
-  cursor: 'pointer',
+  cursor: "pointer",
 };
 
 const railInnerStyle = {
-  position: 'absolute' as 'absolute',
-  width: '100%',
+  position: "absolute" as "absolute",
+  width: "100%",
   height: 16,
-  transform: 'translate(0%, -50%)',
+  transform: "translate(0%, -50%)",
   borderRadius: 8,
-  pointerEvents: 'none' as 'none',
-  backgroundColor: '#eee4db',
+  pointerEvents: "none" as "none",
+  backgroundColor: "#eee4db",
 };
 
 interface SliderRailProps {
@@ -133,10 +133,11 @@ export const SliderRail: React.FC<SliderRailProps> = ({ getRailProps }) => (
 // *******************************************************
 interface HandleProps {
   isActive?: boolean;
-  domain: number[];
+  domain: readonly number[];
   handle: SliderItem;
   getHandleProps: GetHandleProps;
   disabled?: boolean;
+  label: string;
 }
 
 export class Handle extends Component<HandleProps> {
@@ -158,6 +159,7 @@ export class Handle extends Component<HandleProps> {
       handle: { id, value, percent },
       disabled,
       getHandleProps,
+      label,
     } = this.props;
 
     return (
@@ -166,14 +168,14 @@ export class Handle extends Component<HandleProps> {
           <div
             style={{
               left: `${percent}%`,
-              position: 'absolute',
-              marginLeft: '-11px',
-              marginBottom: '-75px',
+              position: "absolute",
+              marginLeft: "-11px",
+              marginBottom: "-75px",
             }}
           >
             <div className="tooltip">
               <span className="tooltiptext">
-                min {/* TODO: min and max depending on which handle it is */}
+                {label}
                 <br />
                 {value}
               </span>
@@ -183,14 +185,14 @@ export class Handle extends Component<HandleProps> {
         <div
           style={{
             left: `${percent}%`,
-            position: 'absolute',
-            transform: 'translate(-50%, -50%)',
-            WebkitTapHighlightColor: 'rgba(0,0,0,0)',
+            position: "absolute",
+            transform: "translate(-50%, -50%)",
+            WebkitTapHighlightColor: "rgba(0,0,0,0)",
             zIndex: 400,
             width: 18,
             height: 42,
-            cursor: 'pointer',
-            backgroundColor: 'none',
+            cursor: "pointer",
+            backgroundColor: "none",
           }}
           {...getHandleProps(id, {
             onMouseEnter: this.onMouseEnter,
@@ -204,16 +206,16 @@ export class Handle extends Component<HandleProps> {
           aria-valuenow={value}
           style={{
             left: `${percent}%`,
-            position: 'absolute',
-            transform: 'translate(-50%, -50%)',
-            WebkitTapHighlightColor: 'rgba(0,0,0,0)',
+            position: "absolute",
+            transform: "translate(-50%, -50%)",
+            WebkitTapHighlightColor: "rgba(0,0,0,0)",
             zIndex: 300,
             width: 24,
             height: 24,
             border: 0,
-            borderRadius: '50%',
-            boxShadow: '0 2px 6px rgba(0, 0, 0, 0.2)',
-            backgroundColor: disabled ? '#ccc' : '#fff',
+            borderRadius: "50%",
+            boxShadow: "0 2px 6px rgba(0, 0, 0, 0.2)",
+            backgroundColor: disabled ? "#ccc" : "#fff",
           }}
         />
       </Fragment>
@@ -240,13 +242,13 @@ export const Track: React.FC<TrackProps> = ({
   return (
     <div
       style={{
-        position: 'absolute',
-        transform: 'translate(0%, -50%)',
+        position: "absolute",
+        transform: "translate(0%, -50%)",
         height: 3,
         zIndex: 1,
-        backgroundColor: disabled ? '#ccc' : '#fff',
+        backgroundColor: disabled ? "#ccc" : "#fff",
         borderRadius: 7,
-        cursor: 'pointer',
+        cursor: "pointer",
         left: `${source.percent}%`,
         width: `${target.percent - source.percent}%`,
       }}
@@ -275,20 +277,20 @@ export const Tick: React.FC<TickProps> = ({
     <div>
       <div
         style={{
-          position: 'absolute',
+          position: "absolute",
           marginTop: 17,
           width: 1,
           height: 5,
-          backgroundColor: 'rgb(200,200,200)',
+          backgroundColor: "rgb(200,200,200)",
           left: `${tick.percent}%`,
         }}
       />
       <div
         style={{
-          position: 'absolute',
+          position: "absolute",
           marginTop: 25,
           fontSize: 10,
-          textAlign: 'center',
+          textAlign: "center",
           marginLeft: `${-(100 / count) / 2}%`,
           width: `${100 / count}%`,
           left: `${tick.percent}%`,

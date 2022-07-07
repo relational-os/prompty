@@ -35,9 +35,12 @@ const Prompt = ({ prompt }: { prompt: PromptType }) => {
               </>
             )}
 
-            <span className="rounded-md bg-[#fef4eb] px-2 py-1 ml-2 -mr-2">
-              {Math.floor(Math.random() * 100) + 1} responses
-            </span>
+            {prompt.responses?.length && (
+              <span className="rounded-md bg-[#fef4eb] px-2 py-1 ml-2 -mr-2">
+                {prompt.responses?.length}{" "}
+                {prompt.responses?.length == 1 ? "response" : "responses"}
+              </span>
+            )}
           </small>
         </div>
 
