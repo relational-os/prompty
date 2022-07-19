@@ -229,9 +229,9 @@ const Index = () => {
         dayjs().isBefore(dayjs.unix(query.data?.prompt?.endTime)) ? (
           <div className="relative mb-10">
             <TextareaAutosize
-              className="w-full h-24 p-3 border-2 border-gray-200 rounded-lg pb-12 placeholder:text-gray-400"
+              className="w-full h-24 p-3 border-2 border-gray-200 rounded-lg pb-14 placeholder:text-gray-400"
               minRows={6}
-              maxRows={66}
+              maxRows={69}
               placeholder="your response..."
               onChange={(e) => setText(e.target.value)}
               value={text}
@@ -242,7 +242,7 @@ const Index = () => {
                 <ENSName address={account.address} />
               </div>
             )}
-            <div className="absolute bottom-5 right-3 py-2 flex ">
+            <div className="absolute bottom-3 right-3 py-2 flex ">
               <span className="py-2 mr-2 font-bold text-sm text-gray-400">
                 <CharacterLabel
                   text={text}
