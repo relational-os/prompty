@@ -1,16 +1,23 @@
-import dayjs from 'dayjs';
-import { useRouter } from 'next/router';
-import React, { useMemo, useState } from 'react';
-import { ENSName } from 'react-ens-name';
-import ReactMarkdown from 'react-markdown';
-import { gql } from 'urql';
-import { usePromptIdQuery } from '../../../codegen/subgraph';
-import Prompt from '../../../components/Prompt';
-import { ABI, PROMPTY_ADDRESS } from '../../../contracts';
-import MainLayout from '../../../layouts/MainLayout';
-import TextareaAutosize from 'react-textarea-autosize';
-import { useAccount, useContractWrite, useProvider } from 'wagmi';
-import { PromptResponseType } from 'src/types';
+import dayjs from "dayjs";
+import { useRouter } from "next/router";
+import React, { useMemo, useState } from "react";
+import { ENSName } from "react-ens-name";
+import ReactMarkdown from "react-markdown";
+import { gql } from "urql";
+import { usePromptIdQuery } from "../../../codegen/subgraph";
+import Prompt from "../../../components/Prompt";
+import { ABI, PROMPTY_ADDRESS } from "../../../contracts";
+import MainLayout from "../../../layouts/MainLayout";
+import TextareaAutosize from "react-textarea-autosize";
+import {
+  useAccount,
+  useContractWrite,
+  useProvider,
+  useWaitForTransaction,
+} from "wagmi";
+import { PromptResponseType } from "src/types";
+import { useElapsedTime } from "use-elapsed-time";
+import Spinner from "src/components/Spinner";
 // @ts-ignore
 
 gql`
@@ -35,6 +42,9 @@ gql`
     }
   }
 `;
+
+const PENDING_TRANSACTION_LOADING_MESSAGE = "tx processing...";
+const PENDING_WRITE_LOADING_MESSAGE = "Sign the message...";
 
 interface ResponsesProps {
   responses: PromptResponseType[];
@@ -80,11 +90,11 @@ const Responses = ({ responses }: ResponsesProps) => {
 
       {responses.map((r) => (
         <div key={r.id} className="p-6 bg-white rounded-xl mb-5">
-          {' '}
+          {" "}
           <div className="mb-5">
             <ReactMarkdown>{r.text}</ReactMarkdown>
           </div>
-          &mdash;{' '}
+          &mdash;{" "}
           <a
             href={`/author/${r.who?.id}`}
             className="text-gray-600 text-sm font-bold opacity-7 border-b-2 border-transparent hover:border-orange-300"
@@ -101,25 +111,45 @@ const Index = () => {
   const router = useRouter();
   const { id } = router.query;
   const idStr = id as string;
-  const [text, setText] = useState('');
+  const [text, setText] = useState("");
   const provider = useProvider();
   const { data: account } = useAccount();
 
   // todo: some error states to figure out here
   // const { write, error, isError, data } = useContractWrite(
-  const { write } = useContractWrite(
+  const {
+    data,
+    write,
+    isLoading: isLoadingWrite,
+  } = useContractWrite(
     {
       addressOrName: PROMPTY_ADDRESS,
       contractInterface: ABI,
     },
-    'respond',
+    "respond",
     {
       args: [idStr, text],
     }
   );
 
+  const { isLoading: isTransactionLoading } = useWaitForTransaction({
+    enabled: Boolean(data?.hash),
+    confirmations: 2,
+    hash: data?.hash,
+    wait: data?.wait,
+    onError(err) {
+      console.error("error waiting for tx", err);
+    },
+    onSuccess(data) {
+      // here: redirect to the page
+      console.log("success", data);
+
+      global.location.reload();
+    },
+  });
+
   const [query] = usePromptIdQuery(
-    typeof window === 'undefined' || id == undefined
+    typeof window === "undefined" || id == undefined
       ? { pause: true }
       : { variables: { id: idStr } }
   );
@@ -180,9 +210,12 @@ const Index = () => {
       // console.log("tx", tx.hash);
       // await tx.wait(2);
     } else {
-      console.log('no provider');
+      console.log("no provider");
     }
   };
+
+  const isLoading = isLoadingWrite || isTransactionLoading;
+  const { elapsedTime } = useElapsedTime({ isPlaying: isTransactionLoading });
 
   return (
     <MainLayout>
@@ -217,16 +250,28 @@ const Index = () => {
               ></CharacterLabel>
             </span>
             <button
+              disabled={!account || isLoading || !responseIsValid}
               onClick={submitResponse}
               className="absolute bottom-5 right-3 rounded-full px-5 py-2 bg-orange-500 text-white text-sm font-bold disabled:opacity-50"
               type="submit"
-              disabled={!account || !responseIsValid}
             >
-              {'Respond'}
+              {isLoading ? (
+                <div className="flex">
+                  <Spinner />
+                  {isLoadingWrite ? PENDING_WRITE_LOADING_MESSAGE : ""}
+                  {isTransactionLoading
+                    ? `${PENDING_TRANSACTION_LOADING_MESSAGE} ${Math.round(
+                        elapsedTime
+                      )}s`
+                    : ""}
+                </div>
+              ) : (
+                "Respond"
+              )}
             </button>
           </div>
         ) : (
-          <div style={{ display: 'none' }}>Prompt has ended</div>
+          <div style={{ display: "none" }}>Prompt has ended</div>
         )}
 
         {showAllResponses ? (
