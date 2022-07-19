@@ -3,6 +3,7 @@ import React from 'react';
 import { ENSName } from 'react-ens-name';
 import { PromptType } from '../types';
 import ReactMarkdown from 'react-markdown';
+import ReactTimeAgo from "react-time-ago";
 
 const Prompt = ({ prompt }: { prompt: PromptType }) => {
   const promptExpired = dayjs().isAfter(dayjs.unix(prompt.endTime));
@@ -28,18 +29,21 @@ const Prompt = ({ prompt }: { prompt: PromptType }) => {
               <span className="text-gray-400 italic">ended</span>
             ) : (
               <>
-                {dayjs
-                  .unix(prompt.endTime)
-                  .diff(dayjs.unix(prompt.startTime), 'hour')}
-                {' hours left'}
+                {"ends "}
+                <ReactTimeAgo
+                  date={Number(prompt.endTime) * 1000}
+                  locale="en-US"
+                />
               </>
             )}
 
-            {prompt.responses?.length && (
+            {prompt.responses?.length ? (
               <span className="rounded-md bg-[#fef4eb] px-2 py-1 ml-2 -mr-2">
                 {prompt.responses?.length}{" "}
                 {prompt.responses?.length == 1 ? "response" : "responses"}
               </span>
+            ) : (
+              ""
             )}
           </small>
         </div>
