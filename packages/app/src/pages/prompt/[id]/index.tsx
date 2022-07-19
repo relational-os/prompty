@@ -1,23 +1,23 @@
-import dayjs from "dayjs";
-import { useRouter } from "next/router";
-import React, { useMemo, useState } from "react";
-import { ENSName } from "react-ens-name";
-import ReactMarkdown from "react-markdown";
-import { gql } from "urql";
-import { usePromptIdQuery } from "../../../codegen/subgraph";
-import Prompt from "../../../components/Prompt";
-import { ABI, PROMPTY_ADDRESS } from "../../../contracts";
-import MainLayout from "../../../layouts/MainLayout";
-import TextareaAutosize from "react-textarea-autosize";
+import dayjs from 'dayjs';
+import { useRouter } from 'next/router';
+import React, { useMemo, useState } from 'react';
+import { ENSName } from 'react-ens-name';
+import ReactMarkdown from 'react-markdown';
+import { gql } from 'urql';
+import { usePromptIdQuery } from '../../../codegen/subgraph';
+import Prompt from '../../../components/Prompt';
+import { ABI, PROMPTY_ADDRESS } from '../../../contracts';
+import MainLayout from '../../../layouts/MainLayout';
+import TextareaAutosize from 'react-textarea-autosize';
 import {
   useAccount,
   useContractWrite,
   useProvider,
   useWaitForTransaction,
-} from "wagmi";
-import { PromptResponseType } from "src/types";
-import { useElapsedTime } from "use-elapsed-time";
-import Spinner from "src/components/Spinner";
+} from 'wagmi';
+import { PromptResponseType } from 'src/types';
+import { useElapsedTime } from 'use-elapsed-time';
+import Spinner from 'src/components/Spinner';
 // @ts-ignore
 
 gql`
@@ -43,8 +43,8 @@ gql`
   }
 `;
 
-const PENDING_TRANSACTION_LOADING_MESSAGE = "tx processing...";
-const PENDING_WRITE_LOADING_MESSAGE = "Sign the message...";
+const PENDING_TRANSACTION_LOADING_MESSAGE = 'tx processing...';
+const PENDING_WRITE_LOADING_MESSAGE = 'Sign the message...';
 
 interface ResponsesProps {
   responses: PromptResponseType[];
@@ -90,11 +90,11 @@ const Responses = ({ responses }: ResponsesProps) => {
 
       {responses.map((r) => (
         <div key={r.id} className="p-6 bg-white rounded-xl mb-5">
-          {" "}
+          {' '}
           <div className="mb-5">
             <ReactMarkdown>{r.text}</ReactMarkdown>
           </div>
-          &mdash;{" "}
+          &mdash;{' '}
           <a
             href={`/author/${r.who?.id}`}
             className="text-gray-600 text-sm font-bold opacity-7 border-b-2 border-transparent hover:border-orange-300"
@@ -111,7 +111,7 @@ const Index = () => {
   const router = useRouter();
   const { id } = router.query;
   const idStr = id as string;
-  const [text, setText] = useState("");
+  const [text, setText] = useState('');
   const provider = useProvider();
   const { data: account } = useAccount();
 
@@ -126,7 +126,7 @@ const Index = () => {
       addressOrName: PROMPTY_ADDRESS,
       contractInterface: ABI,
     },
-    "respond",
+    'respond',
     {
       args: [idStr, text],
     }
@@ -138,18 +138,18 @@ const Index = () => {
     hash: data?.hash,
     wait: data?.wait,
     onError(err) {
-      console.error("error waiting for tx", err);
+      console.error('error waiting for tx', err);
     },
     onSuccess(data) {
       // here: redirect to the page
-      console.log("success", data);
+      console.log('success', data);
 
       global.location.reload();
     },
   });
 
   const [query] = usePromptIdQuery(
-    typeof window === "undefined" || id == undefined
+    typeof window === 'undefined' || id == undefined
       ? { pause: true }
       : { variables: { id: idStr } }
   );
@@ -210,7 +210,7 @@ const Index = () => {
       // console.log("tx", tx.hash);
       // await tx.wait(2);
     } else {
-      console.log("no provider");
+      console.log('no provider');
     }
   };
 
@@ -231,7 +231,7 @@ const Index = () => {
             <TextareaAutosize
               className="w-full h-24 p-3 border-2 border-gray-200 rounded-lg pb-12 placeholder:text-gray-400"
               minRows={6}
-              maxRows={14}
+              maxRows={66}
               placeholder="your response..."
               onChange={(e) => setText(e.target.value)}
               value={text}
@@ -242,36 +242,38 @@ const Index = () => {
                 <ENSName address={account.address} />
               </div>
             )}
-            <span className="absolute bottom-4 right-36 py-2 font-bold text-sm text-gray-400">
-              <CharacterLabel
-                text={text}
-                minChars={minChars}
-                maxChars={maxChars}
-              ></CharacterLabel>
-            </span>
-            <button
-              disabled={!account || isLoading || !responseIsValid}
-              onClick={submitResponse}
-              className="absolute bottom-5 right-3 rounded-full px-5 py-2 bg-orange-500 text-white text-sm font-bold disabled:opacity-50"
-              type="submit"
-            >
-              {isLoading ? (
-                <div className="flex">
-                  <Spinner />
-                  {isLoadingWrite ? PENDING_WRITE_LOADING_MESSAGE : ""}
-                  {isTransactionLoading
-                    ? `${PENDING_TRANSACTION_LOADING_MESSAGE} ${Math.round(
-                        elapsedTime
-                      )}s`
-                    : ""}
-                </div>
-              ) : (
-                "Respond"
-              )}
-            </button>
+            <div className="absolute bottom-5 right-3 py-2 flex ">
+              <span className="py-2 mr-2 font-bold text-sm text-gray-400">
+                <CharacterLabel
+                  text={text}
+                  minChars={minChars}
+                  maxChars={maxChars}
+                ></CharacterLabel>
+              </span>
+              <button
+                disabled={!account || isLoading || !responseIsValid}
+                onClick={submitResponse}
+                className="rounded-full px-5 py-2 bg-orange-500 text-white text-sm font-bold disabled:opacity-50"
+                type="submit"
+              >
+                {isLoading ? (
+                  <div className="flex">
+                    <Spinner />
+                    {isLoadingWrite ? PENDING_WRITE_LOADING_MESSAGE : ''}
+                    {isTransactionLoading
+                      ? `${PENDING_TRANSACTION_LOADING_MESSAGE} ${Math.round(
+                          elapsedTime
+                        )}s`
+                      : ''}
+                  </div>
+                ) : (
+                  'Respond'
+                )}
+              </button>
+            </div>
           </div>
         ) : (
-          <div style={{ display: "none" }}>Prompt has ended</div>
+          <div style={{ display: 'none' }}>Prompt has ended</div>
         )}
 
         {showAllResponses ? (
@@ -280,7 +282,7 @@ const Index = () => {
           <div className="delay-fade text-center">
             There
             {promptResponses.length == 1
-              ? " is 1 hidden response "
+              ? ' is 1 hidden response '
               : ` are ${promptResponses.length} hidden responses `}
             to this prompt.
             <br />
