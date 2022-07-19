@@ -48,6 +48,7 @@ importers:
       debug: ^4.3.3
       ethers: ^5.6.4
       graphql: ^16.2.0
+      javascript-time-ago: ^2.5.6
       next: 12.1.0
       postcss: ^8.4.5
       react: 17.0.2
@@ -56,6 +57,7 @@ importers:
       react-ens-name: ^0.2.5
       react-markdown: ^8.0.3
       react-textarea-autosize: ^8.3.3
+      react-time-ago: ^7.2.1
       tailwindcss: ^3.0.5
       typescript: 4.5.5
       urql: ^2.0.6
@@ -74,6 +76,7 @@ importers:
       debug: 4.3.4
       ethers: 5.6.4
       graphql: 16.3.0
+      javascript-time-ago: 2.5.6
       next: 12.1.0_react-dom@17.0.2+react@17.0.2
       react: 17.0.2
       react-compound-slider: 3.4.0_react@17.0.2
@@ -81,6 +84,7 @@ importers:
       react-ens-name: 0.2.5_react@17.0.2
       react-markdown: 8.0.3_cfedea9b3ed0faf0dded75c187406c5e
       react-textarea-autosize: 8.3.3_cfedea9b3ed0faf0dded75c187406c5e
+      react-time-ago: 7.2.1_62c09515f22942c6fe48e970d1c5a00f
       urql: 2.2.0_graphql@16.3.0+react@17.0.2
       use-elapsed-time: 3.0.4_react@17.0.2
       wagmi: 0.4.2_69aa7dcc1cd98ec9fd52d4234919c840
@@ -6498,6 +6502,12 @@ packages:
       string_decoder: 1.3.0
     dev: false
 
+  /javascript-time-ago/2.5.6:
+    resolution: {integrity: sha512-uqnLU334Dtu6lC2pIOnPyH8GkG0UnSlDLD19sfEaAITIg5zR3x0O0MkFYJEVXtY4Q9JWOcxFJoXoxxT5/B5Okg==}
+    dependencies:
+      relative-time-format: 1.1.4
+    dev: false
+
   /jayson/3.6.6:
     resolution: {integrity: sha512-f71uvrAWTtrwoww6MKcl9phQTC+56AopLyEenWvKVAIMz+q0oVGj6tenLZ7Z6UiPBkJtKLj4kt0tACllFQruGQ==}
     engines: {node: '>=8'}
@@ -7276,6 +7286,10 @@ packages:
       ltgt: 2.2.1
       safe-buffer: 5.2.1
     dev: true
+
+  /memoize-one/6.0.0:
+    resolution: {integrity: sha512-rkpe71W0N0c0Xz6QD0eJETuWAJGnJ9afsl1srmwPrI+yBCkge5EycXXbYRyvL29zZVUWQCY7InPRCv3GDXuZNw==}
+    dev: false
 
   /memorystream/0.3.1:
     resolution: {integrity: sha1-htcJCzDORV1j+64S3aUaR93K+bI=}
@@ -8348,7 +8362,7 @@ packages:
     dev: false
 
   /performance-now/2.1.0:
-    resolution: {integrity: sha1-Ywn04OX6kT7BxpMHrjZLSzd8nns=}
+    resolution: {integrity: sha512-7EAHlyLHI56VEIdK57uwHdHKIaAGbnXPiw0yWbarQZOKaKpvUIgW0jWRVLiatnM+XXlSwsanIBH/hzGMJulMow==}
 
   /picocolors/1.0.0:
     resolution: {integrity: sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==}
@@ -8639,6 +8653,12 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
+  /raf/3.4.1:
+    resolution: {integrity: sha512-Sq4CW4QhwOHE8ucn6J34MqtZCeWFP2aQSmrlroYgqAV1PjStIhJXxYuTgUIfkEk7zTLjmIjLmU5q+fbD1NnOJA==}
+    dependencies:
+      performance-now: 2.1.0
+    dev: false
+
   /randombytes/2.1.0:
     resolution: {integrity: sha512-vYl3iOX+4CKUWuxGi9Ukhie6fsqXqS9FE2Zaic4tNFD2N2QQaXOMFbuKK4QmDHC0JO6B1Zp41J0LpT0oR68amQ==}
     dependencies:
@@ -8836,6 +8856,21 @@ packages:
       - '@types/react'
     dev: false
 
+  /react-time-ago/7.2.1_62c09515f22942c6fe48e970d1c5a00f:
+    resolution: {integrity: sha512-X5zwJDZHa1fsMwMvh8mrHN31g85s84zMCp+d7YL6IX50kNnr6YMAS2wpt1BmO9OxBV2Ue5J1ptD6JI8Zjd35HA==}
+    peerDependencies:
+      javascript-time-ago: ^2.3.7
+      react: '>=0.16.8'
+      react-dom: '>=0.16.8'
+    dependencies:
+      javascript-time-ago: 2.5.6
+      memoize-one: 6.0.0
+      prop-types: 15.8.1
+      raf: 3.4.1
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    dev: false
+
   /react/16.14.0:
     resolution: {integrity: sha512-0X2CImDkJGApiAlcf0ODKIneSwBPhqJawOa5wCtKbu7ZECrmS26NvtSILynQ66cgkT/RJ4LidJOc3bUESwmU8g==}
     engines: {node: '>=0.10.0'}
@@ -8919,6 +8954,10 @@ packages:
     dependencies:
       rc: 1.2.8
     dev: true
+
+  /relative-time-format/1.1.4:
+    resolution: {integrity: sha512-WRWEDEZFTD/95oYMd58kzlYHI6QzexMpPkxvi4/P+NLdzli/tteNonmAa5jYLm8ehJVTGiM2siNg7i1Dkn/gDw==}
+    dev: false
 
   /relay-compiler/12.0.0_graphql@16.3.0:
     resolution: {integrity: sha512-SWqeSQZ+AMU/Cr7iZsHi1e78Z7oh00I5SvR092iCJq79aupqJ6Ds+I1Pz/Vzo5uY5PY0jvC4rBJXzlIN5g9boQ==}
