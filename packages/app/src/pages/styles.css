@@ -3,7 +3,7 @@ p, ul {
 }
 li {
   margin-bottom: .6rem;
-  list-style: inline;
+  list-style: disc;
   margin-left: 1rem;
   padding-left: .5rem;
 }
