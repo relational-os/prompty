@@ -40,6 +40,7 @@ export type Prompt = {
   readonly id: Scalars['ID'];
   readonly maxChars: Scalars['Int'];
   readonly minChars: Scalars['Int'];
+  readonly responseCount: Scalars['Int'];
   readonly responses: ReadonlyArray<Response>;
   readonly startTime: Scalars['BigInt'];
   readonly text: Scalars['String'];
@@ -90,6 +91,14 @@ export type Prompt_Filter = {
   readonly minChars_lte?: InputMaybe<Scalars['Int']>;
   readonly minChars_not?: InputMaybe<Scalars['Int']>;
   readonly minChars_not_in?: InputMaybe<ReadonlyArray<Scalars['Int']>>;
+  readonly responseCount?: InputMaybe<Scalars['Int']>;
+  readonly responseCount_gt?: InputMaybe<Scalars['Int']>;
+  readonly responseCount_gte?: InputMaybe<Scalars['Int']>;
+  readonly responseCount_in?: InputMaybe<ReadonlyArray<Scalars['Int']>>;
+  readonly responseCount_lt?: InputMaybe<Scalars['Int']>;
+  readonly responseCount_lte?: InputMaybe<Scalars['Int']>;
+  readonly responseCount_not?: InputMaybe<Scalars['Int']>;
+  readonly responseCount_not_in?: InputMaybe<ReadonlyArray<Scalars['Int']>>;
   readonly responses_?: InputMaybe<Response_Filter>;
   readonly startTime?: InputMaybe<Scalars['BigInt']>;
   readonly startTime_gt?: InputMaybe<Scalars['BigInt']>;
@@ -147,6 +156,7 @@ export enum Prompt_OrderBy {
   Id = 'id',
   MaxChars = 'maxChars',
   MinChars = 'minChars',
+  ResponseCount = 'responseCount',
   Responses = 'responses',
   StartTime = 'startTime',
   Text = 'text',
@@ -483,14 +493,14 @@ export type AuthorQuery = { readonly __typename?: 'Query', readonly wallet?: { r
 export type LatestPromptsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LatestPromptsQuery = { readonly __typename?: 'Query', readonly prompts: ReadonlyArray<{ readonly __typename?: 'Prompt', readonly id: string, readonly text: string, readonly startTime: any, readonly endTime: any, readonly minChars: number, readonly maxChars: number, readonly who: { readonly __typename?: 'Wallet', readonly id: string } }> };
+export type LatestPromptsQuery = { readonly __typename?: 'Query', readonly prompts: ReadonlyArray<{ readonly __typename?: 'Prompt', readonly id: string, readonly text: string, readonly startTime: any, readonly endTime: any, readonly minChars: number, readonly maxChars: number, readonly responseCount: number, readonly who: { readonly __typename?: 'Wallet', readonly id: string } }> };
 
 export type PromptIdQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type PromptIdQuery = { readonly __typename?: 'Query', readonly prompt?: { readonly __typename?: 'Prompt', readonly id: string, readonly text: string, readonly startTime: any, readonly endTime: any, readonly minChars: number, readonly maxChars: number, readonly who: { readonly __typename?: 'Wallet', readonly id: string }, readonly responses: ReadonlyArray<{ readonly __typename?: 'Response', readonly id: string, readonly text: string, readonly who: { readonly __typename?: 'Wallet', readonly id: string } }> } | null };
+export type PromptIdQuery = { readonly __typename?: 'Query', readonly prompt?: { readonly __typename?: 'Prompt', readonly id: string, readonly text: string, readonly startTime: any, readonly endTime: any, readonly minChars: number, readonly maxChars: number, readonly responseCount: number, readonly who: { readonly __typename?: 'Wallet', readonly id: string }, readonly responses: ReadonlyArray<{ readonly __typename?: 'Response', readonly id: string, readonly text: string, readonly who: { readonly __typename?: 'Wallet', readonly id: string } }> } | null };
 
 
 export const AuthorDocument = gql`
@@ -539,6 +549,7 @@ export const LatestPromptsDocument = gql`
     who {
       id
     }
+    responseCount
   }
 }
     `;
@@ -565,6 +576,7 @@ export const PromptIdDocument = gql`
       }
       text
     }
+    responseCount
   }
 }
     `;

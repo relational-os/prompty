@@ -7,6 +7,7 @@ export type PromptType = {
   minChars: number;
   maxChars: number;
   responses?: Response[];
+  responseCount: number;
 };
 
 export type PromptResponseType = {

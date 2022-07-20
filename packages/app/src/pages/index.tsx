@@ -18,6 +18,7 @@ gql`
       who {
         id
       }
+      responseCount
     }
   }
 `;

@@ -1,8 +1,8 @@
-import dayjs from 'dayjs';
-import React from 'react';
-import { ENSName } from 'react-ens-name';
-import { PromptType } from '../types';
-import ReactMarkdown from 'react-markdown';
+import dayjs from "dayjs";
+import React from "react";
+import { ENSName } from "react-ens-name";
+import { PromptType } from "../types";
+import ReactMarkdown from "react-markdown";
 import ReactTimeAgo from "react-time-ago";
 
 const Prompt = ({ prompt }: { prompt: PromptType }) => {
@@ -13,8 +13,8 @@ const Prompt = ({ prompt }: { prompt: PromptType }) => {
       <div
         className={`${
           promptExpired
-            ? 'bg-[rgba(255,255,255,0.5)] mb-10 p-6 pt-5 rounded-xl relative '
-            : 'bg-white mb-10 p-6 pt-5 rounded-xl relative'
+            ? "bg-[rgba(255,255,255,0.5)] mb-10 p-6 pt-5 rounded-xl relative "
+            : "bg-white mb-10 p-6 pt-5 rounded-xl relative"
         }`}
       >
         <div className="flex justify-between mb-4 items-center">
@@ -37,10 +37,10 @@ const Prompt = ({ prompt }: { prompt: PromptType }) => {
               </>
             )}
 
-            {prompt.responses?.length ? (
+            {prompt.responseCount != undefined ? (
               <span className="rounded-md bg-[#fef4eb] px-2 py-1 ml-2 -mr-2">
-                {prompt.responses?.length}{" "}
-                {prompt.responses?.length == 1 ? "response" : "responses"}
+                {prompt.responseCount}{" "}
+                {prompt.responseCount == 1 ? "response" : "responses"}
               </span>
             ) : (
               ""
@@ -49,7 +49,7 @@ const Prompt = ({ prompt }: { prompt: PromptType }) => {
         </div>
 
         <h3 className=" text-xl font-ibm text-gray-900 mb-3">
-          {' '}
+          {" "}
           <ReactMarkdown>{prompt.text}</ReactMarkdown>
         </h3>
       </div>
