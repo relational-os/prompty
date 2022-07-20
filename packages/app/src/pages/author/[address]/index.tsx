@@ -22,6 +22,7 @@ gql`
         who {
           id
         }
+        responseCount
       }
       responses {
         id

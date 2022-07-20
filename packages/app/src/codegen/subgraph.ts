@@ -488,7 +488,7 @@ export type AuthorQueryVariables = Exact<{
 }>;
 
 
-export type AuthorQuery = { readonly __typename?: 'Query', readonly wallet?: { readonly __typename?: 'Wallet', readonly id: string, readonly prompts: ReadonlyArray<{ readonly __typename?: 'Prompt', readonly id: string, readonly text: string, readonly startTime: any, readonly endTime: any, readonly minChars: number, readonly maxChars: number, readonly who: { readonly __typename?: 'Wallet', readonly id: string } }>, readonly responses: ReadonlyArray<{ readonly __typename?: 'Response', readonly id: string, readonly text: string, readonly created: any, readonly prompt: { readonly __typename?: 'Prompt', readonly id: string, readonly text: string, readonly who: { readonly __typename?: 'Wallet', readonly id: string } } }> } | null };
+export type AuthorQuery = { readonly __typename?: 'Query', readonly wallet?: { readonly __typename?: 'Wallet', readonly id: string, readonly prompts: ReadonlyArray<{ readonly __typename?: 'Prompt', readonly id: string, readonly text: string, readonly startTime: any, readonly endTime: any, readonly minChars: number, readonly maxChars: number, readonly responseCount: number, readonly who: { readonly __typename?: 'Wallet', readonly id: string } }>, readonly responses: ReadonlyArray<{ readonly __typename?: 'Response', readonly id: string, readonly text: string, readonly created: any, readonly prompt: { readonly __typename?: 'Prompt', readonly id: string, readonly text: string, readonly who: { readonly __typename?: 'Wallet', readonly id: string } } }> } | null };
 
 export type LatestPromptsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -517,6 +517,7 @@ export const AuthorDocument = gql`
       who {
         id
       }
+      responseCount
     }
     responses {
       id
