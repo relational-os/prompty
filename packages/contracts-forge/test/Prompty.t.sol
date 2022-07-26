@@ -3,6 +3,7 @@ pragma solidity ^0.8.13;
 
 import "ds-test/test.sol";
 import "../src/Prompty.sol";
+import "../src/IPrompty.sol";
 import "./Cheats.sol";
 
 contract PromptyTest is DSTest {
@@ -14,7 +15,12 @@ contract PromptyTest is DSTest {
     }
 
     function testPrompt() public {
-        prompty.create("prompt", block.timestamp + 10, 1, 100);
+        address[] memory allowedResponders;
+        allowedResponders[0] = 0xD286064cc27514B914BAB0F2FaD2E1a89A91F314;
+
+        prompty.createInstance(allowedResponders, "test");
+
+        prompty.createPrompt(0, "prompt", block.timestamp + 10, 1, 100);
 
         (
             uint256 startTime,
@@ -30,15 +36,19 @@ contract PromptyTest is DSTest {
     }
 
     function testRespond() public {
-        cheats.expectRevert(Prompty.InvalidPromptID.selector);
+        cheats.expectRevert(IPrompty.InvalidPromptID.selector);
         prompty.respond(0, "response");
 
-        prompty.create("prompt", block.timestamp + 10, 1, 100);
+        address[] memory allowedResponders;
+        allowedResponders[0] = 0xD286064cc27514B914BAB0F2FaD2E1a89A91F314;
 
-        cheats.expectRevert(Prompty.ResponseTooShort.selector);
+        prompty.createInstance(allowedResponders, "test");
+        prompty.createPrompt(0, "prompt", block.timestamp + 10, 1, 100);
+
+        cheats.expectRevert(IPrompty.ResponseTooShort.selector);
         prompty.respond(0, "");
 
-        cheats.expectRevert(Prompty.ResponseTooLong.selector);
+        cheats.expectRevert(IPrompty.ResponseTooLong.selector);
         prompty.respond(
             0,
             "                                                                                                     "
@@ -46,7 +56,7 @@ contract PromptyTest is DSTest {
 
         prompty.respond(0, "response");
 
-        cheats.expectRevert(Prompty.AlreadyResponded.selector);
+        cheats.expectRevert(IPrompty.AlreadyResponded.selector);
         prompty.respond(0, "response");
     }
 }

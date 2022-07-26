@@ -19,8 +19,12 @@ dataSources:
         - name: Prompty 
           file: ./abis/Prompty.json
       eventHandlers:
-        - event:  PromptCreated(uint256,address,string,uint256,uint256,uint128,uint128)
+        - event:  PromptCreated(uint256,uint256,address,string,uint256,uint256,uint128,uint128)
           handler: handlePromptCreated
         - event:  PromptResponse(uint256,address,string)
           handler: handlePromptResponse
+        - event: ResponderAdded(uint256,address);
+          handler: handleResponderAdded
+        - event: InstanceCreated(uint256,string);
+          handler: handleInstanceCreated
       file: ./src/mapping.ts

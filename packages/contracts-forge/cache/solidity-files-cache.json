@@ -9,10 +9,10 @@
     ]
   },
   "files": {
-    "/Users/cj/code/relational/prompty/packages/contracts-forge/lib/ds-test/src/test.sol": {
-      "lastModificationDate": 1650564667361,
-      "contentHash": "82a8604fe648c30a9bd56444368704f0",
-      "sourceName": "lib/ds-test/src/test.sol",
+    "lib/openzeppelin-contracts/contracts/access/Ownable.sol": {
+      "lastModificationDate": 1658856476071,
+      "contentHash": "e436cea06129be2c73cda4b1acc848b5",
+      "sourceName": "lib/openzeppelin-contracts/contracts/access/Ownable.sol",
       "solcConfig": {
         "settings": {
           "optimizer": {
@@ -35,20 +35,334 @@
               ]
             }
           },
-          "evmVersion": "london"
+          "evmVersion": "london",
+          "libraries": {}
         }
       },
-      "imports": [],
-      "versionRequirement": ">=0.5.0",
+      "imports": [
+        "lib/openzeppelin-contracts/contracts/utils/Context.sol"
+      ],
+      "versionRequirement": "^0.8.0",
       "artifacts": {
-        "DSTest": {
-          "0.8.13+commit.abaa5c0e.Darwin.appleclang": "test.sol/DSTest.json"
+        "Ownable": {
+          "0.8.13+commit.abaa5c0e.Darwin.appleclang": "Ownable.sol/Ownable.json"
         }
       }
     },
-    "/Users/cj/code/relational/prompty/packages/contracts-forge/src/Prompty.sol": {
-      "lastModificationDate": 1650565404788,
-      "contentHash": "177a8d316bca4d7bf5d49c1869b0dcae",
+    "lib/openzeppelin-contracts/contracts/utils/Context.sol": {
+      "lastModificationDate": 1658856476090,
+      "contentHash": "5f2c5c4b6af2dd4551027144797bc8be",
+      "sourceName": "lib/openzeppelin-contracts/contracts/utils/Context.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": "^0.8.0",
+      "artifacts": {
+        "Context": {
+          "0.8.13+commit.abaa5c0e.Darwin.appleclang": "Context.sol/Context.json"
+        }
+      }
+    },
+    "lib/solenv/lib/forge-std/src/Script.sol": {
+      "lastModificationDate": 1658857881961,
+      "contentHash": "a24c6682dfdd459618422202d7b97fec",
+      "sourceName": "lib/solenv/lib/forge-std/src/Script.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/solenv/lib/forge-std/src/Vm.sol",
+        "lib/solenv/lib/forge-std/src/console.sol",
+        "lib/solenv/lib/forge-std/src/console2.sol"
+      ],
+      "versionRequirement": ">=0.6.0, <0.9.0",
+      "artifacts": {
+        "Script": {
+          "0.8.13+commit.abaa5c0e.Darwin.appleclang": "Script.sol/Script.json"
+        }
+      }
+    },
+    "lib/solenv/lib/forge-std/src/Vm.sol": {
+      "lastModificationDate": 1658857881961,
+      "contentHash": "498032edf2491104b61524a4665b0613",
+      "sourceName": "lib/solenv/lib/forge-std/src/Vm.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": ">=0.6.0",
+      "artifacts": {
+        "Vm": {
+          "0.8.13+commit.abaa5c0e.Darwin.appleclang": "Vm.sol/Vm.json"
+        }
+      }
+    },
+    "lib/solenv/lib/forge-std/src/console.sol": {
+      "lastModificationDate": 1658857881961,
+      "contentHash": "100b8a33b917da1147740d7ab8b0ded3",
+      "sourceName": "lib/solenv/lib/forge-std/src/console.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": ">=0.4.22, <0.9.0",
+      "artifacts": {
+        "console": {
+          "0.8.13+commit.abaa5c0e.Darwin.appleclang": "console.sol/console.json"
+        }
+      }
+    },
+    "lib/solenv/lib/forge-std/src/console2.sol": {
+      "lastModificationDate": 1658857881962,
+      "contentHash": "5df91f8e93efbfcccf68973dc1b74a70",
+      "sourceName": "lib/solenv/lib/forge-std/src/console2.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": ">=0.4.22, <0.9.0",
+      "artifacts": {
+        "console2": {
+          "0.8.13+commit.abaa5c0e.Darwin.appleclang": "console2.sol/console2.json"
+        }
+      }
+    },
+    "lib/solenv/lib/solidity-stringutils/src/strings.sol": {
+      "lastModificationDate": 1658857884037,
+      "contentHash": "a35219f3ed241165477dabdfe496165a",
+      "sourceName": "lib/solenv/lib/solidity-stringutils/src/strings.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": "^0.8.0",
+      "artifacts": {
+        "strings": {
+          "0.8.13+commit.abaa5c0e.Darwin.appleclang": "strings.sol/strings.json"
+        }
+      }
+    },
+    "lib/solenv/src/Solenv.sol": {
+      "lastModificationDate": 1658857881962,
+      "contentHash": "b7fca419b674d2ce3ee6745ffb963e95",
+      "sourceName": "lib/solenv/src/Solenv.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/solenv/lib/forge-std/src/Vm.sol",
+        "lib/solenv/lib/solidity-stringutils/src/strings.sol"
+      ],
+      "versionRequirement": "^0.8.13",
+      "artifacts": {
+        "Solenv": {
+          "0.8.13+commit.abaa5c0e.Darwin.appleclang": "Solenv.sol/Solenv.json"
+        }
+      }
+    },
+    "src/IPrompty.sol": {
+      "lastModificationDate": 1658857016581,
+      "contentHash": "57c0b33e3cdf03af717d459a151d1509",
+      "sourceName": "src/IPrompty.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": "^0.8.9",
+      "artifacts": {
+        "IPrompty": {
+          "0.8.13+commit.abaa5c0e.Darwin.appleclang": "IPrompty.sol/IPrompty.json"
+        }
+      }
+    },
+    "src/Prompty.sol": {
+      "lastModificationDate": 1658857487219,
+      "contentHash": "967dc5ebd2ffcb9f7f60ecc7fc71ba9a",
       "sourceName": "src/Prompty.sol",
       "solcConfig": {
         "settings": {
@@ -72,10 +386,13 @@
               ]
             }
           },
-          "evmVersion": "london"
+          "evmVersion": "london",
+          "libraries": {}
         }
       },
-      "imports": [],
+      "imports": [
+        "src/IPrompty.sol"
+      ],
       "versionRequirement": "^0.8.9",
       "artifacts": {
         "Prompty": {
@@ -83,10 +400,10 @@
         }
       }
     },
-    "/Users/cj/code/relational/prompty/packages/contracts-forge/test/Cheats.sol": {
-      "lastModificationDate": 1650565441973,
-      "contentHash": "a1574417a8db7264bfced6c2e098c4aa",
-      "sourceName": "test/Cheats.sol",
+    "src/PromptyManager.sol": {
+      "lastModificationDate": 1658856479511,
+      "contentHash": "34a486b9afc4817324ed9e2075ab9300",
+      "sourceName": "src/PromptyManager.sol",
       "solcConfig": {
         "settings": {
           "optimizer": {
@@ -109,51 +426,69 @@
               ]
             }
           },
-          "evmVersion": "london"
-        }
-      },
-      "imports": [],
-      "versionRequirement": ">=0.8.0",
-      "artifacts": {}
-    },
-    "/Users/cj/code/relational/prompty/packages/contracts-forge/test/Prompty.t.sol": {
-      "lastModificationDate": 1650565645304,
-      "contentHash": "512b8bacd92ff455b61eccff50878031",
-      "sourceName": "test/Prompty.t.sol",
-      "solcConfig": {
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "metadata": {
-            "bytecodeHash": "ipfs"
-          },
-          "outputSelection": {
-            "*": {
-              "": [
-                "ast"
-              ],
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers"
-              ]
-            }
-          },
-          "evmVersion": "london"
+          "evmVersion": "london",
+          "libraries": {}
         }
       },
       "imports": [
-        "lib/ds-test/src/test.sol",
+        "lib/openzeppelin-contracts/contracts/access/Ownable.sol",
+        "lib/openzeppelin-contracts/contracts/utils/Context.sol",
+        "src/IPrompty.sol"
+      ],
+      "versionRequirement": "^0.8.9",
+      "artifacts": {
+        "PromptyManager": {
+          "0.8.13+commit.abaa5c0e.Darwin.appleclang": "PromptyManager.sol/PromptyManager.json"
+        }
+      }
+    },
+    "src/scripts/DeployPrompty.s.sol": {
+      "lastModificationDate": 1658858191308,
+      "contentHash": "efc7e29183503cc060e24ab907237c07",
+      "sourceName": "src/scripts/DeployPrompty.s.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/openzeppelin-contracts/contracts/access/Ownable.sol",
+        "lib/openzeppelin-contracts/contracts/utils/Context.sol",
+        "lib/solenv/lib/forge-std/src/Script.sol",
+        "lib/solenv/lib/forge-std/src/Vm.sol",
+        "lib/solenv/lib/forge-std/src/console.sol",
+        "lib/solenv/lib/forge-std/src/console2.sol",
+        "lib/solenv/lib/solidity-stringutils/src/strings.sol",
+        "lib/solenv/src/Solenv.sol",
+        "src/IPrompty.sol",
         "src/Prompty.sol",
-        "test/Cheats.sol"
+        "src/PromptyManager.sol"
       ],
       "versionRequirement": "^0.8.13",
       "artifacts": {
-        "PromptyTest": {
-          "0.8.13+commit.abaa5c0e.Darwin.appleclang": "Prompty.t.sol/PromptyTest.json"
+        "DeployPrompty": {
+          "0.8.13+commit.abaa5c0e.Darwin.appleclang": "DeployPrompty.s.sol/DeployPrompty.json"
         }
       }
     }

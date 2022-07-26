@@ -1,3 +1,10 @@
+type PromptyInstance @entity {
+  id: ID!
+  name: String!
+  allowedResponders: [Wallet!]
+  prompts: [Prompt!]! @derivedFrom(field: "instance")
+}
+
 type Prompt @entity {
   id: ID!
   who: Wallet!
@@ -6,6 +13,7 @@ type Prompt @entity {
   endTime: BigInt!
   minChars: Int!
   maxChars: Int!
+  instance: PromptyInstance!
   responses: [Response!]! @derivedFrom(field: "prompt")
   responseCount: Int!
 }

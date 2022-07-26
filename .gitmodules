@@ -4,3 +4,9 @@
 [submodule "packages/contracts-forge/lib/ds-test"]
 	path = packages/contracts-forge/lib/ds-test
 	url = https://github.com/dapphub/ds-test
+[submodule "packages/contracts-forge/lib/openzeppelin-contracts"]
+	path = packages/contracts-forge/lib/openzeppelin-contracts
+	url = https://github.com/openzeppelin/openzeppelin-contracts
+[submodule "packages/contracts-forge/lib/solenv"]
+	path = packages/contracts-forge/lib/solenv
+	url = https://github.com/memester-xyz/solenv

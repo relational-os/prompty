@@ -2,49 +2,55 @@
 
 pragma solidity ^0.8.9;
 
-contract Prompty {
-    struct Prompt {
-        uint256 startTime;
-        uint256 endTime;
-        uint128 minChars;
-        uint128 maxChars;
-        mapping(address => bool) responses;
-    }
+import {IPrompty} from "./IPrompty.sol";
 
-    // struct PromptResponseMetadata {
-    //     uint256 promptId;
-    // }
-
-    event PromptCreated(
-        uint256 promptId,
-        address creator,
-        string prompt,
-        uint256 startTime,
-        uint256 endTime,
-        uint128 minChars,
-        uint128 maxChars
-    );
-    event PromptResponse(uint256 promptId, address responder, string response);
-
-    error InvalidPrompt();
-    error InvalidPromptParams();
-    error InvalidPromptID();
-    error PromptExpired();
-    error AlreadyResponded();
-    error ResponseTooShort();
-    error ResponseTooLong();
-
+contract Prompty is IPrompty {
     uint256 public currentPromptId = 0;
     mapping(uint256 => Prompt) public prompts;
 
-    // mapping(uint256 => uint256) public responses;
+    mapping(uint256 => PromptyInstance) public instances;
+    uint256 instanceCount;
 
-    function create(
+    function createInstance(
+        address[] memory allowedResponders,
+        string memory name
+    ) public {
+        PromptyInstance storage instance = instances[instanceCount];
+
+        instance.name = name;
+
+        emit InstanceCreated(instanceCount, name);
+
+        for (uint256 i = 0; i < allowedResponders.length; i++) {
+            instance.allowedResponders[allowedResponders[i]] = true;
+            emit ResponderAdded(instanceCount, allowedResponders[i]);
+        }
+
+        unchecked {
+            instanceCount++;
+        }
+    }
+
+    function addResponder(uint256 instanceID, address responder) public {
+        PromptyInstance storage instance = instances[instanceID];
+
+        if (!instance.allowedResponders[responder]) {
+            instance.allowedResponders[responder] = true;
+            emit ResponderAdded(instanceID, responder);
+        }
+    }
+
+    function createPrompt(
+        uint256 instanceId,
         string memory prompt,
         uint256 endTime,
         uint128 minChars,
         uint128 maxChars
     ) public {
+        if (instances[instanceId].allowedResponders[msg.sender] == false) {
+            revert NotAllowed();
+        }
+
         if (bytes(prompt).length == 0) revert InvalidPrompt();
         if (minChars > maxChars) revert InvalidPromptParams();
         if (minChars <= 0) revert InvalidPromptParams();
@@ -57,6 +63,7 @@ contract Prompty {
         p.maxChars = maxChars;
 
         emit PromptCreated(
+            instanceId,
             currentPromptId,
             msg.sender,
             prompt,
