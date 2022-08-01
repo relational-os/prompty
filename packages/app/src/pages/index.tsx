@@ -1,47 +1,36 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { gql } from "urql";
-import { useLatestPromptsQuery } from "../codegen/subgraph";
-import Prompt from "../components/Prompt";
 import MainLayout from "../layouts/MainLayout";
-import { PromptType } from "../types";
+import { usePublicPromptyInstancesQuery } from "../codegen/subgraph";
 
 gql`
-  query LatestPrompts {
-    prompts(first: 10, orderBy: startTime, orderDirection: desc) {
+  query PublicPromptyInstances {
+    promptyInstances(first: 100) {
       id
-      text
-      startTime
-      endTime
-      minChars
-      maxChars
-      who {
+      name
+      allowedResponders {
         id
       }
-      responseCount
     }
   }
 `;
 
 const HomePage: NextPage = () => {
-  const [query] = useLatestPromptsQuery(
+  const [query] = usePublicPromptyInstancesQuery(
     typeof window === "undefined" ? { pause: true } : {}
   );
 
   return (
     <>
       <Head>
-        <title>Prompty</title>
+        <title>Welcome to Prompty</title>
       </Head>
 
       <MainLayout>
-        {query.data?.prompts?.map((p: PromptType) => (
-          <div key={p.id}>
-            <Prompt prompt={p} />
-          </div>
-        ))}
-
-        <style jsx>{``}</style>
+        <span>these are all the public prompty groups!</span>
+        <br></br>
+        <button>create new group btn</button>
       </MainLayout>
     </>
   );

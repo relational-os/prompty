@@ -38,6 +38,7 @@ export type Prompt = {
   readonly __typename?: 'Prompt';
   readonly endTime: Scalars['BigInt'];
   readonly id: Scalars['ID'];
+  readonly instance: PromptyInstance;
   readonly maxChars: Scalars['Int'];
   readonly minChars: Scalars['Int'];
   readonly responseCount: Scalars['Int'];
@@ -75,6 +76,27 @@ export type Prompt_Filter = {
   readonly id_lte?: InputMaybe<Scalars['ID']>;
   readonly id_not?: InputMaybe<Scalars['ID']>;
   readonly id_not_in?: InputMaybe<ReadonlyArray<Scalars['ID']>>;
+  readonly instance?: InputMaybe<Scalars['String']>;
+  readonly instance_?: InputMaybe<PromptyInstance_Filter>;
+  readonly instance_contains?: InputMaybe<Scalars['String']>;
+  readonly instance_contains_nocase?: InputMaybe<Scalars['String']>;
+  readonly instance_ends_with?: InputMaybe<Scalars['String']>;
+  readonly instance_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  readonly instance_gt?: InputMaybe<Scalars['String']>;
+  readonly instance_gte?: InputMaybe<Scalars['String']>;
+  readonly instance_in?: InputMaybe<ReadonlyArray<Scalars['String']>>;
+  readonly instance_lt?: InputMaybe<Scalars['String']>;
+  readonly instance_lte?: InputMaybe<Scalars['String']>;
+  readonly instance_not?: InputMaybe<Scalars['String']>;
+  readonly instance_not_contains?: InputMaybe<Scalars['String']>;
+  readonly instance_not_contains_nocase?: InputMaybe<Scalars['String']>;
+  readonly instance_not_ends_with?: InputMaybe<Scalars['String']>;
+  readonly instance_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  readonly instance_not_in?: InputMaybe<ReadonlyArray<Scalars['String']>>;
+  readonly instance_not_starts_with?: InputMaybe<Scalars['String']>;
+  readonly instance_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  readonly instance_starts_with?: InputMaybe<Scalars['String']>;
+  readonly instance_starts_with_nocase?: InputMaybe<Scalars['String']>;
   readonly maxChars?: InputMaybe<Scalars['Int']>;
   readonly maxChars_gt?: InputMaybe<Scalars['Int']>;
   readonly maxChars_gte?: InputMaybe<Scalars['Int']>;
@@ -154,6 +176,7 @@ export type Prompt_Filter = {
 export enum Prompt_OrderBy {
   EndTime = 'endTime',
   Id = 'id',
+  Instance = 'instance',
   MaxChars = 'maxChars',
   MinChars = 'minChars',
   ResponseCount = 'responseCount',
@@ -163,12 +186,110 @@ export enum Prompt_OrderBy {
   Who = 'who'
 }
 
+export type PromptyInstance = {
+  readonly __typename?: 'PromptyInstance';
+  readonly allowedResponders?: Maybe<ReadonlyArray<Wallet>>;
+  readonly description: Scalars['String'];
+  readonly id: Scalars['ID'];
+  readonly name: Scalars['String'];
+  readonly prompts: ReadonlyArray<Prompt>;
+};
+
+
+export type PromptyInstanceAllowedRespondersArgs = {
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Wallet_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<Wallet_Filter>;
+};
+
+
+export type PromptyInstancePromptsArgs = {
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Prompt_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<Prompt_Filter>;
+};
+
+export type PromptyInstance_Filter = {
+  /** Filter for the block changed event. */
+  readonly _change_block?: InputMaybe<BlockChangedFilter>;
+  readonly allowedResponders?: InputMaybe<ReadonlyArray<Scalars['String']>>;
+  readonly allowedResponders_?: InputMaybe<Wallet_Filter>;
+  readonly allowedResponders_contains?: InputMaybe<ReadonlyArray<Scalars['String']>>;
+  readonly allowedResponders_contains_nocase?: InputMaybe<ReadonlyArray<Scalars['String']>>;
+  readonly allowedResponders_not?: InputMaybe<ReadonlyArray<Scalars['String']>>;
+  readonly allowedResponders_not_contains?: InputMaybe<ReadonlyArray<Scalars['String']>>;
+  readonly allowedResponders_not_contains_nocase?: InputMaybe<ReadonlyArray<Scalars['String']>>;
+  readonly description?: InputMaybe<Scalars['String']>;
+  readonly description_contains?: InputMaybe<Scalars['String']>;
+  readonly description_contains_nocase?: InputMaybe<Scalars['String']>;
+  readonly description_ends_with?: InputMaybe<Scalars['String']>;
+  readonly description_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  readonly description_gt?: InputMaybe<Scalars['String']>;
+  readonly description_gte?: InputMaybe<Scalars['String']>;
+  readonly description_in?: InputMaybe<ReadonlyArray<Scalars['String']>>;
+  readonly description_lt?: InputMaybe<Scalars['String']>;
+  readonly description_lte?: InputMaybe<Scalars['String']>;
+  readonly description_not?: InputMaybe<Scalars['String']>;
+  readonly description_not_contains?: InputMaybe<Scalars['String']>;
+  readonly description_not_contains_nocase?: InputMaybe<Scalars['String']>;
+  readonly description_not_ends_with?: InputMaybe<Scalars['String']>;
+  readonly description_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  readonly description_not_in?: InputMaybe<ReadonlyArray<Scalars['String']>>;
+  readonly description_not_starts_with?: InputMaybe<Scalars['String']>;
+  readonly description_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  readonly description_starts_with?: InputMaybe<Scalars['String']>;
+  readonly description_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  readonly id?: InputMaybe<Scalars['ID']>;
+  readonly id_gt?: InputMaybe<Scalars['ID']>;
+  readonly id_gte?: InputMaybe<Scalars['ID']>;
+  readonly id_in?: InputMaybe<ReadonlyArray<Scalars['ID']>>;
+  readonly id_lt?: InputMaybe<Scalars['ID']>;
+  readonly id_lte?: InputMaybe<Scalars['ID']>;
+  readonly id_not?: InputMaybe<Scalars['ID']>;
+  readonly id_not_in?: InputMaybe<ReadonlyArray<Scalars['ID']>>;
+  readonly name?: InputMaybe<Scalars['String']>;
+  readonly name_contains?: InputMaybe<Scalars['String']>;
+  readonly name_contains_nocase?: InputMaybe<Scalars['String']>;
+  readonly name_ends_with?: InputMaybe<Scalars['String']>;
+  readonly name_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  readonly name_gt?: InputMaybe<Scalars['String']>;
+  readonly name_gte?: InputMaybe<Scalars['String']>;
+  readonly name_in?: InputMaybe<ReadonlyArray<Scalars['String']>>;
+  readonly name_lt?: InputMaybe<Scalars['String']>;
+  readonly name_lte?: InputMaybe<Scalars['String']>;
+  readonly name_not?: InputMaybe<Scalars['String']>;
+  readonly name_not_contains?: InputMaybe<Scalars['String']>;
+  readonly name_not_contains_nocase?: InputMaybe<Scalars['String']>;
+  readonly name_not_ends_with?: InputMaybe<Scalars['String']>;
+  readonly name_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  readonly name_not_in?: InputMaybe<ReadonlyArray<Scalars['String']>>;
+  readonly name_not_starts_with?: InputMaybe<Scalars['String']>;
+  readonly name_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  readonly name_starts_with?: InputMaybe<Scalars['String']>;
+  readonly name_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  readonly prompts_?: InputMaybe<Prompt_Filter>;
+};
+
+export enum PromptyInstance_OrderBy {
+  AllowedResponders = 'allowedResponders',
+  Description = 'description',
+  Id = 'id',
+  Name = 'name',
+  Prompts = 'prompts'
+}
+
 export type Query = {
   readonly __typename?: 'Query';
   /** Access to subgraph metadata */
   readonly _meta?: Maybe<_Meta_>;
   readonly prompt?: Maybe<Prompt>;
   readonly prompts: ReadonlyArray<Prompt>;
+  readonly promptyInstance?: Maybe<PromptyInstance>;
+  readonly promptyInstances: ReadonlyArray<PromptyInstance>;
   readonly response?: Maybe<Response>;
   readonly responses: ReadonlyArray<Response>;
   readonly wallet?: Maybe<Wallet>;
@@ -196,6 +317,24 @@ export type QueryPromptsArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   subgraphError?: _SubgraphErrorPolicy_;
   where?: InputMaybe<Prompt_Filter>;
+};
+
+
+export type QueryPromptyInstanceArgs = {
+  block?: InputMaybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type QueryPromptyInstancesArgs = {
+  block?: InputMaybe<Block_Height>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<PromptyInstance_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  skip?: InputMaybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
+  where?: InputMaybe<PromptyInstance_Filter>;
 };
 
 
@@ -340,6 +479,8 @@ export type Subscription = {
   readonly _meta?: Maybe<_Meta_>;
   readonly prompt?: Maybe<Prompt>;
   readonly prompts: ReadonlyArray<Prompt>;
+  readonly promptyInstance?: Maybe<PromptyInstance>;
+  readonly promptyInstances: ReadonlyArray<PromptyInstance>;
   readonly response?: Maybe<Response>;
   readonly responses: ReadonlyArray<Response>;
   readonly wallet?: Maybe<Wallet>;
@@ -367,6 +508,24 @@ export type SubscriptionPromptsArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   subgraphError?: _SubgraphErrorPolicy_;
   where?: InputMaybe<Prompt_Filter>;
+};
+
+
+export type SubscriptionPromptyInstanceArgs = {
+  block?: InputMaybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type SubscriptionPromptyInstancesArgs = {
+  block?: InputMaybe<Block_Height>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<PromptyInstance_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  skip?: InputMaybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
+  where?: InputMaybe<PromptyInstance_Filter>;
 };
 
 
@@ -490,10 +649,17 @@ export type AuthorQueryVariables = Exact<{
 
 export type AuthorQuery = { readonly __typename?: 'Query', readonly wallet?: { readonly __typename?: 'Wallet', readonly id: string, readonly prompts: ReadonlyArray<{ readonly __typename?: 'Prompt', readonly id: string, readonly text: string, readonly startTime: any, readonly endTime: any, readonly minChars: number, readonly maxChars: number, readonly responseCount: number, readonly who: { readonly __typename?: 'Wallet', readonly id: string } }>, readonly responses: ReadonlyArray<{ readonly __typename?: 'Response', readonly id: string, readonly text: string, readonly created: any, readonly prompt: { readonly __typename?: 'Prompt', readonly id: string, readonly text: string, readonly who: { readonly __typename?: 'Wallet', readonly id: string } } }> } | null };
 
-export type LatestPromptsQueryVariables = Exact<{ [key: string]: never; }>;
+export type LatestPromptsFromGroupQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
 
 
-export type LatestPromptsQuery = { readonly __typename?: 'Query', readonly prompts: ReadonlyArray<{ readonly __typename?: 'Prompt', readonly id: string, readonly text: string, readonly startTime: any, readonly endTime: any, readonly minChars: number, readonly maxChars: number, readonly responseCount: number, readonly who: { readonly __typename?: 'Wallet', readonly id: string } }> };
+export type LatestPromptsFromGroupQuery = { readonly __typename?: 'Query', readonly promptyInstances: ReadonlyArray<{ readonly __typename?: 'PromptyInstance', readonly id: string, readonly name: string, readonly prompts: ReadonlyArray<{ readonly __typename?: 'Prompt', readonly id: string, readonly text: string, readonly startTime: any, readonly endTime: any, readonly minChars: number, readonly maxChars: number, readonly responseCount: number, readonly who: { readonly __typename?: 'Wallet', readonly id: string } }> }> };
+
+export type PublicPromptyInstancesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PublicPromptyInstancesQuery = { readonly __typename?: 'Query', readonly promptyInstances: ReadonlyArray<{ readonly __typename?: 'PromptyInstance', readonly id: string, readonly name: string, readonly allowedResponders?: ReadonlyArray<{ readonly __typename?: 'Wallet', readonly id: string }> | null }> };
 
 export type PromptIdQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -538,25 +704,44 @@ export const AuthorDocument = gql`
 export function useAuthorQuery(options: Omit<Urql.UseQueryArgs<AuthorQueryVariables>, 'query'>) {
   return Urql.useQuery<AuthorQuery>({ query: AuthorDocument, ...options });
 };
-export const LatestPromptsDocument = gql`
-    query LatestPrompts {
-  prompts(first: 10, orderBy: startTime, orderDirection: desc) {
+export const LatestPromptsFromGroupDocument = gql`
+    query LatestPromptsFromGroup($id: ID!) {
+  promptyInstances(where: {id: $id}) {
     id
-    text
-    startTime
-    endTime
-    minChars
-    maxChars
-    who {
+    name
+    prompts(first: 10, orderBy: startTime, orderDirection: desc) {
       id
+      who {
+        id
+      }
+      text
+      startTime
+      endTime
+      minChars
+      maxChars
+      responseCount
     }
-    responseCount
   }
 }
     `;
 
-export function useLatestPromptsQuery(options?: Omit<Urql.UseQueryArgs<LatestPromptsQueryVariables>, 'query'>) {
-  return Urql.useQuery<LatestPromptsQuery>({ query: LatestPromptsDocument, ...options });
+export function useLatestPromptsFromGroupQuery(options: Omit<Urql.UseQueryArgs<LatestPromptsFromGroupQueryVariables>, 'query'>) {
+  return Urql.useQuery<LatestPromptsFromGroupQuery>({ query: LatestPromptsFromGroupDocument, ...options });
+};
+export const PublicPromptyInstancesDocument = gql`
+    query PublicPromptyInstances {
+  promptyInstances(first: 100) {
+    id
+    name
+    allowedResponders {
+      id
+    }
+  }
+}
+    `;
+
+export function usePublicPromptyInstancesQuery(options?: Omit<Urql.UseQueryArgs<PublicPromptyInstancesQueryVariables>, 'query'>) {
+  return Urql.useQuery<PublicPromptyInstancesQuery>({ query: PublicPromptyInstancesDocument, ...options });
 };
 export const PromptIdDocument = gql`
     query PromptID($id: ID!) {

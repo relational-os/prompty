@@ -24,9 +24,9 @@ export const graphClient = createGraphClient({
 });
 
 const { chains, provider } = configureChains(
-  [chain.rinkeby],
+  [chain.polygonMumbai],
   [
-    apiProvider.infura(process.env.NEXT_PUBLIC_RINKEBY_RPC_INFURA_ID),
+    apiProvider.infura(process.env.NEXT_PUBLIC_RPC_INFURA_ID),
     apiProvider.alchemy(process.env.ALCHEMY_ID),
     apiProvider.fallback(),
   ]
