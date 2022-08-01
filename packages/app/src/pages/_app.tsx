@@ -20,7 +20,7 @@ import en from "javascript-time-ago/locale/en.json";
 TimeAgo.addDefaultLocale(en);
 
 export const graphClient = createGraphClient({
-  url: "https://api.thegraph.com/subgraphs/name/relational-os/prompty",
+  url: "https://api.thegraph.com/subgraphs/name/relational-os/promptyinstances",
 });
 
 const { chains, provider } = configureChains(

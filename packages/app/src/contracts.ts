@@ -11,7 +11,8 @@ const network = "rinkeby";
 //   rinkebyProvider
 // );
 
-export const PROMPTY_ADDRESS = deploys[network].Prompty.address;
+// TODO import this from the deploys.json file from contracts-forge
+export const PROMPTY_ADDRESS = "0xAD8e2B2684ab04f66ac526Db8bfb9f68a231d996";
 
 export const ABI = [
   {
@@ -36,6 +37,11 @@ export const ABI = [
   },
   {
     inputs: [],
+    name: "NotAllowed",
+    type: "error",
+  },
+  {
+    inputs: [],
     name: "PromptExpired",
     type: "error",
   },
@@ -52,6 +58,31 @@ export const ABI = [
   {
     anonymous: false,
     inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "id",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "name",
+        type: "string",
+      },
+    ],
+    name: "InstanceCreated",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "instanceId",
+        type: "uint256",
+      },
       {
         indexed: false,
         internalType: "uint256",
@@ -124,7 +155,67 @@ export const ABI = [
     type: "event",
   },
   {
+    anonymous: false,
     inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "instanceId",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "responder",
+        type: "address",
+      },
+    ],
+    name: "ResponderAdded",
+    type: "event",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "instanceID",
+        type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "responder",
+        type: "address",
+      },
+    ],
+    name: "addResponder",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address[]",
+        name: "allowedResponders",
+        type: "address[]",
+      },
+      {
+        internalType: "string",
+        name: "name",
+        type: "string",
+      },
+    ],
+    name: "createInstance",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "instanceId",
+        type: "uint256",
+      },
       {
         internalType: "string",
         name: "prompt",
@@ -146,7 +237,7 @@ export const ABI = [
         type: "uint128",
       },
     ],
-    name: "create",
+    name: "createPrompt",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -159,6 +250,30 @@ export const ABI = [
         internalType: "uint256",
         name: "",
         type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "instances",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "id",
+        type: "uint256",
+      },
+      {
+        internalType: "string",
+        name: "name",
+        type: "string",
       },
     ],
     stateMutability: "view",
