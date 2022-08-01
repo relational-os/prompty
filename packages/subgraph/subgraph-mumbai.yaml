@@ -7,7 +7,7 @@ dataSources:
     network: mumbai
     source:
       abi: Prompty 
-      address: "0xAD8e2B2684ab04f66ac526Db8bfb9f68a231d996"
+      address: "0xbcdca65758f423971d916e99926ed44507484bf0"
       startBlock: 27345637
     mapping:
       kind: ethereum/events
@@ -25,6 +25,6 @@ dataSources:
           handler: handlePromptResponse
         - event: ResponderAdded(uint256,address)
           handler: handleResponderAdded
-        - event: InstanceCreated(uint256,string)
+        - event: InstanceCreated(uint256,string,string)
           handler: handleInstanceCreated
       file: ./src/mapping.ts

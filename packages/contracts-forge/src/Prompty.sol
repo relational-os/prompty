@@ -13,13 +13,14 @@ contract Prompty is IPrompty {
 
     function createInstance(
         address[] memory allowedResponders,
-        string memory name
+        string memory name,
+        string memory description
     ) public {
         PromptyInstance storage instance = instances[instanceCount];
 
         instance.name = name;
 
-        emit InstanceCreated(instanceCount, name);
+        emit InstanceCreated(instanceCount, name, description);
 
         for (uint256 i = 0; i < allowedResponders.length; i++) {
             instance.allowedResponders[allowedResponders[i]] = true;

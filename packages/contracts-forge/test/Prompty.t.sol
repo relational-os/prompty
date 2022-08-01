@@ -18,7 +18,7 @@ contract PromptyTest is DSTest {
         address[] memory allowedResponders;
         allowedResponders[0] = 0xD286064cc27514B914BAB0F2FaD2E1a89A91F314;
 
-        prompty.createInstance(allowedResponders, "test");
+        prompty.createInstance(allowedResponders, "test", "test description");
 
         prompty.createPrompt(0, "prompt", block.timestamp + 10, 1, 100);
 
@@ -42,7 +42,7 @@ contract PromptyTest is DSTest {
         address[] memory allowedResponders;
         allowedResponders[0] = 0xD286064cc27514B914BAB0F2FaD2E1a89A91F314;
 
-        prompty.createInstance(allowedResponders, "test");
+        prompty.createInstance(allowedResponders, "test", "test description");
         prompty.createPrompt(0, "prompt", block.timestamp + 10, 1, 100);
 
         cheats.expectRevert(IPrompty.ResponseTooShort.selector);
