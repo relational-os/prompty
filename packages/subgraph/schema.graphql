@@ -1,6 +1,7 @@
 type PromptyInstance @entity {
   id: ID!
   name: String!
+  description: String!
   allowedResponders: [Wallet!]
   prompts: [Prompt!]! @derivedFrom(field: "instance")
 }

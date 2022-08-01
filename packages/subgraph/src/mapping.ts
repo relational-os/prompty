@@ -13,6 +13,7 @@ export function handleInstanceCreated(event: InstanceCreated): void {
 
   instance.name = event.params.name;
   instance.allowedResponders = [];
+  instance.description = event.params.description;
 
   instance.save();
 }

@@ -28,7 +28,7 @@ interface IPrompty {
     );
     event PromptResponse(uint256 promptId, address responder, string response);
     event ResponderAdded(uint256 instanceId, address responder);
-    event InstanceCreated(uint256 id, string name);
+    event InstanceCreated(uint256 id, string name, string description);
 
     error InvalidPrompt();
     error InvalidPromptParams();
@@ -41,7 +41,8 @@ interface IPrompty {
 
     function createInstance(
         address[] memory allowedResponders,
-        string memory name
+        string memory name,
+        string memory description
     ) external;
 
     function addResponder(uint256 instanceID, address responder) external;

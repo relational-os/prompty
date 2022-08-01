@@ -12,7 +12,7 @@ const network = "rinkeby";
 // );
 
 // TODO import this from the deploys.json file from contracts-forge
-export const PROMPTY_ADDRESS = "0xAD8e2B2684ab04f66ac526Db8bfb9f68a231d996";
+export const PROMPTY_ADDRESS = "0xbcdca65758f423971d916e99926ed44507484bf0";
 
 export const ABI = [
   {
@@ -68,6 +68,12 @@ export const ABI = [
         indexed: false,
         internalType: "string",
         name: "name",
+        type: "string",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "description",
         type: "string",
       },
     ],
@@ -201,6 +207,11 @@ export const ABI = [
       {
         internalType: "string",
         name: "name",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "description",
         type: "string",
       },
     ],
