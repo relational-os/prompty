@@ -9,6 +9,7 @@
     "build": "graph build subgraph*.yaml",
     "deploy:matic": "graph deploy --node https://api.thegraph.com/deploy/ relational-os/prompty subgraph-matic.yaml",
     "deploy:mumbai": "graph deploy --node https://api.thegraph.com/deploy/ relational-os/prompty subgraph-mumbai.yaml",
+    "deploy:mumbai2": "graph deploy --node https://api.thegraph.com/deploy/ relational-os/promptyinstances subgraph-mumbai.yaml",
     "deploy:rinkeby": "graph deploy --node https://api.thegraph.com/deploy/ relational-os/prompty subgraph-rinkeby.yaml"
   },
   "dependencies": {

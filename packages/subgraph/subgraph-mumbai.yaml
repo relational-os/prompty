@@ -4,11 +4,11 @@ schema:
 dataSources:
   - kind: ethereum
     name: Prompty
-    network: mumabi
+    network: mumbai
     source:
       abi: Prompty 
-      address: "0x481Dce0824595bea20CE009B7ABA2a71b139892C"
-      startBlock: 10539489
+      address: "0xAD8e2B2684ab04f66ac526Db8bfb9f68a231d996"
+      startBlock: 27345637
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -23,8 +23,8 @@ dataSources:
           handler: handlePromptCreated
         - event:  PromptResponse(uint256,address,string)
           handler: handlePromptResponse
-        - event: ResponderAdded(uint256,address);
+        - event: ResponderAdded(uint256,address)
           handler: handleResponderAdded
-        - event: InstanceCreated(uint256,string);
+        - event: InstanceCreated(uint256,string)
           handler: handleInstanceCreated
       file: ./src/mapping.ts
