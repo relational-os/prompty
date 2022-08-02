@@ -24,6 +24,13 @@ const HomePage: NextPage = () => {
   const router = useRouter();
   const { instanceId } = router.query;
   const instanceIdStr = instanceId as string;
+  const [addState, setAddState] = useState<"none" | "adding" | "confirm">(
+    "none"
+  );
+  const [allowedResponders, setAllowedResponders] = useState<string[]>([
+    "0x1320490934",
+  ]);
+  const [newResponder, setNewResponder] = useState<string>("");
 
   const [query] = useLatestPromptsFromGroupQuery(
     typeof window === "undefined" || instanceId == undefined
@@ -32,24 +39,12 @@ const HomePage: NextPage = () => {
   );
 
   const instanceData = query.data?.promptyInstances[0];
-  const [allowedResponders, setAllowedResponders] = useState<string[]>([
-    "0x1320490934",
-  ]);
 
+  // TODO do validation here
   const addResponder = () => {
-    setAllowedResponders([...allowedResponders, ""]);
+    setAllowedResponders([...allowedResponders, newResponder]);
+    setNewResponder("");
   };
-
-  // todo: debounce & validation
-  // after user stops ty ping, validate each address
-  // possibly move to (string, bool) / (address, isValid)
-  const setResponder = (index: number, value: string) => {
-    const newAllowedResponders = [...allowedResponders];
-    newAllowedResponders[index] = value;
-    setAllowedResponders(newAllowedResponders);
-  };
-
-  const [isAdding, setIsAdding] = useState<boolean>(false);
 
   return (
     <>
@@ -66,15 +61,32 @@ const HomePage: NextPage = () => {
               <span>{responder}</span>
             </div>
           ))}
-          {isAdding && <input value="test" className="bg-gray-300 p-1"></input>}
+          {addState != "none" && (
+            <input
+              className="bg-gray-300 p-1"
+              value={newResponder}
+              onChange={(e) => setNewResponder(e.target.value)}
+            ></input>
+          )}
 
-          <button
-            onClick={() => {
-              setIsAdding(true);
-            }}
-          >
-            add member
-          </button>
+          {addState == "none" ? (
+            <button
+              onClick={() => {
+                setAddState("adding");
+              }}
+            >
+              add member
+            </button>
+          ) : (
+            <button
+              onClick={() => {
+                addResponder();
+                setAddState("none");
+              }}
+            >
+              confirm
+            </button>
+          )}
         </div>
 
         <button>save</button>
