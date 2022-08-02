@@ -17,6 +17,7 @@ gql`
 `;
 
 const HomePage: NextPage = () => {
+  // eslint-disable-next-line no-unused-vars
   const [query] = usePublicPromptyInstancesQuery(
     typeof window === "undefined" ? { pause: true } : {}
   );
@@ -30,7 +31,15 @@ const HomePage: NextPage = () => {
       <MainLayout>
         <span>these are all the public prompty groups!</span>
         <br></br>
-        <button>create new group btn</button>
+        <button className="p-2 bg-gray-500 ">
+          <a href="/group/create">Create a new group</a>
+        </button>
+
+        {query.data?.promptyInstances.map((p: any) => (
+          <div className="p-4 bg-gray-400" key={p.id}>
+            <a href={`/group/${p.id}`}>{p.name}</a>
+          </div>
+        ))}
       </MainLayout>
     </>
   );

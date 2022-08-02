@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { ABI, PROMPTY_ADDRESS } from "../../contracts";
 import Spinner from "src/components/Spinner";
 import MainLayout from "src/layouts/MainLayout";
 import { useElapsedTime } from "use-elapsed-time";
@@ -12,6 +11,7 @@ import {
 } from "wagmi";
 import { useRouter } from "next/router";
 import { defaultAbiCoder } from "ethers/lib/utils";
+import { ABI, PROMPTY_ADDRESS } from "src/contracts";
 
 const PENDING_TRANSACTION_LOADING_MESSAGE = "tx processing...";
 const PENDING_WRITE_LOADING_MESSAGE = "Sign the message...";
@@ -23,6 +23,7 @@ const Create = () => {
 
   const [groupName, setGroupName] = useState("");
   const [description, setDescription] = useState("");
+  // eslint-disable-next-line no-unused-vars
   const [allowList, setAllowList] = useState([account?.address]);
   // const [visibility, setVisibility] = useState("public");
 

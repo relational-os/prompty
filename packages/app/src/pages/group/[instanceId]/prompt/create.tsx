@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { ABI, PROMPTY_ADDRESS } from "../../contracts";
 import Spinner from "src/components/Spinner";
 import dayjs from "dayjs";
 import MainLayout from "src/layouts/MainLayout";
@@ -16,6 +15,7 @@ import {
 import { useRouter } from "next/router";
 import { defaultAbiCoder } from "ethers/lib/utils";
 import { DoubleSlider } from "src/components/DoubleSlider";
+import { ABI, PROMPTY_ADDRESS } from "src/contracts";
 
 const PENDING_TRANSACTION_LOADING_MESSAGE = "tx processing...";
 const PENDING_WRITE_LOADING_MESSAGE = "Sign the message...";
@@ -30,6 +30,7 @@ const Create = () => {
   const [days, setDays] = useState<DaysSelection>("1");
   const provider = useProvider();
   const { data: account } = useAccount();
+  const { instanceId } = router.query;
 
   const {
     data,
@@ -40,9 +41,10 @@ const Create = () => {
       addressOrName: PROMPTY_ADDRESS,
       contractInterface: ABI,
     },
-    "create",
+    "createPrompt",
     {
       args: [
+        instanceId,
         text,
         dayjs().add(parseInt(days), "days").unix(),
         minChars.toString(),
@@ -65,6 +67,7 @@ const Create = () => {
       const event = defaultAbiCoder.decode(
         [
           "uint256",
+          "uint256",
           "address",
           "string",
           "uint256",
@@ -75,7 +78,7 @@ const Create = () => {
         data.logs[0].data
       );
 
-      router.push(`/prompt/${event[0].toString()}`);
+      router.push(`/group/${instanceId}/prompt/${event[1].toString()}`);
     },
   });
 

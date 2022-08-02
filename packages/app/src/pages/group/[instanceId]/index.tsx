@@ -30,8 +30,7 @@ gql`
 
 const HomePage: NextPage = () => {
   const router = useRouter();
-  const { id: instanceId } = router.query;
-  console.log("router.query", router.query);
+  const { instanceId } = router.query;
   const instanceIdStr = instanceId as string;
   console.log({ instanceIdStr });
 
@@ -51,7 +50,6 @@ const HomePage: NextPage = () => {
         <title>{instanceData?.name}</title>
       </Head>
 
-      <span>{instanceData?.name}</span>
       <MainLayout>
         {instanceData?.prompts?.map((p: PromptType) => (
           <div key={p.id}>

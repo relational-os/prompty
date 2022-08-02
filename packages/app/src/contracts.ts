@@ -1,4 +1,3 @@
-import deploys from "@prompty/contracts/deploys.json";
 // import { Prompty__factory } from "@prompty/contracts/typechain-types";
 
 // import { rinkebyProvider } from "./providers";

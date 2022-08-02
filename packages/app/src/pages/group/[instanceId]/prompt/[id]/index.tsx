@@ -4,10 +4,9 @@ import React, { useMemo, useState } from "react";
 import { ENSName } from "react-ens-name";
 import ReactMarkdown from "react-markdown";
 import { gql } from "urql";
-import { usePromptIdQuery } from "../../../codegen/subgraph";
-import Prompt from "../../../components/Prompt";
-import { ABI, PROMPTY_ADDRESS } from "../../../contracts";
-import MainLayout from "../../../layouts/MainLayout";
+import Prompt from "../../../../../components/Prompt";
+import { ABI, PROMPTY_ADDRESS } from "../../../../../contracts";
+import MainLayout from "../../../../../layouts/MainLayout";
 import TextareaAutosize from "react-textarea-autosize";
 import {
   useAccount,
@@ -18,6 +17,7 @@ import {
 import { PromptResponseType } from "src/types";
 import { useElapsedTime } from "use-elapsed-time";
 import Spinner from "src/components/Spinner";
+import { usePromptIdQuery } from "src/codegen/subgraph";
 // @ts-ignore
 
 gql`
