@@ -32,12 +32,14 @@ contract Prompty is IPrompty {
         }
     }
 
-    function addResponder(uint256 instanceID, address responder) public {
+    function addResponders(uint256 instanceID, address[] allowedResponders)
+        public
+    {
         PromptyInstance storage instance = instances[instanceID];
 
-        if (!instance.allowedResponders[responder]) {
-            instance.allowedResponders[responder] = true;
-            emit ResponderAdded(instanceID, responder);
+        for (uint256 i = 0; i < allowedResponders.length; i++) {
+            instance.allowedResponders[allowedResponders[i]] = true;
+            emit ResponderAdded(instanceCount, allowedResponders[i]);
         }
     }
 
@@ -77,6 +79,12 @@ contract Prompty is IPrompty {
     }
 
     function respond(uint256 promptId, string memory response) public {
+        // todo: map the instance correctly
+        // uint256 instanceId = prompts[promptId].instanceId;
+        if (instances[instanceId].allowedResponders[msg.sender] == false) {
+            revert NotAllowed();
+        }
+
         if (promptId >= currentPromptId) revert InvalidPromptID();
         if (prompts[promptId].endTime < block.timestamp) revert PromptExpired();
         if (prompts[promptId].responses[msg.sender]) revert AlreadyResponded();
