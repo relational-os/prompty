@@ -3,6 +3,7 @@ import Head from "next/head";
 import { gql } from "urql";
 import MainLayout from "../layouts/MainLayout";
 import { usePublicPromptyInstancesQuery } from "../codegen/subgraph";
+import Link from "next/link";
 
 gql`
   query PublicPromptyInstances {
@@ -31,13 +32,13 @@ const HomePage: NextPage = () => {
       <MainLayout>
         <span>these are all the public prompty groups!</span>
         <br></br>
-        <button className="p-2 bg-gray-500 ">
-          <a href="/group/create">Create a new group</a>
-        </button>
+        <Link href="/group/create">
+          <a className="p-2 bg-gray-500">Create a new group</a>
+        </Link>
 
         {query.data?.promptyInstances.map((p: any) => (
           <div className="p-4 bg-gray-400" key={p.id}>
-            <a href={`/group/${p.id}`}>{p.name}</a>
+            <Link href={`/group/${p.id}`}>{p.name}</Link>
           </div>
         ))}
       </MainLayout>

@@ -1,15 +1,13 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { gql } from "urql";
-import { useLatestPromptsFromGroupQuery } from "../../../codegen/subgraph";
-import Prompt from "../../../components/Prompt";
+import { usePromptyInstanceByIdQuery } from "../../../codegen/subgraph";
 import MainLayout from "../../../layouts/MainLayout";
-import { PromptType } from "../../../types";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 gql`
-  query LatestPromptsFromGroup($id: ID!) {
+  query PromptyInstanceById($id: ID!) {
     promptyInstances(where: { id: $id }) {
       id
       name
@@ -32,59 +30,124 @@ const HomePage: NextPage = () => {
   ]);
   const [newResponder, setNewResponder] = useState<string>("");
 
-  const [query] = useLatestPromptsFromGroupQuery(
+  const [query] = usePromptyInstanceByIdQuery(
     typeof window === "undefined" || instanceId == undefined
       ? { pause: true }
       : { variables: { id: instanceIdStr } }
   );
 
   const instanceData = query.data?.promptyInstances[0];
+  const [groupName, setGroupName] = useState<string | undefined>(
+    instanceData?.name
+  );
+
+  const [visibility, setVisibility] = useState<string>("public");
+  const [description, setDescription] = useState<string>("");
 
   // TODO do validation here
+  // ensure valid address, not a duplicate, etc
   const addResponder = () => {
+    if (allowedResponders.includes(newResponder)) {
+      setNewResponder("");
+      return;
+    }
     setAllowedResponders([...allowedResponders, newResponder]);
     setNewResponder("");
   };
 
+  const removeResponder = (responder: string) => {
+    setAllowedResponders(allowedResponders.filter((r) => r !== responder));
+  };
+
+  useEffect(() => {
+    setGroupName(instanceData?.name);
+    // setDescription(instanceData?.description);
+  }, [instanceData?.name]);
+
   return (
     <>
       <Head>
-        <title>{instanceData?.name}</title>
+        <title>{instanceData?.name} Settings</title>
       </Head>
 
       <MainLayout>
         <span>{instanceData?.name} settings</span>
+
+        <div>
+          <label>Group Name</label>
+          <input
+            className="bg-gray-300 p-1"
+            value={groupName}
+            onChange={(e) => setGroupName(e.target.value)}
+          ></input>
+        </div>
+
+        <div>
+          <label>Description</label>
+          <textarea
+            rows={3}
+            className="bg-gray-300 p-1"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          ></textarea>
+        </div>
+
+        <div>
+          <label>Visibility</label>
+          <select
+            onChange={(e) => {
+              setVisibility(e.target.value);
+            }}
+          >
+            <option value="public" selected={visibility == "public"}>
+              Public
+            </option>
+            <option value="unlisted" selected={visibility == "unlisted"}>
+              Unlisted
+            </option>
+          </select>
+        </div>
+
         <div className="flex flex-col bg-gray-500">
           <span>Responders</span>
           {allowedResponders.map((responder: string) => (
             <div>
               <span>{responder}</span>
+              <button
+                onClick={() => {
+                  removeResponder(responder);
+                }}
+                className="pl-auto"
+              >
+                ❌
+              </button>
             </div>
           ))}
           {addState != "none" && (
-            <input
-              className="bg-gray-300 p-1"
-              value={newResponder}
-              onChange={(e) => setNewResponder(e.target.value)}
-            ></input>
+            <div>
+              <input
+                className="bg-gray-300 p-1"
+                value={newResponder}
+                onChange={(e) => setNewResponder(e.target.value)}
+              ></input>
+              <button
+                onClick={() => {
+                  addResponder();
+                  setAddState("none");
+                }}
+              >
+                ✅
+              </button>
+            </div>
           )}
 
-          {addState == "none" ? (
+          {addState == "none" && (
             <button
               onClick={() => {
                 setAddState("adding");
               }}
             >
               add member
-            </button>
-          ) : (
-            <button
-              onClick={() => {
-                addResponder();
-                setAddState("none");
-              }}
-            >
-              confirm
             </button>
           )}
         </div>

@@ -23,6 +23,9 @@ gql`
         minChars
         maxChars
         responseCount
+        instance {
+          id
+        }
       }
     }
   }
@@ -32,7 +35,6 @@ const HomePage: NextPage = () => {
   const router = useRouter();
   const { instanceId } = router.query;
   const instanceIdStr = instanceId as string;
-  console.log({ instanceIdStr });
 
   const [query] = useLatestPromptsFromGroupQuery(
     typeof window === "undefined" || instanceId == undefined
@@ -51,12 +53,14 @@ const HomePage: NextPage = () => {
       </Head>
 
       <MainLayout>
-        {instanceData?.prompts?.map((p: PromptType) => (
-          <div key={p.id}>
-            <Prompt prompt={p} />
-          </div>
-        ))}
-
+        {
+          // @ts-ignore
+          instanceData?.prompts?.map((p: PromptType) => (
+            <div key={p.id}>
+              <Prompt prompt={p} />
+            </div>
+          ))
+        }
         <style jsx>{``}</style>
       </MainLayout>
     </>

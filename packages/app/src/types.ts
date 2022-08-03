@@ -8,7 +8,21 @@ export type PromptType = {
   maxChars: number;
   responses?: Response[];
   responseCount: number;
+  instance: PromptyInstance;
 };
+
+export type PromptyInstance = {
+  id: string;
+  name: string;
+  description: string;
+  allowedResponders: Wallet[];
+}
+
+export type Wallet = {
+  id: string;
+  prompts: PromptType[];
+  responses: PromptResponseType[];
+}
 
 export type PromptResponseType = {
   id: string;

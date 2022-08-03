@@ -647,14 +647,14 @@ export type AuthorQueryVariables = Exact<{
 }>;
 
 
-export type AuthorQuery = { readonly __typename?: 'Query', readonly wallet?: { readonly __typename?: 'Wallet', readonly id: string, readonly prompts: ReadonlyArray<{ readonly __typename?: 'Prompt', readonly id: string, readonly text: string, readonly startTime: any, readonly endTime: any, readonly minChars: number, readonly maxChars: number, readonly responseCount: number, readonly who: { readonly __typename?: 'Wallet', readonly id: string } }>, readonly responses: ReadonlyArray<{ readonly __typename?: 'Response', readonly id: string, readonly text: string, readonly created: any, readonly prompt: { readonly __typename?: 'Prompt', readonly id: string, readonly text: string, readonly who: { readonly __typename?: 'Wallet', readonly id: string } } }> } | null };
+export type AuthorQuery = { readonly __typename?: 'Query', readonly wallet?: { readonly __typename?: 'Wallet', readonly id: string, readonly prompts: ReadonlyArray<{ readonly __typename?: 'Prompt', readonly id: string, readonly text: string, readonly startTime: any, readonly endTime: any, readonly minChars: number, readonly maxChars: number, readonly responseCount: number, readonly instance: { readonly __typename?: 'PromptyInstance', readonly id: string }, readonly who: { readonly __typename?: 'Wallet', readonly id: string } }>, readonly responses: ReadonlyArray<{ readonly __typename?: 'Response', readonly id: string, readonly text: string, readonly created: any, readonly prompt: { readonly __typename?: 'Prompt', readonly id: string, readonly text: string, readonly who: { readonly __typename?: 'Wallet', readonly id: string }, readonly instance: { readonly __typename?: 'PromptyInstance', readonly id: string } } }> } | null };
 
 export type LatestPromptsFromGroupQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type LatestPromptsFromGroupQuery = { readonly __typename?: 'Query', readonly promptyInstances: ReadonlyArray<{ readonly __typename?: 'PromptyInstance', readonly id: string, readonly name: string, readonly prompts: ReadonlyArray<{ readonly __typename?: 'Prompt', readonly id: string, readonly text: string, readonly startTime: any, readonly endTime: any, readonly minChars: number, readonly maxChars: number, readonly responseCount: number, readonly who: { readonly __typename?: 'Wallet', readonly id: string } }> }> };
+export type LatestPromptsFromGroupQuery = { readonly __typename?: 'Query', readonly promptyInstances: ReadonlyArray<{ readonly __typename?: 'PromptyInstance', readonly id: string, readonly name: string, readonly prompts: ReadonlyArray<{ readonly __typename?: 'Prompt', readonly id: string, readonly text: string, readonly startTime: any, readonly endTime: any, readonly minChars: number, readonly maxChars: number, readonly responseCount: number, readonly who: { readonly __typename?: 'Wallet', readonly id: string }, readonly instance: { readonly __typename?: 'PromptyInstance', readonly id: string } }> }> };
 
 export type PromptIdQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -662,6 +662,13 @@ export type PromptIdQueryVariables = Exact<{
 
 
 export type PromptIdQuery = { readonly __typename?: 'Query', readonly prompt?: { readonly __typename?: 'Prompt', readonly id: string, readonly text: string, readonly startTime: any, readonly endTime: any, readonly minChars: number, readonly maxChars: number, readonly responseCount: number, readonly who: { readonly __typename?: 'Wallet', readonly id: string }, readonly responses: ReadonlyArray<{ readonly __typename?: 'Response', readonly id: string, readonly text: string, readonly who: { readonly __typename?: 'Wallet', readonly id: string } }> } | null };
+
+export type PromptyInstanceByIdQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type PromptyInstanceByIdQuery = { readonly __typename?: 'Query', readonly promptyInstances: ReadonlyArray<{ readonly __typename?: 'PromptyInstance', readonly id: string, readonly name: string, readonly allowedResponders?: ReadonlyArray<{ readonly __typename?: 'Wallet', readonly id: string }> | null }> };
 
 export type PublicPromptyInstancesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -678,6 +685,9 @@ export const AuthorDocument = gql`
       text
       startTime
       endTime
+      instance {
+        id
+      }
       minChars
       maxChars
       who {
@@ -693,6 +703,9 @@ export const AuthorDocument = gql`
         id
         text
         who {
+          id
+        }
+        instance {
           id
         }
       }
@@ -720,6 +733,9 @@ export const LatestPromptsFromGroupDocument = gql`
       minChars
       maxChars
       responseCount
+      instance {
+        id
+      }
     }
   }
 }
@@ -754,6 +770,21 @@ export const PromptIdDocument = gql`
 
 export function usePromptIdQuery(options: Omit<Urql.UseQueryArgs<PromptIdQueryVariables>, 'query'>) {
   return Urql.useQuery<PromptIdQuery>({ query: PromptIdDocument, ...options });
+};
+export const PromptyInstanceByIdDocument = gql`
+    query PromptyInstanceById($id: ID!) {
+  promptyInstances(where: {id: $id}) {
+    id
+    name
+    allowedResponders {
+      id
+    }
+  }
+}
+    `;
+
+export function usePromptyInstanceByIdQuery(options: Omit<Urql.UseQueryArgs<PromptyInstanceByIdQueryVariables>, 'query'>) {
+  return Urql.useQuery<PromptyInstanceByIdQuery>({ query: PromptyInstanceByIdDocument, ...options });
 };
 export const PublicPromptyInstancesDocument = gql`
     query PublicPromptyInstances {

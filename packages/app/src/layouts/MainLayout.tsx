@@ -33,7 +33,7 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
             {isConnected && (
               <div>
                 <a
-                  href="/prompt/create"
+                  href={`/group/${instanceIdStr}/prompt/create`}
                   className="bg-orange-500 text-white px-4 py-2 rounded-full text-sm font-bold ml-4"
                 >
                   + New prompt
@@ -53,9 +53,9 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
 
           <div className="flex items-center">
             <ConnectButton />
-            {isConnected && (
+            {isConnected && !window.location.href.includes("/author/") && (
               <a
-                href="/prompt/create"
+                href="/group/create"
                 className="bg-orange-500 text-white px-4 py-2 rounded-full text-sm font-bold ml-4"
               >
                 + New group
