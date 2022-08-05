@@ -59,6 +59,7 @@ const HomePage: NextPage = () => {
                     <small className="whitespace-nowrap mr-2 opacity-60">
                       3 active prompts
                     </small>
+                    {/* TODO: add unlisted icon */}
                     <img
                       src="/assets/img-groupStatus-global.svg"
                       className="w-5"
