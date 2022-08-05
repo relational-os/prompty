@@ -4,13 +4,14 @@
     "artifacts": "out",
     "sources": "src",
     "tests": "test",
+    "scripts": "script",
     "libraries": [
       "lib"
     ]
   },
   "files": {
     "lib/openzeppelin-contracts/contracts/access/Ownable.sol": {
-      "lastModificationDate": 1658856476071,
+      "lastModificationDate": 1659718140208,
       "contentHash": "e436cea06129be2c73cda4b1acc848b5",
       "sourceName": "lib/openzeppelin-contracts/contracts/access/Ownable.sol",
       "solcConfig": {
@@ -50,7 +51,7 @@
       }
     },
     "lib/openzeppelin-contracts/contracts/utils/Context.sol": {
-      "lastModificationDate": 1658856476090,
+      "lastModificationDate": 1659718140228,
       "contentHash": "5f2c5c4b6af2dd4551027144797bc8be",
       "sourceName": "lib/openzeppelin-contracts/contracts/utils/Context.sol",
       "solcConfig": {
@@ -88,7 +89,7 @@
       }
     },
     "lib/solenv/lib/forge-std/src/Script.sol": {
-      "lastModificationDate": 1658857881961,
+      "lastModificationDate": 1659718141006,
       "contentHash": "a24c6682dfdd459618422202d7b97fec",
       "sourceName": "lib/solenv/lib/forge-std/src/Script.sol",
       "solcConfig": {
@@ -130,7 +131,7 @@
       }
     },
     "lib/solenv/lib/forge-std/src/Vm.sol": {
-      "lastModificationDate": 1658857881961,
+      "lastModificationDate": 1659718141006,
       "contentHash": "498032edf2491104b61524a4665b0613",
       "sourceName": "lib/solenv/lib/forge-std/src/Vm.sol",
       "solcConfig": {
@@ -168,7 +169,7 @@
       }
     },
     "lib/solenv/lib/forge-std/src/console.sol": {
-      "lastModificationDate": 1658857881961,
+      "lastModificationDate": 1659718141006,
       "contentHash": "100b8a33b917da1147740d7ab8b0ded3",
       "sourceName": "lib/solenv/lib/forge-std/src/console.sol",
       "solcConfig": {
@@ -206,7 +207,7 @@
       }
     },
     "lib/solenv/lib/forge-std/src/console2.sol": {
-      "lastModificationDate": 1658857881962,
+      "lastModificationDate": 1659718141007,
       "contentHash": "5df91f8e93efbfcccf68973dc1b74a70",
       "sourceName": "lib/solenv/lib/forge-std/src/console2.sol",
       "solcConfig": {
@@ -244,7 +245,7 @@
       }
     },
     "lib/solenv/lib/solidity-stringutils/src/strings.sol": {
-      "lastModificationDate": 1658857884037,
+      "lastModificationDate": 1659718142657,
       "contentHash": "a35219f3ed241165477dabdfe496165a",
       "sourceName": "lib/solenv/lib/solidity-stringutils/src/strings.sol",
       "solcConfig": {
@@ -282,7 +283,7 @@
       }
     },
     "lib/solenv/src/Solenv.sol": {
-      "lastModificationDate": 1658857881962,
+      "lastModificationDate": 1659718141007,
       "contentHash": "b7fca419b674d2ce3ee6745ffb963e95",
       "sourceName": "lib/solenv/src/Solenv.sol",
       "solcConfig": {
@@ -323,8 +324,8 @@
       }
     },
     "src/IPrompty.sol": {
-      "lastModificationDate": 1658857016581,
-      "contentHash": "57c0b33e3cdf03af717d459a151d1509",
+      "lastModificationDate": 1659718265488,
+      "contentHash": "2445ece5443f1c891657b5dbe77e7e90",
       "sourceName": "src/IPrompty.sol",
       "solcConfig": {
         "settings": {
@@ -361,8 +362,8 @@
       }
     },
     "src/Prompty.sol": {
-      "lastModificationDate": 1658857487219,
-      "contentHash": "967dc5ebd2ffcb9f7f60ecc7fc71ba9a",
+      "lastModificationDate": 1659718302299,
+      "contentHash": "1a9d9b72231462f621357c76c15820de",
       "sourceName": "src/Prompty.sol",
       "solcConfig": {
         "settings": {
@@ -401,7 +402,7 @@
       }
     },
     "src/PromptyManager.sol": {
-      "lastModificationDate": 1658856479511,
+      "lastModificationDate": 1659372553203,
       "contentHash": "34a486b9afc4817324ed9e2075ab9300",
       "sourceName": "src/PromptyManager.sol",
       "solcConfig": {
@@ -443,7 +444,7 @@
       }
     },
     "src/scripts/DeployPrompty.s.sol": {
-      "lastModificationDate": 1658858191308,
+      "lastModificationDate": 1659372553203,
       "contentHash": "efc7e29183503cc060e24ab907237c07",
       "sourceName": "src/scripts/DeployPrompty.s.sol",
       "solcConfig": {

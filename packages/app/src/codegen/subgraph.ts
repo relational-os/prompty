@@ -673,7 +673,7 @@ export type PromptyInstanceByIdQuery = { readonly __typename?: 'Query', readonly
 export type PublicPromptyInstancesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type PublicPromptyInstancesQuery = { readonly __typename?: 'Query', readonly promptyInstances: ReadonlyArray<{ readonly __typename?: 'PromptyInstance', readonly id: string, readonly name: string, readonly allowedResponders?: ReadonlyArray<{ readonly __typename?: 'Wallet', readonly id: string }> | null }> };
+export type PublicPromptyInstancesQuery = { readonly __typename?: 'Query', readonly promptyInstances: ReadonlyArray<{ readonly __typename?: 'PromptyInstance', readonly id: string, readonly name: string, readonly description: string, readonly allowedResponders?: ReadonlyArray<{ readonly __typename?: 'Wallet', readonly id: string }> | null }> };
 
 
 export const AuthorDocument = gql`
@@ -791,6 +791,7 @@ export const PublicPromptyInstancesDocument = gql`
   promptyInstances(first: 100) {
     id
     name
+    description
     allowedResponders {
       id
     }

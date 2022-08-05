@@ -14,13 +14,20 @@ contract Prompty is IPrompty {
     function createInstance(
         address[] memory allowedResponders,
         string memory name,
-        string memory description
+        string memory description,
+        bool isVisible
     ) public {
         PromptyInstance storage instance = instances[instanceCount];
 
         instance.name = name;
+        instance.isVisible = isVisible;
 
-        emit InstanceCreated(instanceCount, name, description);
+        emit InstanceCreated(
+            instanceCount,
+            name,
+            description,
+            instance.isVisible
+        );
 
         for (uint256 i = 0; i < allowedResponders.length; i++) {
             instance.allowedResponders[allowedResponders[i]] = true;
@@ -32,15 +39,50 @@ contract Prompty is IPrompty {
         }
     }
 
-    function addResponders(uint256 instanceID, address[] allowedResponders)
-        public
-    {
+    function addResponders(
+        uint256 instanceID,
+        address[] memory allowedResponders
+    ) public {
         PromptyInstance storage instance = instances[instanceID];
 
         for (uint256 i = 0; i < allowedResponders.length; i++) {
             instance.allowedResponders[allowedResponders[i]] = true;
             emit ResponderAdded(instanceCount, allowedResponders[i]);
         }
+    }
+
+    function updateVisibility(uint256 instanceId, bool isVisible) public {
+        if (instances[instanceId].allowedResponders[msg.sender] == false) {
+            revert NotAllowed();
+        }
+
+        PromptyInstance storage instance = instances[instanceId];
+
+        instance.isVisible = isVisible;
+        emit InstanceUpdated(
+            instanceId,
+            instance.name,
+            instance.description,
+            instance.isVisible
+        );
+    }
+
+    function updateDescription(uint256 instanceId, string memory description)
+        public
+    {
+        if (instances[instanceId].allowedResponders[msg.sender] == false) {
+            revert NotAllowed();
+        }
+
+        PromptyInstance storage instance = instances[instanceId];
+
+        instance.description = description;
+        emit InstanceUpdated(
+            instanceId,
+            instance.name,
+            instance.description,
+            instance.isVisible
+        );
     }
 
     function createPrompt(
@@ -78,9 +120,11 @@ contract Prompty is IPrompty {
         currentPromptId += 1;
     }
 
-    function respond(uint256 promptId, string memory response) public {
-        // todo: map the instance correctly
-        // uint256 instanceId = prompts[promptId].instanceId;
+    function respond(
+        uint256 instanceId,
+        uint256 promptId,
+        string memory response
+    ) public {
         if (instances[instanceId].allowedResponders[msg.sender] == false) {
             revert NotAllowed();
         }
