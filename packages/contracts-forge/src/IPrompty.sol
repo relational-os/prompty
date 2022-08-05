@@ -60,10 +60,13 @@ interface IPrompty {
         bool isVisible
     ) external;
 
-    function updateVisibility(uint256 instanceId, bool isVisible) external;
-
-    function updateDescription(uint256 instanceId, string memory description)
-        external;
+    function updateSettings(
+        uint256 instanceId,
+        string memory newName,
+        string memory newDescription,
+        bool newIsVisible,
+        address[] memory newAllowedResponders
+    ) external;
 
     function addResponders(
         uint256 instanceID,

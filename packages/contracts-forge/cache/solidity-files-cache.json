@@ -324,8 +324,8 @@
       }
     },
     "src/IPrompty.sol": {
-      "lastModificationDate": 1659718265488,
-      "contentHash": "2445ece5443f1c891657b5dbe77e7e90",
+      "lastModificationDate": 1659720095546,
+      "contentHash": "bf6d9a91ad84c51d6f23246689383cd2",
       "sourceName": "src/IPrompty.sol",
       "solcConfig": {
         "settings": {
@@ -362,8 +362,8 @@
       }
     },
     "src/Prompty.sol": {
-      "lastModificationDate": 1659718302299,
-      "contentHash": "1a9d9b72231462f621357c76c15820de",
+      "lastModificationDate": 1659720096730,
+      "contentHash": "858e9615d7b9765bfe9602e951e6fedb",
       "sourceName": "src/Prompty.sol",
       "solcConfig": {
         "settings": {

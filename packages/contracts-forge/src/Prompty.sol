@@ -51,32 +51,24 @@ contract Prompty is IPrompty {
         }
     }
 
-    function updateVisibility(uint256 instanceId, bool isVisible) public {
+    function updateSettings(
+        uint256 instanceId,
+        string memory newName,
+        string memory newDescription,
+        bool newIsVisible,
+        address[] memory newAllowedResponders
+    ) public {
+        PromptyInstance storage instance = instances[instanceId];
+
         if (instances[instanceId].allowedResponders[msg.sender] == false) {
             revert NotAllowed();
         }
 
-        PromptyInstance storage instance = instances[instanceId];
+        instance.name = newName;
+        instance.description = newDescription;
+        instance.isVisible = newIsVisible;
+        addResponders(instanceId, newAllowedResponders);
 
-        instance.isVisible = isVisible;
-        emit InstanceUpdated(
-            instanceId,
-            instance.name,
-            instance.description,
-            instance.isVisible
-        );
-    }
-
-    function updateDescription(uint256 instanceId, string memory description)
-        public
-    {
-        if (instances[instanceId].allowedResponders[msg.sender] == false) {
-            revert NotAllowed();
-        }
-
-        PromptyInstance storage instance = instances[instanceId];
-
-        instance.description = description;
         emit InstanceUpdated(
             instanceId,
             instance.name,
