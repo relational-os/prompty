@@ -25,6 +25,8 @@ dataSources:
           handler: handlePromptResponse
         - event: ResponderAdded(uint256,address);
           handler: handleResponderAdded
-        - event: InstanceCreated(uint256,string,string);
+        - event: InstanceCreated(uint256,string,string,bool)
           handler: handleInstanceCreated
+        - event: InstanceUpdated(uint256,string,string,bool)
+          handler: handleInstanceUpdated
       file: ./src/mapping.ts
