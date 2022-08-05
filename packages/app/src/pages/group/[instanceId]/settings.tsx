@@ -116,11 +116,13 @@ const HomePage: NextPage = () => {
             </select>
           </div>
 
-          <div className="mb-5">
-            <h4 className="font-bold mb-3 text-sm ml-2 opacity-70">Members</h4>
-            <div className="w-full p-2 border-2 border-gray-200 rounded-md placeholder:text-gray-400 bg-white">
+          <div className="mb-5 pt-4">
+            <h4 className="font-bold mb-3 text-sm ml-2 opacity-70">
+              Allow List
+            </h4>
+            <div className="w-full p-2  rounded-md placeholder:text-gray-400 bg-white">
               {allowedResponders.map((responder: string) => (
-                <div>
+                <div className="flex justify-between p-1">
                   <span>{responder}</span>
                   <button
                     onClick={() => {
@@ -128,14 +130,18 @@ const HomePage: NextPage = () => {
                     }}
                     className="pl-auto"
                   >
-                    ❌
+                    <img
+                      src="/assets/control-deleteMember.svg"
+                      alt="Remove Member"
+                      className="p-1 w-7"
+                    />
                   </button>
                 </div>
               ))}
               {addState != 'none' && (
-                <div>
+                <div className="relative">
                   <input
-                    className="bg-gray-300 p-1"
+                    className="w-full px-2 py-1 border-2 border-gray-200 rounded-md placeholder:text-gray-400"
                     value={newResponder}
                     onChange={(e) => setNewResponder(e.target.value)}
                   ></input>
@@ -145,7 +151,11 @@ const HomePage: NextPage = () => {
                       setAddState('none');
                     }}
                   >
-                    ✅
+                    <img
+                      src="/assets/img-enterNewMember-valid.svg"
+                      alt="Valid Member"
+                      className="p-1 w-7 absolute right-1 top-1"
+                    />
                   </button>
                 </div>
               )}
@@ -156,13 +166,21 @@ const HomePage: NextPage = () => {
                 onClick={() => {
                   setAddState('adding');
                 }}
+                className="text-orange-500 text-sm mt-2"
               >
-                add member
+                <img
+                  src="/assets/control-addMember.svg"
+                  alt="Add Member"
+                  className="p-1 w-7 inline-block"
+                />{' '}
+                Add Member
               </button>
             )}
           </div>
 
-          <button>save</button>
+          <button className="rounded-full px-5 py-2 mt-8 bg-orange-500 text-white text-sm font-bold disabled:opacity-50">
+            Apply Changes
+          </button>
         </div>
       </MainLayout>
     </>
