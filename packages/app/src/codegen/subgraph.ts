@@ -193,6 +193,7 @@ export type PromptyInstance = {
   readonly id: Scalars['ID'];
   readonly name: Scalars['String'];
   readonly prompts: ReadonlyArray<Prompt>;
+  readonly visible: Scalars['Boolean'];
 };
 
 
@@ -272,6 +273,10 @@ export type PromptyInstance_Filter = {
   readonly name_starts_with?: InputMaybe<Scalars['String']>;
   readonly name_starts_with_nocase?: InputMaybe<Scalars['String']>;
   readonly prompts_?: InputMaybe<Prompt_Filter>;
+  readonly visible?: InputMaybe<Scalars['Boolean']>;
+  readonly visible_in?: InputMaybe<ReadonlyArray<Scalars['Boolean']>>;
+  readonly visible_not?: InputMaybe<Scalars['Boolean']>;
+  readonly visible_not_in?: InputMaybe<ReadonlyArray<Scalars['Boolean']>>;
 };
 
 export enum PromptyInstance_OrderBy {
@@ -279,7 +284,8 @@ export enum PromptyInstance_OrderBy {
   Description = 'description',
   Id = 'id',
   Name = 'name',
-  Prompts = 'prompts'
+  Prompts = 'prompts',
+  Visible = 'visible'
 }
 
 export type Query = {
@@ -668,7 +674,7 @@ export type PromptyInstanceByIdQueryVariables = Exact<{
 }>;
 
 
-export type PromptyInstanceByIdQuery = { readonly __typename?: 'Query', readonly promptyInstances: ReadonlyArray<{ readonly __typename?: 'PromptyInstance', readonly id: string, readonly name: string, readonly allowedResponders?: ReadonlyArray<{ readonly __typename?: 'Wallet', readonly id: string }> | null }> };
+export type PromptyInstanceByIdQuery = { readonly __typename?: 'Query', readonly promptyInstances: ReadonlyArray<{ readonly __typename?: 'PromptyInstance', readonly id: string, readonly name: string, readonly description: string, readonly visible: boolean, readonly allowedResponders?: ReadonlyArray<{ readonly __typename?: 'Wallet', readonly id: string }> | null }> };
 
 export type PublicPromptyInstancesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -776,6 +782,8 @@ export const PromptyInstanceByIdDocument = gql`
   promptyInstances(where: {id: $id}) {
     id
     name
+    description
+    visible
     allowedResponders {
       id
     }

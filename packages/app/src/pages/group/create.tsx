@@ -1,29 +1,29 @@
-import React, { useState } from 'react';
-import Spinner from 'src/components/Spinner';
-import MainLayout from 'src/layouts/MainLayout';
-import { useElapsedTime } from 'use-elapsed-time';
+import React, { useState } from "react";
+import Spinner from "src/components/Spinner";
+import MainLayout from "src/layouts/MainLayout";
+import { useElapsedTime } from "use-elapsed-time";
 // import { ENSName } from "react-ens-name";
 import {
   useAccount,
   useContractWrite,
   useProvider,
   useWaitForTransaction,
-} from 'wagmi';
-import { useRouter } from 'next/router';
-import { defaultAbiCoder } from 'ethers/lib/utils';
-import { ABI, PROMPTY_ADDRESS } from 'src/contracts';
+} from "wagmi";
+import { useRouter } from "next/router";
+import { defaultAbiCoder } from "ethers/lib/utils";
+import { ABI, PROMPTY_ADDRESS } from "src/contracts";
 
-const PENDING_TRANSACTION_LOADING_MESSAGE = 'tx processing...';
-const PENDING_WRITE_LOADING_MESSAGE = 'Sign the message...';
+const PENDING_TRANSACTION_LOADING_MESSAGE = "tx processing...";
+const PENDING_WRITE_LOADING_MESSAGE = "Sign the message...";
 const Create = () => {
   const router = useRouter();
 
   const provider = useProvider();
   const { data: account } = useAccount();
 
-  const [groupName, setGroupName] = useState('');
-  const [description, setDescription] = useState('');
-  const [visibility, setVisibility] = useState<string>('public');
+  const [groupName, setGroupName] = useState("");
+  const [description, setDescription] = useState("");
+  const [visibility, setVisibility] = useState<string>("public");
   // eslint-disable-next-line no-unused-vars
   const [allowList, setAllowList] = useState([account?.address]);
   // const [visibility, setVisibility] = useState("public");
@@ -32,10 +32,11 @@ const Create = () => {
     if (provider) {
       write();
     } else {
-      console.log('no provider');
+      console.log("no provider");
     }
   };
 
+  // TODO: make into component, share with group/settings
   const {
     data,
     write,
@@ -45,9 +46,9 @@ const Create = () => {
       addressOrName: PROMPTY_ADDRESS,
       contractInterface: ABI,
     },
-    'createInstance',
+    "createInstance",
     {
-      args: [allowList, groupName, description],
+      args: [allowList, groupName, description, visibility == "public"],
     }
   );
 
@@ -57,21 +58,21 @@ const Create = () => {
     hash: data?.hash,
     wait: data?.wait,
     onError(err) {
-      console.error('error waiting for tx', err);
+      console.error("error waiting for tx", err);
     },
     onSuccess(data) {
       // here: redirect to the page
-      console.log('success', data);
+      console.log("success", data);
 
       const event = defaultAbiCoder.decode(
         [
-          'uint256',
-          'address',
-          'string',
-          'uint256',
-          'uint256',
-          'uint128',
-          'uint128',
+          "uint256",
+          "address",
+          "string",
+          "uint256",
+          "uint256",
+          "uint128",
+          "uint128",
         ],
         data.logs[0].data
       );
@@ -117,10 +118,10 @@ const Create = () => {
               setVisibility(e.target.value);
             }}
           >
-            <option value="public" selected={visibility == 'public'}>
+            <option value="public" selected={visibility == "public"}>
               Public
             </option>
-            <option value="unlisted" selected={visibility == 'unlisted'}>
+            <option value="unlisted" selected={visibility == "unlisted"}>
               Unlisted
             </option>
           </select>
@@ -135,15 +136,15 @@ const Create = () => {
           {isLoading ? (
             <div className="flex">
               <Spinner />
-              {isLoadingWrite ? PENDING_WRITE_LOADING_MESSAGE : ''}
+              {isLoadingWrite ? PENDING_WRITE_LOADING_MESSAGE : ""}
               {isTransactionLoading
                 ? `${PENDING_TRANSACTION_LOADING_MESSAGE} ${Math.round(
                     elapsedTime
                   )}s`
-                : ''}
+                : ""}
             </div>
           ) : (
-            '+ Create Group'
+            "+ Create Group"
           )}
         </button>
       </div>

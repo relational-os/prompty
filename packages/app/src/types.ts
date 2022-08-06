@@ -15,6 +15,7 @@ export type PromptyInstance = {
   id: string;
   name: string;
   description: string;
+  visible: boolean;
   allowedResponders: Wallet[];
 }
 

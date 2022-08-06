@@ -11,334 +11,424 @@ const network = "rinkeby";
 // );
 
 // TODO import this from the deploys.json file from contracts-forge
-export const PROMPTY_ADDRESS = "0xbcdca65758f423971d916e99926ed44507484bf0";
+export const PROMPTY_ADDRESS = "0x6b24fbc6ac225508aba6899cfe844f5d229deaae";
 
 export const ABI = [
   {
-    inputs: [],
-    name: "AlreadyResponded",
-    type: "error",
+    "inputs": [],
+    "name": "AlreadyResponded",
+    "type": "error"
   },
   {
-    inputs: [],
-    name: "InvalidPrompt",
-    type: "error",
+    "inputs": [],
+    "name": "InvalidPrompt",
+    "type": "error"
   },
   {
-    inputs: [],
-    name: "InvalidPromptID",
-    type: "error",
+    "inputs": [],
+    "name": "InvalidPromptID",
+    "type": "error"
   },
   {
-    inputs: [],
-    name: "InvalidPromptParams",
-    type: "error",
+    "inputs": [],
+    "name": "InvalidPromptParams",
+    "type": "error"
   },
   {
-    inputs: [],
-    name: "NotAllowed",
-    type: "error",
+    "inputs": [],
+    "name": "NotAllowed",
+    "type": "error"
   },
   {
-    inputs: [],
-    name: "PromptExpired",
-    type: "error",
+    "inputs": [],
+    "name": "PromptExpired",
+    "type": "error"
   },
   {
-    inputs: [],
-    name: "ResponseTooLong",
-    type: "error",
+    "inputs": [],
+    "name": "ResponseTooLong",
+    "type": "error"
   },
   {
-    inputs: [],
-    name: "ResponseTooShort",
-    type: "error",
+    "inputs": [],
+    "name": "ResponseTooShort",
+    "type": "error"
   },
   {
-    anonymous: false,
-    inputs: [
+    "anonymous": false,
+    "inputs": [
       {
-        indexed: false,
-        internalType: "uint256",
-        name: "id",
-        type: "uint256",
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
       },
       {
-        indexed: false,
-        internalType: "string",
-        name: "name",
-        type: "string",
+        "indexed": false,
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
       },
       {
-        indexed: false,
-        internalType: "string",
-        name: "description",
-        type: "string",
+        "indexed": false,
+        "internalType": "string",
+        "name": "description",
+        "type": "string"
       },
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "isVisible",
+        "type": "bool"
+      }
     ],
-    name: "InstanceCreated",
-    type: "event",
+    "name": "InstanceCreated",
+    "type": "event"
   },
   {
-    anonymous: false,
-    inputs: [
+    "anonymous": false,
+    "inputs": [
       {
-        indexed: false,
-        internalType: "uint256",
-        name: "instanceId",
-        type: "uint256",
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
       },
       {
-        indexed: false,
-        internalType: "uint256",
-        name: "promptId",
-        type: "uint256",
+        "indexed": false,
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
       },
       {
-        indexed: false,
-        internalType: "address",
-        name: "creator",
-        type: "address",
+        "indexed": false,
+        "internalType": "string",
+        "name": "description",
+        "type": "string"
       },
       {
-        indexed: false,
-        internalType: "string",
-        name: "prompt",
-        type: "string",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "startTime",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "endTime",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "uint128",
-        name: "minChars",
-        type: "uint128",
-      },
-      {
-        indexed: false,
-        internalType: "uint128",
-        name: "maxChars",
-        type: "uint128",
-      },
+        "indexed": false,
+        "internalType": "bool",
+        "name": "isVisible",
+        "type": "bool"
+      }
     ],
-    name: "PromptCreated",
-    type: "event",
+    "name": "InstanceUpdated",
+    "type": "event"
   },
   {
-    anonymous: false,
-    inputs: [
+    "anonymous": false,
+    "inputs": [
       {
-        indexed: false,
-        internalType: "uint256",
-        name: "promptId",
-        type: "uint256",
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "instanceId",
+        "type": "uint256"
       },
       {
-        indexed: false,
-        internalType: "address",
-        name: "responder",
-        type: "address",
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "promptId",
+        "type": "uint256"
       },
       {
-        indexed: false,
-        internalType: "string",
-        name: "response",
-        type: "string",
+        "indexed": false,
+        "internalType": "address",
+        "name": "creator",
+        "type": "address"
       },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "prompt",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "startTime",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "endTime",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint128",
+        "name": "minChars",
+        "type": "uint128"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint128",
+        "name": "maxChars",
+        "type": "uint128"
+      }
     ],
-    name: "PromptResponse",
-    type: "event",
+    "name": "PromptCreated",
+    "type": "event"
   },
   {
-    anonymous: false,
-    inputs: [
+    "anonymous": false,
+    "inputs": [
       {
-        indexed: false,
-        internalType: "uint256",
-        name: "instanceId",
-        type: "uint256",
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "promptId",
+        "type": "uint256"
       },
       {
-        indexed: false,
-        internalType: "address",
-        name: "responder",
-        type: "address",
+        "indexed": false,
+        "internalType": "address",
+        "name": "responder",
+        "type": "address"
       },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "response",
+        "type": "string"
+      }
     ],
-    name: "ResponderAdded",
-    type: "event",
+    "name": "PromptResponse",
+    "type": "event"
   },
   {
-    inputs: [
+    "anonymous": false,
+    "inputs": [
       {
-        internalType: "uint256",
-        name: "instanceID",
-        type: "uint256",
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "instanceId",
+        "type": "uint256"
       },
       {
-        internalType: "address",
-        name: "responder",
-        type: "address",
-      },
+        "indexed": false,
+        "internalType": "address",
+        "name": "responder",
+        "type": "address"
+      }
     ],
-    name: "addResponder",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    "name": "ResponderAdded",
+    "type": "event"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "address[]",
-        name: "allowedResponders",
-        type: "address[]",
+        "internalType": "uint256",
+        "name": "instanceID",
+        "type": "uint256"
       },
       {
-        internalType: "string",
-        name: "name",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "description",
-        type: "string",
-      },
+        "internalType": "address[]",
+        "name": "allowedResponders",
+        "type": "address[]"
+      }
     ],
-    name: "createInstance",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    "name": "addResponders",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "uint256",
-        name: "instanceId",
-        type: "uint256",
+        "internalType": "address[]",
+        "name": "allowedResponders",
+        "type": "address[]"
       },
       {
-        internalType: "string",
-        name: "prompt",
-        type: "string",
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
       },
       {
-        internalType: "uint256",
-        name: "endTime",
-        type: "uint256",
+        "internalType": "string",
+        "name": "description",
+        "type": "string"
       },
       {
-        internalType: "uint128",
-        name: "minChars",
-        type: "uint128",
-      },
-      {
-        internalType: "uint128",
-        name: "maxChars",
-        type: "uint128",
-      },
+        "internalType": "bool",
+        "name": "isVisible",
+        "type": "bool"
+      }
     ],
-    name: "createPrompt",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    "name": "createInstance",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    inputs: [],
-    name: "currentPromptId",
-    outputs: [
+    "inputs": [
       {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
+        "internalType": "uint256",
+        "name": "instanceId",
+        "type": "uint256"
       },
+      {
+        "internalType": "string",
+        "name": "prompt",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "endTime",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint128",
+        "name": "minChars",
+        "type": "uint128"
+      },
+      {
+        "internalType": "uint128",
+        "name": "maxChars",
+        "type": "uint128"
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    "name": "createPrompt",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [],
+    "name": "currentPromptId",
+    "outputs": [
       {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
     ],
-    name: "instances",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "id",
-        type: "uint256",
-      },
-      {
-        internalType: "string",
-        name: "name",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
+    "stateMutability": "view",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
     ],
-    name: "prompts",
-    outputs: [
+    "name": "instances",
+    "outputs": [
       {
-        internalType: "uint256",
-        name: "startTime",
-        type: "uint256",
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
       },
       {
-        internalType: "uint256",
-        name: "endTime",
-        type: "uint256",
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
       },
       {
-        internalType: "uint128",
-        name: "minChars",
-        type: "uint128",
+        "internalType": "bool",
+        "name": "isVisible",
+        "type": "bool"
       },
       {
-        internalType: "uint128",
-        name: "maxChars",
-        type: "uint128",
-      },
+        "internalType": "string",
+        "name": "description",
+        "type": "string"
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    "stateMutability": "view",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "uint256",
-        name: "promptId",
-        type: "uint256",
-      },
-      {
-        internalType: "string",
-        name: "response",
-        type: "string",
-      },
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
     ],
-    name: "respond",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    "name": "prompts",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "startTime",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "endTime",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint128",
+        "name": "minChars",
+        "type": "uint128"
+      },
+      {
+        "internalType": "uint128",
+        "name": "maxChars",
+        "type": "uint128"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
   },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "instanceId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "promptId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "response",
+        "type": "string"
+      }
+    ],
+    "name": "respond",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "instanceId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "newName",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "newDescription",
+        "type": "string"
+      },
+      {
+        "internalType": "bool",
+        "name": "newIsVisible",
+        "type": "bool"
+      },
+      {
+        "internalType": "address[]",
+        "name": "newAllowedResponders",
+        "type": "address[]"
+      }
+    ],
+    "name": "updateSettings",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
 ];
