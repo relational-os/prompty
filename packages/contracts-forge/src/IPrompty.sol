@@ -5,6 +5,8 @@ interface IPrompty {
     struct PromptyInstance {
         uint256 id;
         string name;
+        bool isVisible;
+        string description;
         mapping(address => bool) allowedResponders;
     }
 
@@ -26,9 +28,21 @@ interface IPrompty {
         uint128 minChars,
         uint128 maxChars
     );
+
     event PromptResponse(uint256 promptId, address responder, string response);
     event ResponderAdded(uint256 instanceId, address responder);
-    event InstanceCreated(uint256 id, string name);
+    event InstanceCreated(
+        uint256 id,
+        string name,
+        string description,
+        bool isVisible
+    );
+    event InstanceUpdated(
+        uint256 id,
+        string name,
+        string description,
+        bool isVisible
+    );
 
     error InvalidPrompt();
     error InvalidPromptParams();
@@ -41,10 +55,23 @@ interface IPrompty {
 
     function createInstance(
         address[] memory allowedResponders,
-        string memory name
+        string memory name,
+        string memory description,
+        bool isVisible
     ) external;
 
-    function addResponder(uint256 instanceID, address responder) external;
+    function updateSettings(
+        uint256 instanceId,
+        string memory newName,
+        string memory newDescription,
+        bool newIsVisible,
+        address[] memory newAllowedResponders
+    ) external;
+
+    function addResponders(
+        uint256 instanceID,
+        address[] memory allowedResponders
+    ) external;
 
     function createPrompt(
         uint256 instanceId,
@@ -54,5 +81,9 @@ interface IPrompty {
         uint128 maxChars
     ) external;
 
-    function respond(uint256 promptId, string memory response) external;
+    function respond(
+        uint256 instanceId,
+        uint256 promptId,
+        string memory response
+    ) external;
 }

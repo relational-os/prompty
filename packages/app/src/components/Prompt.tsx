@@ -7,9 +7,11 @@ import ReactTimeAgo from "react-time-ago";
 
 const Prompt = ({ prompt }: { prompt: PromptType }) => {
   const promptExpired = dayjs().isAfter(dayjs.unix(prompt.endTime));
+  const { id: instanceId } = prompt.instance || {};
+  const instanceIdStr = instanceId as string;
 
   return (
-    <a href={`/prompt/${prompt.id}`}>
+    <a href={`/group/${instanceIdStr}/prompt/${prompt.id}`}>
       <div
         className={`${
           promptExpired

@@ -17,6 +17,9 @@ gql`
         text
         startTime
         endTime
+        instance {
+          id
+        }
         minChars
         maxChars
         who {
@@ -32,6 +35,9 @@ gql`
           id
           text
           who {
+            id
+          }
+          instance {
             id
           }
         }
@@ -61,11 +67,14 @@ const Index = () => {
 
         <h2 className="font-bold ml-5 mb-5">Prompts</h2>
 
-        {query.data?.wallet?.prompts?.map((p: PromptType) => (
-          <div key={p.id}>
-            <Prompt prompt={p} />
-          </div>
-        ))}
+        {
+          // @ts-ignore
+          query.data?.wallet?.prompts?.map((p: PromptType) => (
+            <div key={p.id}>
+              <Prompt prompt={p} />
+            </div>
+          ))
+        }
 
         <h2 className="font-bold ml-5 mb-5">Responses</h2>
 

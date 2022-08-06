@@ -53,9 +53,52 @@
         "internalType": "string",
         "name": "name",
         "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "description",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "isVisible",
+        "type": "bool"
       }
     ],
     "name": "InstanceCreated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "description",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "isVisible",
+        "type": "bool"
+      }
+    ],
+    "name": "InstanceUpdated",
     "type": "event"
   },
   {
@@ -165,12 +208,12 @@
         "type": "uint256"
       },
       {
-        "internalType": "address",
-        "name": "responder",
-        "type": "address"
+        "internalType": "address[]",
+        "name": "allowedResponders",
+        "type": "address[]"
       }
     ],
-    "name": "addResponder",
+    "name": "addResponders",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -186,6 +229,16 @@
         "internalType": "string",
         "name": "name",
         "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "description",
+        "type": "string"
+      },
+      {
+        "internalType": "bool",
+        "name": "isVisible",
+        "type": "bool"
       }
     ],
     "name": "createInstance",
@@ -258,6 +311,16 @@
         "internalType": "string",
         "name": "name",
         "type": "string"
+      },
+      {
+        "internalType": "bool",
+        "name": "isVisible",
+        "type": "bool"
+      },
+      {
+        "internalType": "string",
+        "name": "description",
+        "type": "string"
       }
     ],
     "stateMutability": "view",
@@ -301,6 +364,11 @@
     "inputs": [
       {
         "internalType": "uint256",
+        "name": "instanceId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
         "name": "promptId",
         "type": "uint256"
       },
@@ -311,6 +379,42 @@
       }
     ],
     "name": "respond",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "instanceId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "description",
+        "type": "string"
+      }
+    ],
+    "name": "updateDescription",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "instanceId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "isVisible",
+        "type": "bool"
+      }
+    ],
+    "name": "updateVisibility",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

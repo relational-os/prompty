@@ -1,5 +1,6 @@
 import {
   InstanceCreated,
+  InstanceUpdated,
   PromptCreated,
   PromptResponse,
   Prompty,
@@ -13,6 +14,18 @@ export function handleInstanceCreated(event: InstanceCreated): void {
 
   instance.name = event.params.name;
   instance.allowedResponders = [];
+  instance.description = event.params.description;
+  instance.visible = event.params.isVisible;
+
+  instance.save();
+}
+
+export function handleInstanceUpdated(event: InstanceUpdated): void {
+  const instance = PromptyInstance.load(event.params.id.toString())!;
+
+  instance.name = event.params.name;
+  instance.description = event.params.description;
+  instance.visible = event.params.isVisible;
 
   instance.save();
 }

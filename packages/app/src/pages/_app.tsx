@@ -20,13 +20,13 @@ import en from "javascript-time-ago/locale/en.json";
 TimeAgo.addDefaultLocale(en);
 
 export const graphClient = createGraphClient({
-  url: "https://api.thegraph.com/subgraphs/name/relational-os/prompty",
+  url: "https://api.thegraph.com/subgraphs/name/relational-os/promptyinstances",
 });
 
 const { chains, provider } = configureChains(
-  [chain.rinkeby],
+  [chain.polygonMumbai],
   [
-    apiProvider.infura(process.env.NEXT_PUBLIC_RINKEBY_RPC_INFURA_ID),
+    apiProvider.infura(process.env.NEXT_PUBLIC_RPC_INFURA_ID),
     apiProvider.alchemy(process.env.ALCHEMY_ID),
     apiProvider.fallback(),
   ]
