@@ -1,0 +1,39 @@
+{
+  "name": "prompty-v2",
+  "version": "1.0.0",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "bun run dev:server & bun run dev:client",
+    "dev:server": "bun --watch server/index.ts",
+    "dev:client": "bunx vite",
+    "build": "bunx vite build",
+    "preview": "bunx vite preview",
+    "start": "bun server/index.ts",
+    "start:prod": "bun server/prod.ts"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/bun": "latest",
+    "@types/cors": "^2.8.19",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@vitejs/plugin-react": "^5.0.2",
+    "vite": "^7.1.5"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "better-sqlite3": "^12.2.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.2",
+    "hono": "^4.9.6",
+    "jsonwebtoken": "^9.0.2",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "react-router-dom": "^7.8.2",
+    "sqlite3": "^5.1.7"
+  }
+}
