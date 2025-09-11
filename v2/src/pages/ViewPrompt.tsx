@@ -70,7 +70,7 @@ const ViewPrompt = () => {
     e.preventDefault()
     
     if (!user) {
-      navigate(`/login?redirect=/prompt/${id}`)
+      navigate(`/register?redirect=/prompt/${id}`)
       return
     }
     
@@ -170,8 +170,9 @@ const ViewPrompt = () => {
               className="btn" 
               disabled={submitting || !user}
               style={{ width: '100%' }}
+              onClick={!user ? () => navigate('/register') : undefined}
             >
-              {!user ? 'Login to Respond' : submitting ? 'Submitting...' : 'Respond'}
+              {!user ? 'Login or Sign Up to Respond' : submitting ? 'Submitting...' : 'Respond'}
             </button>
           </form>
         )}

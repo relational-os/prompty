@@ -99,6 +99,19 @@ export const promptModel = {
     return stmt.all(userId)
   },
 
+  findRespondedByUserId: (userId: number) => {
+    const stmt = db.prepare(`
+      SELECT p.*, u.username as author_name, COUNT(r2.id) as response_count
+      FROM prompts p
+      JOIN users u ON p.user_id = u.id
+      JOIN responses r ON p.id = r.prompt_id AND r.user_id = ?
+      LEFT JOIN responses r2 ON p.id = r2.prompt_id
+      GROUP BY p.id
+      ORDER BY r.created_at DESC
+    `)
+    return stmt.all(userId)
+  },
+
   isExpired: (prompt: any) => {
     return new Date(prompt.expires_at) < new Date()
   }

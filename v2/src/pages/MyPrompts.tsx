@@ -9,10 +9,12 @@ interface Prompt {
   expires_at: string
   created_at: string
   response_count: number
+  author_name?: string
 }
 
 const MyPrompts = () => {
-  const [prompts, setPrompts] = useState<Prompt[]>([])
+  const [createdPrompts, setCreatedPrompts] = useState<Prompt[]>([])
+  const [respondedPrompts, setRespondedPrompts] = useState<Prompt[]>([])
   const [loading, setLoading] = useState(true)
   const { token } = useAuth()
 
@@ -31,7 +33,8 @@ const MyPrompts = () => {
       const data = await res.json()
       
       if (res.ok) {
-        setPrompts(data.prompts)
+        setCreatedPrompts(data.created || [])
+        setRespondedPrompts(data.responded || [])
       }
     } catch (err) {
       console.error('Failed to fetch prompts:', err)
@@ -40,11 +43,39 @@ const MyPrompts = () => {
     }
   }
 
+  const PromptCard = ({ prompt, showAuthor = false }: { prompt: Prompt, showAuthor?: boolean }) => {
+    const isExpired = new Date(prompt.expires_at) < new Date()
+    const timeLeft = new Date(prompt.expires_at).getTime() - Date.now()
+    const hoursLeft = Math.floor(timeLeft / (1000 * 60 * 60))
+    
+    return (
+      <Link 
+        key={prompt.id} 
+        to={`/prompt/${prompt.id}`}
+        style={{ textDecoration: 'none', color: 'inherit' }}
+      >
+        <div className="card prompt-card">
+          <div className="prompt-meta">
+            {showAuthor && prompt.author_name && (
+              <span>by {prompt.author_name}</span>
+            )}
+            <span>{isExpired ? 'Expired' : hoursLeft > 0 ? `${hoursLeft} hours left` : 'Ending soon'}</span>
+            <span>{prompt.response_count} responses</span>
+          </div>
+          <h3 className="prompt-title" style={{ fontSize: '20px' }}>{prompt.title}</h3>
+          {prompt.description && (
+            <p style={{ marginTop: '10px', color: '#666' }}>{prompt.description}</p>
+          )}
+        </div>
+      </Link>
+    )
+  }
+
   if (loading) {
     return <div className="loading">Loading your prompts...</div>
   }
 
-  if (!prompts.length) {
+  if (!createdPrompts.length && !respondedPrompts.length) {
     return (
       <div className="empty-state card">
         <h2>No prompts yet</h2>
@@ -63,30 +94,27 @@ const MyPrompts = () => {
         <Link to="/create" className="btn">+ New Prompt</Link>
       </div>
       
-      {prompts.map((prompt) => {
-        const isExpired = new Date(prompt.expires_at) < new Date()
-        const timeLeft = new Date(prompt.expires_at).getTime() - Date.now()
-        const hoursLeft = Math.floor(timeLeft / (1000 * 60 * 60))
-        
-        return (
-          <Link 
-            key={prompt.id} 
-            to={`/prompt/${prompt.id}`}
-            style={{ textDecoration: 'none', color: 'inherit' }}
-          >
-            <div className="card prompt-card">
-              <div className="prompt-meta">
-                <span>{isExpired ? 'Expired' : hoursLeft > 0 ? `${hoursLeft} hours left` : 'Ending soon'}</span>
-                <span>{prompt.response_count} responses</span>
-              </div>
-              <h3 className="prompt-title" style={{ fontSize: '20px' }}>{prompt.title}</h3>
-              {prompt.description && (
-                <p style={{ marginTop: '10px', color: '#666' }}>{prompt.description}</p>
-              )}
-            </div>
-          </Link>
-        )
-      })}
+      {createdPrompts.length > 0 && (
+        <div style={{ marginBottom: '40px' }}>
+          <h2 style={{ marginBottom: '20px', color: '#666', fontSize: '18px' }}>
+            Prompts I've Created ({createdPrompts.length})
+          </h2>
+          {createdPrompts.map((prompt) => (
+            <PromptCard key={prompt.id} prompt={prompt} />
+          ))}
+        </div>
+      )}
+      
+      {respondedPrompts.length > 0 && (
+        <div>
+          <h2 style={{ marginBottom: '20px', color: '#666', fontSize: '18px' }}>
+            Prompts I've Responded To ({respondedPrompts.length})
+          </h2>
+          {respondedPrompts.map((prompt) => (
+            <PromptCard key={prompt.id} prompt={prompt} showAuthor={true} />
+          ))}
+        </div>
+      )}
     </div>
   )
 }

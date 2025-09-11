@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate, Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
 const Login = () => {
@@ -8,6 +8,10 @@ const Login = () => {
   const [error, setError] = useState('')
   const { login } = useAuth()
   const navigate = useNavigate()
+  const location = useLocation()
+  
+  const searchParams = new URLSearchParams(location.search)
+  const redirect = searchParams.get('redirect') || '/'
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -15,7 +19,7 @@ const Login = () => {
     
     try {
       await login(email, password)
-      navigate('/')
+      navigate(redirect)
     } catch (err: any) {
       setError(err.message)
     }
@@ -54,7 +58,7 @@ const Login = () => {
       </form>
       
       <p style={{ marginTop: '20px', textAlign: 'center' }}>
-        Don't have an account? <Link to="/register">Sign up</Link>
+        Don't have an account? <Link to={`/register${location.search}`}>Sign up</Link>
       </p>
     </div>
   )

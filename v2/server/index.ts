@@ -153,9 +153,10 @@ app.get('/api/prompts/:id', async (c) => {
 
 app.get('/api/prompts', authMiddleware, (c) => {
   const userId = c.get('userId')
-  const prompts = promptModel.findByUserId(userId)
+  const created = promptModel.findByUserId(userId)
+  const responded = promptModel.findRespondedByUserId(userId)
   
-  return c.json({ prompts })
+  return c.json({ created, responded })
 })
 
 // Response endpoints
